@@ -5,8 +5,23 @@ export interface CloudFormationResource {
   readonly Condition?: string;
 }
 
+export interface CloudFormationParameter {
+  AllowedPattern?: string;
+  AllowedValues?: string[];
+  ConstraintDescription?: string;
+  Default?: string | number | string[];
+  Description?: string;
+  MaxLength?: number;
+  MaxValue?: number;
+  MinLength?: number;
+  MinValue?: number;
+  NoEcho?: boolean;
+  Type: 'String' | 'Number' | 'List<Number>' | 'CommaDelimitedList' | string;
+}
+
 export interface CloudFormationTemplate {
   Resources?: { [id: string]: CloudFormationResource };
   Conditions?: { [id: string]: any };
   Outputs?: { [id: string]: any };
+  Parameters?: { [id: string]: CloudFormationParameter };
 }

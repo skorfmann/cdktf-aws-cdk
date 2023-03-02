@@ -15,7 +15,7 @@ import {
 } from "cdktf";
 import { conditional, propertyAccess } from "cdktf/lib/tfExpression";
 import { Op } from "cdktf";
-import { CloudFormationResource, CloudFormationTemplate } from "./cfn";
+import { CloudFormationResource, CloudFormationTemplate, CloudFormationParameter } from "./cfn";
 import { findMapping, Mapping } from "./mapping";
 
 import { AwsProvider } from "./aws/provider";
@@ -91,6 +91,9 @@ class TerraformHost extends Construct {
         for (const [outputId, args] of Object.entries(cfn.Outputs || {})) {
           this.newTerraformOutput(this, outputId, args);
         }
+        for (const [logicalId, value] of Object.entries(cfn.Parameters || {})) {
+          this.mapParameter(this, logicalId, value);
+        }
       }
     }
   }
@@ -132,6 +135,32 @@ class TerraformHost extends Construct {
     }
     return this.awsAvailabilityZones[region];
   }
+
+  private mapParameter(scope: Construct, logicalId: string, resource: CloudFormationParameter) {
+    const { Type: typeName, Default: defaultValue } = resource;
+    if (!typeName.startsWith('AWS::SSM::Parameter::')) {
+        throw new Error(`unsupported parameter ${logicalId} of type ${typeName}`);
+    }
+    if (defaultValue === undefined) {
+        throw new Error(`unsupported parameter ${logicalId} with no default value`);
+    }
+
+    const m = findMapping("AWS::SSM::Parameter::");
+    if (!m) {
+      throw new Error(`no mapping for ${resource.Type}`);
+    }
+
+    this.mappingForLogicalId[logicalId] = {
+      resourceType: resource.Type,
+      mapping: m,
+    };
+
+    return m.resource(scope, logicalId, {
+      defaultValue,
+      typeName
+    })
+  }
+
 
   private newTerraformResource(
     scope: Construct,
