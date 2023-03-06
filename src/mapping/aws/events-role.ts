@@ -16,7 +16,7 @@ registerMapping("AWS::Events::Rule", {
           : undefined, // TODO: this might be a common case for the automapper to check for / or common pattern to build a utility for
       description: props.Description,
       eventBusName: props.EventBusName,
-      eventPattern: props.EventPattern,
+      eventPattern: props.EventPattern ? JSON.stringify(props.EventPattern) : undefined, // TODO: this might be a common case for the automapper to check for / or common pattern to build a utility for (JSON.stringify
       roleArn: props.RoleArn,
       scheduleExpression: props.ScheduleExpression,
     };

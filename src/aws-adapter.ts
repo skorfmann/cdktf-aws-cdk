@@ -272,11 +272,18 @@ class TerraformHost extends Construct {
         // or if they contain `${` which needs to be escaped for Terraform strings as well
         if (
           !Token.isUnresolved(str) && // only if there is no token in them
-          (str.includes('"') || str.includes("${"))
+          ((str.includes('"')) || str.includes("${"))
         ) {
-          return Fn.rawString(str);
+          // escape quotes unless they are escaped already
+          // regex which matches a quote that is not escaped
+          // (i.e. not preceded by a backslash)
+
+          return str.replace(/[^\\]"/g, '\\"')
+          // return `\${jsonencode("${str.replace(/[^\\]"/g, '\\"')}")}`;
+
         } else {
-          return str; // e.g. a single Token in a string will be returned as is
+          // enforce valid utf-8 str
+          return Buffer.from(str, 'utf8').toString('utf8') ; // e.g. a single Token in a string will be returned as is
         }
       };
 

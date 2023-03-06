@@ -10,6 +10,7 @@ import { SecurityGroupRule } from "../../aws/security-group-rule";
 import { RouteTableAssociation } from "../../aws/route-table-association";
 import { createGuessingResourceMapper } from "../helper";
 import { Aspects } from "cdktf";
+import { NatGateway } from "../../aws/nat-gateway";
 
 registerMapping("AWS::EC2::VPC", {
   resource: createGuessingResourceMapper(Vpc),
@@ -127,5 +128,23 @@ registerMapping("AWS::EC2::SecurityGroupIngress", {
       throw new Error("SecurityGroupRule has no arn");
     },
     Ref: (rule: SecurityGroupRule) => rule.id,
+  },
+});
+
+registerMapping("AWS::EC2::InternetGateway", {
+  resource: createGuessingResourceMapper(InternetGateway),
+  attributes: {
+    Arn: (gateway: InternetGateway) => gateway.arn,
+    Ref: (gateway: InternetGateway) => gateway.id,
+  },
+});
+
+registerMapping("AWS::EC2::NatGateway", {
+  resource: createGuessingResourceMapper(NatGateway),
+  attributes: {
+    Arn: () => {
+      throw new Error("NatGateway resource does not have an arn");
+    },
+    Ref: (gateway: NatGateway) => gateway.id,
   },
 });
