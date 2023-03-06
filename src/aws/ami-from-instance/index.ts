@@ -8,6 +8,10 @@ import * as cdktf from 'cdktf';
 
 export interface AmiFromInstanceConfig extends cdktf.TerraformMetaArguments {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami_from_instance#deprecation_time AmiFromInstance#deprecation_time}
+  */
+  readonly deprecationTime?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami_from_instance#description AmiFromInstance#description}
   */
   readonly description?: string;
@@ -125,6 +129,11 @@ export class AmiFromInstanceEbsBlockDeviceOutputReference extends cdktf.ComplexO
   // iops - computed: true, optional: false, required: false
   public get iops() {
     return this.getNumberAttribute('iops');
+  }
+
+  // outpost_arn - computed: true, optional: false, required: false
+  public get outpostArn() {
+    return this.getStringAttribute('outpost_arn');
   }
 
   // snapshot_id - computed: true, optional: false, required: false
@@ -403,8 +412,8 @@ export class AmiFromInstance extends cdktf.TerraformResource {
       terraformResourceType: 'aws_ami_from_instance',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -414,6 +423,7 @@ export class AmiFromInstance extends cdktf.TerraformResource {
       connection: config.connection,
       forEach: config.forEach
     });
+    this._deprecationTime = config.deprecationTime;
     this._description = config.description;
     this._id = config.id;
     this._name = config.name;
@@ -438,6 +448,27 @@ export class AmiFromInstance extends cdktf.TerraformResource {
   // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
+  }
+
+  // boot_mode - computed: true, optional: false, required: false
+  public get bootMode() {
+    return this.getStringAttribute('boot_mode');
+  }
+
+  // deprecation_time - computed: false, optional: true, required: false
+  private _deprecationTime?: string; 
+  public get deprecationTime() {
+    return this.getStringAttribute('deprecation_time');
+  }
+  public set deprecationTime(value: string) {
+    this._deprecationTime = value;
+  }
+  public resetDeprecationTime() {
+    this._deprecationTime = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get deprecationTimeInput() {
+    return this._deprecationTime;
   }
 
   // description - computed: false, optional: true, required: false
@@ -495,6 +526,11 @@ export class AmiFromInstance extends cdktf.TerraformResource {
   // image_type - computed: true, optional: false, required: false
   public get imageType() {
     return this.getStringAttribute('image_type');
+  }
+
+  // imds_support - computed: true, optional: false, required: false
+  public get imdsSupport() {
+    return this.getStringAttribute('imds_support');
   }
 
   // kernel_id - computed: true, optional: false, required: false
@@ -621,6 +657,11 @@ export class AmiFromInstance extends cdktf.TerraformResource {
     return this._tagsAll;
   }
 
+  // tpm_support - computed: true, optional: false, required: false
+  public get tpmSupport() {
+    return this.getStringAttribute('tpm_support');
+  }
+
   // usage_operation - computed: true, optional: false, required: false
   public get usageOperation() {
     return this.getStringAttribute('usage_operation');
@@ -685,6 +726,7 @@ export class AmiFromInstance extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
+      deprecation_time: cdktf.stringToTerraform(this._deprecationTime),
       description: cdktf.stringToTerraform(this._description),
       id: cdktf.stringToTerraform(this._id),
       name: cdktf.stringToTerraform(this._name),

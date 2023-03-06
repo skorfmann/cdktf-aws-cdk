@@ -12,6 +12,10 @@ export interface Cloud9EnvironmentEc2Config extends cdktf.TerraformMetaArguments
   */
   readonly automaticStopTimeMinutes?: number;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloud9_environment_ec2#connection_type Cloud9EnvironmentEc2#connection_type}
+  */
+  readonly connectionType?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloud9_environment_ec2#description Cloud9EnvironmentEc2#description}
   */
   readonly description?: string;
@@ -22,6 +26,10 @@ export interface Cloud9EnvironmentEc2Config extends cdktf.TerraformMetaArguments
   * If you experience problems setting this value it might not be settable. Please take a look at the provider documentation to ensure it should be settable.
   */
   readonly id?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloud9_environment_ec2#image_id Cloud9EnvironmentEc2#image_id}
+  */
+  readonly imageId?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloud9_environment_ec2#instance_type Cloud9EnvironmentEc2#instance_type}
   */
@@ -74,8 +82,8 @@ export class Cloud9EnvironmentEc2 extends cdktf.TerraformResource {
       terraformResourceType: 'aws_cloud9_environment_ec2',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -86,8 +94,10 @@ export class Cloud9EnvironmentEc2 extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._automaticStopTimeMinutes = config.automaticStopTimeMinutes;
+    this._connectionType = config.connectionType;
     this._description = config.description;
     this._id = config.id;
+    this._imageId = config.imageId;
     this._instanceType = config.instanceType;
     this._name = config.name;
     this._ownerArn = config.ownerArn;
@@ -121,6 +131,22 @@ export class Cloud9EnvironmentEc2 extends cdktf.TerraformResource {
     return this._automaticStopTimeMinutes;
   }
 
+  // connection_type - computed: false, optional: true, required: false
+  private _connectionType?: string; 
+  public get connectionType() {
+    return this.getStringAttribute('connection_type');
+  }
+  public set connectionType(value: string) {
+    this._connectionType = value;
+  }
+  public resetConnectionType() {
+    this._connectionType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get connectionTypeInput() {
+    return this._connectionType;
+  }
+
   // description - computed: false, optional: true, required: false
   private _description?: string; 
   public get description() {
@@ -151,6 +177,22 @@ export class Cloud9EnvironmentEc2 extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get idInput() {
     return this._id;
+  }
+
+  // image_id - computed: false, optional: true, required: false
+  private _imageId?: string; 
+  public get imageId() {
+    return this.getStringAttribute('image_id');
+  }
+  public set imageId(value: string) {
+    this._imageId = value;
+  }
+  public resetImageId() {
+    this._imageId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get imageIdInput() {
+    return this._imageId;
   }
 
   // instance_type - computed: false, optional: false, required: true
@@ -255,8 +297,10 @@ export class Cloud9EnvironmentEc2 extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       automatic_stop_time_minutes: cdktf.numberToTerraform(this._automaticStopTimeMinutes),
+      connection_type: cdktf.stringToTerraform(this._connectionType),
       description: cdktf.stringToTerraform(this._description),
       id: cdktf.stringToTerraform(this._id),
+      image_id: cdktf.stringToTerraform(this._imageId),
       instance_type: cdktf.stringToTerraform(this._instanceType),
       name: cdktf.stringToTerraform(this._name),
       owner_arn: cdktf.stringToTerraform(this._ownerArn),

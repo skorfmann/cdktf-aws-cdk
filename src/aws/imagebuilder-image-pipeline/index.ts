@@ -8,6 +8,10 @@ import * as cdktf from 'cdktf';
 
 export interface ImagebuilderImagePipelineConfig extends cdktf.TerraformMetaArguments {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/imagebuilder_image_pipeline#container_recipe_arn ImagebuilderImagePipeline#container_recipe_arn}
+  */
+  readonly containerRecipeArn?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/imagebuilder_image_pipeline#description ImagebuilderImagePipeline#description}
   */
   readonly description?: string;
@@ -29,7 +33,7 @@ export interface ImagebuilderImagePipelineConfig extends cdktf.TerraformMetaArgu
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/imagebuilder_image_pipeline#image_recipe_arn ImagebuilderImagePipeline#image_recipe_arn}
   */
-  readonly imageRecipeArn: string;
+  readonly imageRecipeArn?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/imagebuilder_image_pipeline#infrastructure_configuration_arn ImagebuilderImagePipeline#infrastructure_configuration_arn}
   */
@@ -164,6 +168,10 @@ export interface ImagebuilderImagePipelineSchedule {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/imagebuilder_image_pipeline#schedule_expression ImagebuilderImagePipeline#schedule_expression}
   */
   readonly scheduleExpression: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/imagebuilder_image_pipeline#timezone ImagebuilderImagePipeline#timezone}
+  */
+  readonly timezone?: string;
 }
 
 export function imagebuilderImagePipelineScheduleToTerraform(struct?: ImagebuilderImagePipelineScheduleOutputReference | ImagebuilderImagePipelineSchedule): any {
@@ -174,6 +182,7 @@ export function imagebuilderImagePipelineScheduleToTerraform(struct?: Imagebuild
   return {
     pipeline_execution_start_condition: cdktf.stringToTerraform(struct!.pipelineExecutionStartCondition),
     schedule_expression: cdktf.stringToTerraform(struct!.scheduleExpression),
+    timezone: cdktf.stringToTerraform(struct!.timezone),
   }
 }
 
@@ -199,6 +208,10 @@ export class ImagebuilderImagePipelineScheduleOutputReference extends cdktf.Comp
       hasAnyValues = true;
       internalValueResult.scheduleExpression = this._scheduleExpression;
     }
+    if (this._timezone !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.timezone = this._timezone;
+    }
     return hasAnyValues ? internalValueResult : undefined;
   }
 
@@ -207,11 +220,13 @@ export class ImagebuilderImagePipelineScheduleOutputReference extends cdktf.Comp
       this.isEmptyObject = false;
       this._pipelineExecutionStartCondition = undefined;
       this._scheduleExpression = undefined;
+      this._timezone = undefined;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this._pipelineExecutionStartCondition = value.pipelineExecutionStartCondition;
       this._scheduleExpression = value.scheduleExpression;
+      this._timezone = value.timezone;
     }
   }
 
@@ -243,6 +258,22 @@ export class ImagebuilderImagePipelineScheduleOutputReference extends cdktf.Comp
   public get scheduleExpressionInput() {
     return this._scheduleExpression;
   }
+
+  // timezone - computed: true, optional: true, required: false
+  private _timezone?: string; 
+  public get timezone() {
+    return this.getStringAttribute('timezone');
+  }
+  public set timezone(value: string) {
+    this._timezone = value;
+  }
+  public resetTimezone() {
+    this._timezone = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get timezoneInput() {
+    return this._timezone;
+  }
 }
 
 /**
@@ -271,8 +302,8 @@ export class ImagebuilderImagePipeline extends cdktf.TerraformResource {
       terraformResourceType: 'aws_imagebuilder_image_pipeline',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -282,6 +313,7 @@ export class ImagebuilderImagePipeline extends cdktf.TerraformResource {
       connection: config.connection,
       forEach: config.forEach
     });
+    this._containerRecipeArn = config.containerRecipeArn;
     this._description = config.description;
     this._distributionConfigurationArn = config.distributionConfigurationArn;
     this._enhancedImageMetadataEnabled = config.enhancedImageMetadataEnabled;
@@ -303,6 +335,22 @@ export class ImagebuilderImagePipeline extends cdktf.TerraformResource {
   // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
+  }
+
+  // container_recipe_arn - computed: false, optional: true, required: false
+  private _containerRecipeArn?: string; 
+  public get containerRecipeArn() {
+    return this.getStringAttribute('container_recipe_arn');
+  }
+  public set containerRecipeArn(value: string) {
+    this._containerRecipeArn = value;
+  }
+  public resetContainerRecipeArn() {
+    this._containerRecipeArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get containerRecipeArnInput() {
+    return this._containerRecipeArn;
   }
 
   // date_created - computed: true, optional: false, required: false
@@ -389,13 +437,16 @@ export class ImagebuilderImagePipeline extends cdktf.TerraformResource {
     return this._id;
   }
 
-  // image_recipe_arn - computed: false, optional: false, required: true
+  // image_recipe_arn - computed: false, optional: true, required: false
   private _imageRecipeArn?: string; 
   public get imageRecipeArn() {
     return this.getStringAttribute('image_recipe_arn');
   }
   public set imageRecipeArn(value: string) {
     this._imageRecipeArn = value;
+  }
+  public resetImageRecipeArn() {
+    this._imageRecipeArn = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get imageRecipeArnInput() {
@@ -519,6 +570,7 @@ export class ImagebuilderImagePipeline extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
+      container_recipe_arn: cdktf.stringToTerraform(this._containerRecipeArn),
       description: cdktf.stringToTerraform(this._description),
       distribution_configuration_arn: cdktf.stringToTerraform(this._distributionConfigurationArn),
       enhanced_image_metadata_enabled: cdktf.booleanToTerraform(this._enhancedImageMetadataEnabled),

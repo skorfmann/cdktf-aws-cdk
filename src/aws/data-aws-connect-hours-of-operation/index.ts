@@ -272,8 +272,8 @@ export class DataAwsConnectHoursOfOperation extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_connect_hours_of_operation',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -293,6 +293,11 @@ export class DataAwsConnectHoursOfOperation extends cdktf.TerraformDataSource {
   // ==========
   // ATTRIBUTES
   // ==========
+
+  // arn - computed: true, optional: false, required: false
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
 
   // config - computed: true, optional: false, required: false
   private _config = new DataAwsConnectHoursOfOperationConfigAList(this, "config", true);

@@ -424,10 +424,6 @@ export interface FsxOntapStorageVirtualMachineActiveDirectoryConfigurationSelfMa
   */
   readonly fileSystemAdministratorsGroup?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fsx_ontap_storage_virtual_machine#organizational_unit_distinguidshed_name FsxOntapStorageVirtualMachine#organizational_unit_distinguidshed_name}
-  */
-  readonly organizationalUnitDistinguidshedName?: string;
-  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fsx_ontap_storage_virtual_machine#organizational_unit_distinguished_name FsxOntapStorageVirtualMachine#organizational_unit_distinguished_name}
   */
   readonly organizationalUnitDistinguishedName?: string;
@@ -450,7 +446,6 @@ export function fsxOntapStorageVirtualMachineActiveDirectoryConfigurationSelfMan
     dns_ips: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.dnsIps),
     domain_name: cdktf.stringToTerraform(struct!.domainName),
     file_system_administrators_group: cdktf.stringToTerraform(struct!.fileSystemAdministratorsGroup),
-    organizational_unit_distinguidshed_name: cdktf.stringToTerraform(struct!.organizationalUnitDistinguidshedName),
     organizational_unit_distinguished_name: cdktf.stringToTerraform(struct!.organizationalUnitDistinguishedName),
     password: cdktf.stringToTerraform(struct!.password),
     username: cdktf.stringToTerraform(struct!.username),
@@ -483,10 +478,6 @@ export class FsxOntapStorageVirtualMachineActiveDirectoryConfigurationSelfManage
       hasAnyValues = true;
       internalValueResult.fileSystemAdministratorsGroup = this._fileSystemAdministratorsGroup;
     }
-    if (this._organizationalUnitDistinguidshedName !== undefined) {
-      hasAnyValues = true;
-      internalValueResult.organizationalUnitDistinguidshedName = this._organizationalUnitDistinguidshedName;
-    }
     if (this._organizationalUnitDistinguishedName !== undefined) {
       hasAnyValues = true;
       internalValueResult.organizationalUnitDistinguishedName = this._organizationalUnitDistinguishedName;
@@ -508,7 +499,6 @@ export class FsxOntapStorageVirtualMachineActiveDirectoryConfigurationSelfManage
       this._dnsIps = undefined;
       this._domainName = undefined;
       this._fileSystemAdministratorsGroup = undefined;
-      this._organizationalUnitDistinguidshedName = undefined;
       this._organizationalUnitDistinguishedName = undefined;
       this._password = undefined;
       this._username = undefined;
@@ -518,7 +508,6 @@ export class FsxOntapStorageVirtualMachineActiveDirectoryConfigurationSelfManage
       this._dnsIps = value.dnsIps;
       this._domainName = value.domainName;
       this._fileSystemAdministratorsGroup = value.fileSystemAdministratorsGroup;
-      this._organizationalUnitDistinguidshedName = value.organizationalUnitDistinguidshedName;
       this._organizationalUnitDistinguishedName = value.organizationalUnitDistinguishedName;
       this._password = value.password;
       this._username = value.username;
@@ -565,22 +554,6 @@ export class FsxOntapStorageVirtualMachineActiveDirectoryConfigurationSelfManage
   // Temporarily expose input value. Use with caution.
   public get fileSystemAdministratorsGroupInput() {
     return this._fileSystemAdministratorsGroup;
-  }
-
-  // organizational_unit_distinguidshed_name - computed: false, optional: true, required: false
-  private _organizationalUnitDistinguidshedName?: string; 
-  public get organizationalUnitDistinguidshedName() {
-    return this.getStringAttribute('organizational_unit_distinguidshed_name');
-  }
-  public set organizationalUnitDistinguidshedName(value: string) {
-    this._organizationalUnitDistinguidshedName = value;
-  }
-  public resetOrganizationalUnitDistinguidshedName() {
-    this._organizationalUnitDistinguidshedName = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get organizationalUnitDistinguidshedNameInput() {
-    return this._organizationalUnitDistinguidshedName;
   }
 
   // organizational_unit_distinguished_name - computed: false, optional: true, required: false
@@ -875,8 +848,8 @@ export class FsxOntapStorageVirtualMachine extends cdktf.TerraformResource {
       terraformResourceType: 'aws_fsx_ontap_storage_virtual_machine',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

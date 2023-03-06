@@ -50,8 +50,8 @@ export class DataAwsRdsCluster extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_rds_cluster',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -143,6 +143,11 @@ export class DataAwsRdsCluster extends cdktf.TerraformDataSource {
     return this.getStringAttribute('engine');
   }
 
+  // engine_mode - computed: true, optional: false, required: false
+  public get engineMode() {
+    return this.getStringAttribute('engine_mode');
+  }
+
   // engine_version - computed: true, optional: false, required: false
   public get engineVersion() {
     return this.getStringAttribute('engine_version');
@@ -192,6 +197,11 @@ export class DataAwsRdsCluster extends cdktf.TerraformDataSource {
   // master_username - computed: true, optional: false, required: false
   public get masterUsername() {
     return this.getStringAttribute('master_username');
+  }
+
+  // network_type - computed: true, optional: false, required: false
+  public get networkType() {
+    return this.getStringAttribute('network_type');
   }
 
   // port - computed: true, optional: false, required: false

@@ -23,6 +23,10 @@ export interface DataAwsRamResourceShareConfig extends cdktf.TerraformMetaArgume
   */
   readonly resourceOwner: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ram_resource_share#resource_share_status DataAwsRamResourceShare#resource_share_status}
+  */
+  readonly resourceShareStatus?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ram_resource_share#tags DataAwsRamResourceShare#tags}
   */
   readonly tags?: { [key: string]: string };
@@ -178,8 +182,8 @@ export class DataAwsRamResourceShare extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_ram_resource_share',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -192,6 +196,7 @@ export class DataAwsRamResourceShare extends cdktf.TerraformDataSource {
     this._id = config.id;
     this._name = config.name;
     this._resourceOwner = config.resourceOwner;
+    this._resourceShareStatus = config.resourceShareStatus;
     this._tags = config.tags;
     this._filter.internalValue = config.filter;
   }
@@ -252,6 +257,22 @@ export class DataAwsRamResourceShare extends cdktf.TerraformDataSource {
     return this._resourceOwner;
   }
 
+  // resource_share_status - computed: false, optional: true, required: false
+  private _resourceShareStatus?: string; 
+  public get resourceShareStatus() {
+    return this.getStringAttribute('resource_share_status');
+  }
+  public set resourceShareStatus(value: string) {
+    this._resourceShareStatus = value;
+  }
+  public resetResourceShareStatus() {
+    this._resourceShareStatus = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get resourceShareStatusInput() {
+    return this._resourceShareStatus;
+  }
+
   // status - computed: true, optional: false, required: false
   public get status() {
     return this.getStringAttribute('status');
@@ -298,6 +319,7 @@ export class DataAwsRamResourceShare extends cdktf.TerraformDataSource {
       id: cdktf.stringToTerraform(this._id),
       name: cdktf.stringToTerraform(this._name),
       resource_owner: cdktf.stringToTerraform(this._resourceOwner),
+      resource_share_status: cdktf.stringToTerraform(this._resourceShareStatus),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       filter: cdktf.listMapper(dataAwsRamResourceShareFilterToTerraform, true)(this._filter.internalValue),
     };

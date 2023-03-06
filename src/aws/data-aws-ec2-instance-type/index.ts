@@ -8,18 +8,6 @@ import * as cdktf from 'cdktf';
 
 export interface DataAwsEc2InstanceTypeConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#default_cores DataAwsEc2InstanceType#default_cores}
-  */
-  readonly defaultCores?: number;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#default_threads_per_core DataAwsEc2InstanceType#default_threads_per_core}
-  */
-  readonly defaultThreadsPerCore?: number;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#hypervisor DataAwsEc2InstanceType#hypervisor}
-  */
-  readonly hypervisor?: string;
-  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#id DataAwsEc2InstanceType#id}
   *
   * Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.
@@ -31,50 +19,16 @@ export interface DataAwsEc2InstanceTypeConfig extends cdktf.TerraformMetaArgumen
   */
   readonly instanceType: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#maximum_ipv6_addresses_per_interface DataAwsEc2InstanceType#maximum_ipv6_addresses_per_interface}
-  */
-  readonly maximumIpv6AddressesPerInterface?: number;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#total_fpga_memory DataAwsEc2InstanceType#total_fpga_memory}
-  */
-  readonly totalFpgaMemory?: number;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#total_gpu_memory DataAwsEc2InstanceType#total_gpu_memory}
-  */
-  readonly totalGpuMemory?: number;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#total_instance_storage DataAwsEc2InstanceType#total_instance_storage}
-  */
-  readonly totalInstanceStorage?: number;
-  /**
-  * fpgas block
+  * timeouts block
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#fpgas DataAwsEc2InstanceType#fpgas}
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#timeouts DataAwsEc2InstanceType#timeouts}
   */
-  readonly fpgas?: DataAwsEc2InstanceTypeFpgas[] | cdktf.IResolvable;
-  /**
-  * gpus block
-  * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#gpus DataAwsEc2InstanceType#gpus}
-  */
-  readonly gpus?: DataAwsEc2InstanceTypeGpus[] | cdktf.IResolvable;
-  /**
-  * inference_accelerators block
-  * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#inference_accelerators DataAwsEc2InstanceType#inference_accelerators}
-  */
-  readonly inferenceAccelerators?: DataAwsEc2InstanceTypeInferenceAccelerators[] | cdktf.IResolvable;
-  /**
-  * instance_disks block
-  * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#instance_disks DataAwsEc2InstanceType#instance_disks}
-  */
-  readonly instanceDisks?: DataAwsEc2InstanceTypeInstanceDisks[] | cdktf.IResolvable;
+  readonly timeouts?: DataAwsEc2InstanceTypeTimeouts;
 }
 export interface DataAwsEc2InstanceTypeFpgas {
 }
 
-export function dataAwsEc2InstanceTypeFpgasToTerraform(struct?: DataAwsEc2InstanceTypeFpgas | cdktf.IResolvable): any {
+export function dataAwsEc2InstanceTypeFpgasToTerraform(struct?: DataAwsEc2InstanceTypeFpgas): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
@@ -85,7 +39,6 @@ export function dataAwsEc2InstanceTypeFpgasToTerraform(struct?: DataAwsEc2Instan
 
 export class DataAwsEc2InstanceTypeFpgasOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
-  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -97,27 +50,18 @@ export class DataAwsEc2InstanceTypeFpgasOutputReference extends cdktf.ComplexObj
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): DataAwsEc2InstanceTypeFpgas | cdktf.IResolvable | undefined {
-    if (this.resolvableValue) {
-      return this.resolvableValue;
-    }
+  public get internalValue(): DataAwsEc2InstanceTypeFpgas | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: DataAwsEc2InstanceTypeFpgas | cdktf.IResolvable | undefined) {
+  public set internalValue(value: DataAwsEc2InstanceTypeFpgas | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
-      this.resolvableValue = undefined;
-    }
-    else if (cdktf.Tokenization.isResolvable(value)) {
-      this.isEmptyObject = false;
-      this.resolvableValue = value;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
-      this.resolvableValue = undefined;
     }
   }
 
@@ -143,7 +87,6 @@ export class DataAwsEc2InstanceTypeFpgasOutputReference extends cdktf.ComplexObj
 }
 
 export class DataAwsEc2InstanceTypeFpgasList extends cdktf.ComplexList {
-  public internalValue? : DataAwsEc2InstanceTypeFpgas[] | cdktf.IResolvable
 
   /**
   * @param terraformResource The parent resource
@@ -164,7 +107,7 @@ export class DataAwsEc2InstanceTypeFpgasList extends cdktf.ComplexList {
 export interface DataAwsEc2InstanceTypeGpus {
 }
 
-export function dataAwsEc2InstanceTypeGpusToTerraform(struct?: DataAwsEc2InstanceTypeGpus | cdktf.IResolvable): any {
+export function dataAwsEc2InstanceTypeGpusToTerraform(struct?: DataAwsEc2InstanceTypeGpus): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
@@ -175,7 +118,6 @@ export function dataAwsEc2InstanceTypeGpusToTerraform(struct?: DataAwsEc2Instanc
 
 export class DataAwsEc2InstanceTypeGpusOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
-  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -187,27 +129,18 @@ export class DataAwsEc2InstanceTypeGpusOutputReference extends cdktf.ComplexObje
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): DataAwsEc2InstanceTypeGpus | cdktf.IResolvable | undefined {
-    if (this.resolvableValue) {
-      return this.resolvableValue;
-    }
+  public get internalValue(): DataAwsEc2InstanceTypeGpus | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: DataAwsEc2InstanceTypeGpus | cdktf.IResolvable | undefined) {
+  public set internalValue(value: DataAwsEc2InstanceTypeGpus | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
-      this.resolvableValue = undefined;
-    }
-    else if (cdktf.Tokenization.isResolvable(value)) {
-      this.isEmptyObject = false;
-      this.resolvableValue = value;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
-      this.resolvableValue = undefined;
     }
   }
 
@@ -233,7 +166,6 @@ export class DataAwsEc2InstanceTypeGpusOutputReference extends cdktf.ComplexObje
 }
 
 export class DataAwsEc2InstanceTypeGpusList extends cdktf.ComplexList {
-  public internalValue? : DataAwsEc2InstanceTypeGpus[] | cdktf.IResolvable
 
   /**
   * @param terraformResource The parent resource
@@ -254,7 +186,7 @@ export class DataAwsEc2InstanceTypeGpusList extends cdktf.ComplexList {
 export interface DataAwsEc2InstanceTypeInferenceAccelerators {
 }
 
-export function dataAwsEc2InstanceTypeInferenceAcceleratorsToTerraform(struct?: DataAwsEc2InstanceTypeInferenceAccelerators | cdktf.IResolvable): any {
+export function dataAwsEc2InstanceTypeInferenceAcceleratorsToTerraform(struct?: DataAwsEc2InstanceTypeInferenceAccelerators): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
@@ -265,7 +197,6 @@ export function dataAwsEc2InstanceTypeInferenceAcceleratorsToTerraform(struct?: 
 
 export class DataAwsEc2InstanceTypeInferenceAcceleratorsOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
-  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -277,27 +208,18 @@ export class DataAwsEc2InstanceTypeInferenceAcceleratorsOutputReference extends 
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): DataAwsEc2InstanceTypeInferenceAccelerators | cdktf.IResolvable | undefined {
-    if (this.resolvableValue) {
-      return this.resolvableValue;
-    }
+  public get internalValue(): DataAwsEc2InstanceTypeInferenceAccelerators | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: DataAwsEc2InstanceTypeInferenceAccelerators | cdktf.IResolvable | undefined) {
+  public set internalValue(value: DataAwsEc2InstanceTypeInferenceAccelerators | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
-      this.resolvableValue = undefined;
-    }
-    else if (cdktf.Tokenization.isResolvable(value)) {
-      this.isEmptyObject = false;
-      this.resolvableValue = value;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
-      this.resolvableValue = undefined;
     }
   }
 
@@ -318,7 +240,6 @@ export class DataAwsEc2InstanceTypeInferenceAcceleratorsOutputReference extends 
 }
 
 export class DataAwsEc2InstanceTypeInferenceAcceleratorsList extends cdktf.ComplexList {
-  public internalValue? : DataAwsEc2InstanceTypeInferenceAccelerators[] | cdktf.IResolvable
 
   /**
   * @param terraformResource The parent resource
@@ -339,7 +260,7 @@ export class DataAwsEc2InstanceTypeInferenceAcceleratorsList extends cdktf.Compl
 export interface DataAwsEc2InstanceTypeInstanceDisks {
 }
 
-export function dataAwsEc2InstanceTypeInstanceDisksToTerraform(struct?: DataAwsEc2InstanceTypeInstanceDisks | cdktf.IResolvable): any {
+export function dataAwsEc2InstanceTypeInstanceDisksToTerraform(struct?: DataAwsEc2InstanceTypeInstanceDisks): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
@@ -350,7 +271,6 @@ export function dataAwsEc2InstanceTypeInstanceDisksToTerraform(struct?: DataAwsE
 
 export class DataAwsEc2InstanceTypeInstanceDisksOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
-  private resolvableValue?: cdktf.IResolvable;
 
   /**
   * @param terraformResource The parent resource
@@ -362,27 +282,18 @@ export class DataAwsEc2InstanceTypeInstanceDisksOutputReference extends cdktf.Co
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): DataAwsEc2InstanceTypeInstanceDisks | cdktf.IResolvable | undefined {
-    if (this.resolvableValue) {
-      return this.resolvableValue;
-    }
+  public get internalValue(): DataAwsEc2InstanceTypeInstanceDisks | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: DataAwsEc2InstanceTypeInstanceDisks | cdktf.IResolvable | undefined) {
+  public set internalValue(value: DataAwsEc2InstanceTypeInstanceDisks | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
-      this.resolvableValue = undefined;
-    }
-    else if (cdktf.Tokenization.isResolvable(value)) {
-      this.isEmptyObject = false;
-      this.resolvableValue = value;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
-      this.resolvableValue = undefined;
     }
   }
 
@@ -403,7 +314,6 @@ export class DataAwsEc2InstanceTypeInstanceDisksOutputReference extends cdktf.Co
 }
 
 export class DataAwsEc2InstanceTypeInstanceDisksList extends cdktf.ComplexList {
-  public internalValue? : DataAwsEc2InstanceTypeInstanceDisks[] | cdktf.IResolvable
 
   /**
   * @param terraformResource The parent resource
@@ -419,6 +329,81 @@ export class DataAwsEc2InstanceTypeInstanceDisksList extends cdktf.ComplexList {
   */
   public get(index: number): DataAwsEc2InstanceTypeInstanceDisksOutputReference {
     return new DataAwsEc2InstanceTypeInstanceDisksOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface DataAwsEc2InstanceTypeTimeouts {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ec2_instance_type#read DataAwsEc2InstanceType#read}
+  */
+  readonly read?: string;
+}
+
+export function dataAwsEc2InstanceTypeTimeoutsToTerraform(struct?: DataAwsEc2InstanceTypeTimeoutsOutputReference | DataAwsEc2InstanceTypeTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    read: cdktf.stringToTerraform(struct!.read),
+  }
+}
+
+export class DataAwsEc2InstanceTypeTimeoutsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): DataAwsEc2InstanceTypeTimeouts | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._read !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.read = this._read;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsEc2InstanceTypeTimeouts | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._read = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._read = value.read;
+    }
+  }
+
+  // read - computed: false, optional: true, required: false
+  private _read?: string; 
+  public get read() {
+    return this.getStringAttribute('read');
+  }
+  public set read(value: string) {
+    this._read = value;
+  }
+  public resetRead() {
+    this._read = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get readInput() {
+    return this._read;
   }
 }
 
@@ -448,8 +433,8 @@ export class DataAwsEc2InstanceType extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_ec2_instance_type',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -459,19 +444,9 @@ export class DataAwsEc2InstanceType extends cdktf.TerraformDataSource {
       connection: config.connection,
       forEach: config.forEach
     });
-    this._defaultCores = config.defaultCores;
-    this._defaultThreadsPerCore = config.defaultThreadsPerCore;
-    this._hypervisor = config.hypervisor;
     this._id = config.id;
     this._instanceType = config.instanceType;
-    this._maximumIpv6AddressesPerInterface = config.maximumIpv6AddressesPerInterface;
-    this._totalFpgaMemory = config.totalFpgaMemory;
-    this._totalGpuMemory = config.totalGpuMemory;
-    this._totalInstanceStorage = config.totalInstanceStorage;
-    this._fpgas.internalValue = config.fpgas;
-    this._gpus.internalValue = config.gpus;
-    this._inferenceAccelerators.internalValue = config.inferenceAccelerators;
-    this._instanceDisks.internalValue = config.instanceDisks;
+    this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
@@ -503,36 +478,14 @@ export class DataAwsEc2InstanceType extends cdktf.TerraformDataSource {
     return this.getBooleanAttribute('dedicated_hosts_supported');
   }
 
-  // default_cores - computed: true, optional: true, required: false
-  private _defaultCores?: number; 
+  // default_cores - computed: true, optional: false, required: false
   public get defaultCores() {
     return this.getNumberAttribute('default_cores');
   }
-  public set defaultCores(value: number) {
-    this._defaultCores = value;
-  }
-  public resetDefaultCores() {
-    this._defaultCores = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get defaultCoresInput() {
-    return this._defaultCores;
-  }
 
-  // default_threads_per_core - computed: true, optional: true, required: false
-  private _defaultThreadsPerCore?: number; 
+  // default_threads_per_core - computed: true, optional: false, required: false
   public get defaultThreadsPerCore() {
     return this.getNumberAttribute('default_threads_per_core');
-  }
-  public set defaultThreadsPerCore(value: number) {
-    this._defaultThreadsPerCore = value;
-  }
-  public resetDefaultThreadsPerCore() {
-    this._defaultThreadsPerCore = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get defaultThreadsPerCoreInput() {
-    return this._defaultThreadsPerCore;
   }
 
   // default_vcpus - computed: true, optional: false, required: false
@@ -600,9 +553,21 @@ export class DataAwsEc2InstanceType extends cdktf.TerraformDataSource {
     return this.getBooleanAttribute('encryption_in_transit_supported');
   }
 
+  // fpgas - computed: true, optional: false, required: false
+  private _fpgas = new DataAwsEc2InstanceTypeFpgasList(this, "fpgas", true);
+  public get fpgas() {
+    return this._fpgas;
+  }
+
   // free_tier_eligible - computed: true, optional: false, required: false
   public get freeTierEligible() {
     return this.getBooleanAttribute('free_tier_eligible');
+  }
+
+  // gpus - computed: true, optional: false, required: false
+  private _gpus = new DataAwsEc2InstanceTypeGpusList(this, "gpus", true);
+  public get gpus() {
+    return this._gpus;
   }
 
   // hibernation_supported - computed: true, optional: false, required: false
@@ -610,20 +575,9 @@ export class DataAwsEc2InstanceType extends cdktf.TerraformDataSource {
     return this.getBooleanAttribute('hibernation_supported');
   }
 
-  // hypervisor - computed: true, optional: true, required: false
-  private _hypervisor?: string; 
+  // hypervisor - computed: true, optional: false, required: false
   public get hypervisor() {
     return this.getStringAttribute('hypervisor');
-  }
-  public set hypervisor(value: string) {
-    this._hypervisor = value;
-  }
-  public resetHypervisor() {
-    this._hypervisor = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get hypervisorInput() {
-    return this._hypervisor;
   }
 
   // id - computed: true, optional: true, required: false
@@ -640,6 +594,18 @@ export class DataAwsEc2InstanceType extends cdktf.TerraformDataSource {
   // Temporarily expose input value. Use with caution.
   public get idInput() {
     return this._id;
+  }
+
+  // inference_accelerators - computed: true, optional: false, required: false
+  private _inferenceAccelerators = new DataAwsEc2InstanceTypeInferenceAcceleratorsList(this, "inference_accelerators", true);
+  public get inferenceAccelerators() {
+    return this._inferenceAccelerators;
+  }
+
+  // instance_disks - computed: true, optional: false, required: false
+  private _instanceDisks = new DataAwsEc2InstanceTypeInstanceDisksList(this, "instance_disks", true);
+  public get instanceDisks() {
+    return this._instanceDisks;
   }
 
   // instance_storage_supported - computed: true, optional: false, required: false
@@ -670,20 +636,9 @@ export class DataAwsEc2InstanceType extends cdktf.TerraformDataSource {
     return this.getNumberAttribute('maximum_ipv4_addresses_per_interface');
   }
 
-  // maximum_ipv6_addresses_per_interface - computed: true, optional: true, required: false
-  private _maximumIpv6AddressesPerInterface?: number; 
+  // maximum_ipv6_addresses_per_interface - computed: true, optional: false, required: false
   public get maximumIpv6AddressesPerInterface() {
     return this.getNumberAttribute('maximum_ipv6_addresses_per_interface');
-  }
-  public set maximumIpv6AddressesPerInterface(value: number) {
-    this._maximumIpv6AddressesPerInterface = value;
-  }
-  public resetMaximumIpv6AddressesPerInterface() {
-    this._maximumIpv6AddressesPerInterface = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get maximumIpv6AddressesPerInterfaceInput() {
-    return this._maximumIpv6AddressesPerInterface;
   }
 
   // maximum_network_interfaces - computed: true, optional: false, required: false
@@ -731,52 +686,19 @@ export class DataAwsEc2InstanceType extends cdktf.TerraformDataSource {
     return this.getNumberAttribute('sustained_clock_speed');
   }
 
-  // total_fpga_memory - computed: true, optional: true, required: false
-  private _totalFpgaMemory?: number; 
+  // total_fpga_memory - computed: true, optional: false, required: false
   public get totalFpgaMemory() {
     return this.getNumberAttribute('total_fpga_memory');
   }
-  public set totalFpgaMemory(value: number) {
-    this._totalFpgaMemory = value;
-  }
-  public resetTotalFpgaMemory() {
-    this._totalFpgaMemory = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get totalFpgaMemoryInput() {
-    return this._totalFpgaMemory;
-  }
 
-  // total_gpu_memory - computed: true, optional: true, required: false
-  private _totalGpuMemory?: number; 
+  // total_gpu_memory - computed: true, optional: false, required: false
   public get totalGpuMemory() {
     return this.getNumberAttribute('total_gpu_memory');
   }
-  public set totalGpuMemory(value: number) {
-    this._totalGpuMemory = value;
-  }
-  public resetTotalGpuMemory() {
-    this._totalGpuMemory = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get totalGpuMemoryInput() {
-    return this._totalGpuMemory;
-  }
 
-  // total_instance_storage - computed: true, optional: true, required: false
-  private _totalInstanceStorage?: number; 
+  // total_instance_storage - computed: true, optional: false, required: false
   public get totalInstanceStorage() {
     return this.getNumberAttribute('total_instance_storage');
-  }
-  public set totalInstanceStorage(value: number) {
-    this._totalInstanceStorage = value;
-  }
-  public resetTotalInstanceStorage() {
-    this._totalInstanceStorage = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get totalInstanceStorageInput() {
-    return this._totalInstanceStorage;
   }
 
   // valid_cores - computed: true, optional: false, required: false
@@ -789,68 +711,20 @@ export class DataAwsEc2InstanceType extends cdktf.TerraformDataSource {
     return this.getNumberListAttribute('valid_threads_per_core');
   }
 
-  // fpgas - computed: false, optional: true, required: false
-  private _fpgas = new DataAwsEc2InstanceTypeFpgasList(this, "fpgas", true);
-  public get fpgas() {
-    return this._fpgas;
+  // timeouts - computed: false, optional: true, required: false
+  private _timeouts = new DataAwsEc2InstanceTypeTimeoutsOutputReference(this, "timeouts");
+  public get timeouts() {
+    return this._timeouts;
   }
-  public putFpgas(value: DataAwsEc2InstanceTypeFpgas[] | cdktf.IResolvable) {
-    this._fpgas.internalValue = value;
+  public putTimeouts(value: DataAwsEc2InstanceTypeTimeouts) {
+    this._timeouts.internalValue = value;
   }
-  public resetFpgas() {
-    this._fpgas.internalValue = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get fpgasInput() {
-    return this._fpgas.internalValue;
-  }
-
-  // gpus - computed: false, optional: true, required: false
-  private _gpus = new DataAwsEc2InstanceTypeGpusList(this, "gpus", true);
-  public get gpus() {
-    return this._gpus;
-  }
-  public putGpus(value: DataAwsEc2InstanceTypeGpus[] | cdktf.IResolvable) {
-    this._gpus.internalValue = value;
-  }
-  public resetGpus() {
-    this._gpus.internalValue = undefined;
+  public resetTimeouts() {
+    this._timeouts.internalValue = undefined;
   }
   // Temporarily expose input value. Use with caution.
-  public get gpusInput() {
-    return this._gpus.internalValue;
-  }
-
-  // inference_accelerators - computed: false, optional: true, required: false
-  private _inferenceAccelerators = new DataAwsEc2InstanceTypeInferenceAcceleratorsList(this, "inference_accelerators", true);
-  public get inferenceAccelerators() {
-    return this._inferenceAccelerators;
-  }
-  public putInferenceAccelerators(value: DataAwsEc2InstanceTypeInferenceAccelerators[] | cdktf.IResolvable) {
-    this._inferenceAccelerators.internalValue = value;
-  }
-  public resetInferenceAccelerators() {
-    this._inferenceAccelerators.internalValue = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get inferenceAcceleratorsInput() {
-    return this._inferenceAccelerators.internalValue;
-  }
-
-  // instance_disks - computed: false, optional: true, required: false
-  private _instanceDisks = new DataAwsEc2InstanceTypeInstanceDisksList(this, "instance_disks", true);
-  public get instanceDisks() {
-    return this._instanceDisks;
-  }
-  public putInstanceDisks(value: DataAwsEc2InstanceTypeInstanceDisks[] | cdktf.IResolvable) {
-    this._instanceDisks.internalValue = value;
-  }
-  public resetInstanceDisks() {
-    this._instanceDisks.internalValue = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get instanceDisksInput() {
-    return this._instanceDisks.internalValue;
+  public get timeoutsInput() {
+    return this._timeouts.internalValue;
   }
 
   // =========
@@ -859,19 +733,9 @@ export class DataAwsEc2InstanceType extends cdktf.TerraformDataSource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      default_cores: cdktf.numberToTerraform(this._defaultCores),
-      default_threads_per_core: cdktf.numberToTerraform(this._defaultThreadsPerCore),
-      hypervisor: cdktf.stringToTerraform(this._hypervisor),
       id: cdktf.stringToTerraform(this._id),
       instance_type: cdktf.stringToTerraform(this._instanceType),
-      maximum_ipv6_addresses_per_interface: cdktf.numberToTerraform(this._maximumIpv6AddressesPerInterface),
-      total_fpga_memory: cdktf.numberToTerraform(this._totalFpgaMemory),
-      total_gpu_memory: cdktf.numberToTerraform(this._totalGpuMemory),
-      total_instance_storage: cdktf.numberToTerraform(this._totalInstanceStorage),
-      fpgas: cdktf.listMapper(dataAwsEc2InstanceTypeFpgasToTerraform, true)(this._fpgas.internalValue),
-      gpus: cdktf.listMapper(dataAwsEc2InstanceTypeGpusToTerraform, true)(this._gpus.internalValue),
-      inference_accelerators: cdktf.listMapper(dataAwsEc2InstanceTypeInferenceAcceleratorsToTerraform, true)(this._inferenceAccelerators.internalValue),
-      instance_disks: cdktf.listMapper(dataAwsEc2InstanceTypeInstanceDisksToTerraform, true)(this._instanceDisks.internalValue),
+      timeouts: dataAwsEc2InstanceTypeTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }

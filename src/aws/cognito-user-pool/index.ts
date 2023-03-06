@@ -16,6 +16,10 @@ export interface CognitoUserPoolConfig extends cdktf.TerraformMetaArguments {
   */
   readonly autoVerifiedAttributes?: string[];
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cognito_user_pool#deletion_protection CognitoUserPool#deletion_protection}
+  */
+  readonly deletionProtection?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cognito_user_pool#email_verification_message CognitoUserPool#email_verification_message}
   */
   readonly emailVerificationMessage?: string;
@@ -112,6 +116,12 @@ export interface CognitoUserPoolConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cognito_user_pool#software_token_mfa_configuration CognitoUserPool#software_token_mfa_configuration}
   */
   readonly softwareTokenMfaConfiguration?: CognitoUserPoolSoftwareTokenMfaConfiguration;
+  /**
+  * user_attribute_update_settings block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cognito_user_pool#user_attribute_update_settings CognitoUserPool#user_attribute_update_settings}
+  */
+  readonly userAttributeUpdateSettings?: CognitoUserPoolUserAttributeUpdateSettings;
   /**
   * user_pool_add_ons block
   * 
@@ -2006,6 +2016,10 @@ export interface CognitoUserPoolSmsConfiguration {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cognito_user_pool#sns_caller_arn CognitoUserPool#sns_caller_arn}
   */
   readonly snsCallerArn: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cognito_user_pool#sns_region CognitoUserPool#sns_region}
+  */
+  readonly snsRegion?: string;
 }
 
 export function cognitoUserPoolSmsConfigurationToTerraform(struct?: CognitoUserPoolSmsConfigurationOutputReference | CognitoUserPoolSmsConfiguration): any {
@@ -2016,6 +2030,7 @@ export function cognitoUserPoolSmsConfigurationToTerraform(struct?: CognitoUserP
   return {
     external_id: cdktf.stringToTerraform(struct!.externalId),
     sns_caller_arn: cdktf.stringToTerraform(struct!.snsCallerArn),
+    sns_region: cdktf.stringToTerraform(struct!.snsRegion),
   }
 }
 
@@ -2041,6 +2056,10 @@ export class CognitoUserPoolSmsConfigurationOutputReference extends cdktf.Comple
       hasAnyValues = true;
       internalValueResult.snsCallerArn = this._snsCallerArn;
     }
+    if (this._snsRegion !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.snsRegion = this._snsRegion;
+    }
     return hasAnyValues ? internalValueResult : undefined;
   }
 
@@ -2049,11 +2068,13 @@ export class CognitoUserPoolSmsConfigurationOutputReference extends cdktf.Comple
       this.isEmptyObject = false;
       this._externalId = undefined;
       this._snsCallerArn = undefined;
+      this._snsRegion = undefined;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this._externalId = value.externalId;
       this._snsCallerArn = value.snsCallerArn;
+      this._snsRegion = value.snsRegion;
     }
   }
 
@@ -2081,6 +2102,22 @@ export class CognitoUserPoolSmsConfigurationOutputReference extends cdktf.Comple
   // Temporarily expose input value. Use with caution.
   public get snsCallerArnInput() {
     return this._snsCallerArn;
+  }
+
+  // sns_region - computed: true, optional: true, required: false
+  private _snsRegion?: string; 
+  public get snsRegion() {
+    return this.getStringAttribute('sns_region');
+  }
+  public set snsRegion(value: string) {
+    this._snsRegion = value;
+  }
+  public resetSnsRegion() {
+    this._snsRegion = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get snsRegionInput() {
+    return this._snsRegion;
   }
 }
 export interface CognitoUserPoolSoftwareTokenMfaConfiguration {
@@ -2143,6 +2180,68 @@ export class CognitoUserPoolSoftwareTokenMfaConfigurationOutputReference extends
   // Temporarily expose input value. Use with caution.
   public get enabledInput() {
     return this._enabled;
+  }
+}
+export interface CognitoUserPoolUserAttributeUpdateSettings {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cognito_user_pool#attributes_require_verification_before_update CognitoUserPool#attributes_require_verification_before_update}
+  */
+  readonly attributesRequireVerificationBeforeUpdate: string[];
+}
+
+export function cognitoUserPoolUserAttributeUpdateSettingsToTerraform(struct?: CognitoUserPoolUserAttributeUpdateSettingsOutputReference | CognitoUserPoolUserAttributeUpdateSettings): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    attributes_require_verification_before_update: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.attributesRequireVerificationBeforeUpdate),
+  }
+}
+
+export class CognitoUserPoolUserAttributeUpdateSettingsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): CognitoUserPoolUserAttributeUpdateSettings | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._attributesRequireVerificationBeforeUpdate !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.attributesRequireVerificationBeforeUpdate = this._attributesRequireVerificationBeforeUpdate;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CognitoUserPoolUserAttributeUpdateSettings | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._attributesRequireVerificationBeforeUpdate = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._attributesRequireVerificationBeforeUpdate = value.attributesRequireVerificationBeforeUpdate;
+    }
+  }
+
+  // attributes_require_verification_before_update - computed: false, optional: false, required: true
+  private _attributesRequireVerificationBeforeUpdate?: string[]; 
+  public get attributesRequireVerificationBeforeUpdate() {
+    return cdktf.Fn.tolist(this.getListAttribute('attributes_require_verification_before_update'));
+  }
+  public set attributesRequireVerificationBeforeUpdate(value: string[]) {
+    this._attributesRequireVerificationBeforeUpdate = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get attributesRequireVerificationBeforeUpdateInput() {
+    return this._attributesRequireVerificationBeforeUpdate;
   }
 }
 export interface CognitoUserPoolUserPoolAddOns {
@@ -2496,8 +2595,8 @@ export class CognitoUserPool extends cdktf.TerraformResource {
       terraformResourceType: 'aws_cognito_user_pool',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -2509,6 +2608,7 @@ export class CognitoUserPool extends cdktf.TerraformResource {
     });
     this._aliasAttributes = config.aliasAttributes;
     this._autoVerifiedAttributes = config.autoVerifiedAttributes;
+    this._deletionProtection = config.deletionProtection;
     this._emailVerificationMessage = config.emailVerificationMessage;
     this._emailVerificationSubject = config.emailVerificationSubject;
     this._id = config.id;
@@ -2528,6 +2628,7 @@ export class CognitoUserPool extends cdktf.TerraformResource {
     this._schema.internalValue = config.schema;
     this._smsConfiguration.internalValue = config.smsConfiguration;
     this._softwareTokenMfaConfiguration.internalValue = config.softwareTokenMfaConfiguration;
+    this._userAttributeUpdateSettings.internalValue = config.userAttributeUpdateSettings;
     this._userPoolAddOns.internalValue = config.userPoolAddOns;
     this._usernameConfiguration.internalValue = config.usernameConfiguration;
     this._verificationMessageTemplate.internalValue = config.verificationMessageTemplate;
@@ -2582,6 +2683,22 @@ export class CognitoUserPool extends cdktf.TerraformResource {
   // custom_domain - computed: true, optional: false, required: false
   public get customDomain() {
     return this.getStringAttribute('custom_domain');
+  }
+
+  // deletion_protection - computed: false, optional: true, required: false
+  private _deletionProtection?: string; 
+  public get deletionProtection() {
+    return this.getStringAttribute('deletion_protection');
+  }
+  public set deletionProtection(value: string) {
+    this._deletionProtection = value;
+  }
+  public resetDeletionProtection() {
+    this._deletionProtection = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get deletionProtectionInput() {
+    return this._deletionProtection;
   }
 
   // domain - computed: true, optional: false, required: false
@@ -2905,6 +3022,22 @@ export class CognitoUserPool extends cdktf.TerraformResource {
     return this._softwareTokenMfaConfiguration.internalValue;
   }
 
+  // user_attribute_update_settings - computed: false, optional: true, required: false
+  private _userAttributeUpdateSettings = new CognitoUserPoolUserAttributeUpdateSettingsOutputReference(this, "user_attribute_update_settings");
+  public get userAttributeUpdateSettings() {
+    return this._userAttributeUpdateSettings;
+  }
+  public putUserAttributeUpdateSettings(value: CognitoUserPoolUserAttributeUpdateSettings) {
+    this._userAttributeUpdateSettings.internalValue = value;
+  }
+  public resetUserAttributeUpdateSettings() {
+    this._userAttributeUpdateSettings.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get userAttributeUpdateSettingsInput() {
+    return this._userAttributeUpdateSettings.internalValue;
+  }
+
   // user_pool_add_ons - computed: false, optional: true, required: false
   private _userPoolAddOns = new CognitoUserPoolUserPoolAddOnsOutputReference(this, "user_pool_add_ons");
   public get userPoolAddOns() {
@@ -2961,6 +3094,7 @@ export class CognitoUserPool extends cdktf.TerraformResource {
     return {
       alias_attributes: cdktf.listMapper(cdktf.stringToTerraform, false)(this._aliasAttributes),
       auto_verified_attributes: cdktf.listMapper(cdktf.stringToTerraform, false)(this._autoVerifiedAttributes),
+      deletion_protection: cdktf.stringToTerraform(this._deletionProtection),
       email_verification_message: cdktf.stringToTerraform(this._emailVerificationMessage),
       email_verification_subject: cdktf.stringToTerraform(this._emailVerificationSubject),
       id: cdktf.stringToTerraform(this._id),
@@ -2980,6 +3114,7 @@ export class CognitoUserPool extends cdktf.TerraformResource {
       schema: cdktf.listMapper(cognitoUserPoolSchemaToTerraform, true)(this._schema.internalValue),
       sms_configuration: cognitoUserPoolSmsConfigurationToTerraform(this._smsConfiguration.internalValue),
       software_token_mfa_configuration: cognitoUserPoolSoftwareTokenMfaConfigurationToTerraform(this._softwareTokenMfaConfiguration.internalValue),
+      user_attribute_update_settings: cognitoUserPoolUserAttributeUpdateSettingsToTerraform(this._userAttributeUpdateSettings.internalValue),
       user_pool_add_ons: cognitoUserPoolUserPoolAddOnsToTerraform(this._userPoolAddOns.internalValue),
       username_configuration: cognitoUserPoolUsernameConfigurationToTerraform(this._usernameConfiguration.internalValue),
       verification_message_template: cognitoUserPoolVerificationMessageTemplateToTerraform(this._verificationMessageTemplate.internalValue),

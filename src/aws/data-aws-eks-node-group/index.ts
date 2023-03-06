@@ -304,6 +304,80 @@ export class DataAwsEksNodeGroupScalingConfigList extends cdktf.ComplexList {
     return new DataAwsEksNodeGroupScalingConfigOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
+export interface DataAwsEksNodeGroupTaints {
+}
+
+export function dataAwsEksNodeGroupTaintsToTerraform(struct?: DataAwsEksNodeGroupTaints): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class DataAwsEksNodeGroupTaintsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): DataAwsEksNodeGroupTaints | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsEksNodeGroupTaints | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // effect - computed: true, optional: false, required: false
+  public get effect() {
+    return this.getStringAttribute('effect');
+  }
+
+  // key - computed: true, optional: false, required: false
+  public get key() {
+    return this.getStringAttribute('key');
+  }
+
+  // value - computed: true, optional: false, required: false
+  public get value() {
+    return this.getStringAttribute('value');
+  }
+}
+
+export class DataAwsEksNodeGroupTaintsList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): DataAwsEksNodeGroupTaintsOutputReference {
+    return new DataAwsEksNodeGroupTaintsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/d/eks_node_group aws_eks_node_group}
@@ -331,8 +405,8 @@ export class DataAwsEksNodeGroup extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_eks_node_group',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -360,6 +434,11 @@ export class DataAwsEksNodeGroup extends cdktf.TerraformDataSource {
   // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
+  }
+
+  // capacity_type - computed: true, optional: false, required: false
+  public get capacityType() {
+    return this.getStringAttribute('capacity_type');
   }
 
   // cluster_name - computed: false, optional: false, required: true
@@ -472,6 +551,12 @@ export class DataAwsEksNodeGroup extends cdktf.TerraformDataSource {
   // Temporarily expose input value. Use with caution.
   public get tagsInput() {
     return this._tags;
+  }
+
+  // taints - computed: true, optional: false, required: false
+  private _taints = new DataAwsEksNodeGroupTaintsList(this, "taints", false);
+  public get taints() {
+    return this._taints;
   }
 
   // version - computed: true, optional: false, required: false

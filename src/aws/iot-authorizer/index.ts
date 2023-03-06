@@ -12,6 +12,10 @@ export interface IotAuthorizerConfig extends cdktf.TerraformMetaArguments {
   */
   readonly authorizerFunctionArn: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/iot_authorizer#enable_caching_for_http IotAuthorizer#enable_caching_for_http}
+  */
+  readonly enableCachingForHttp?: boolean | cdktf.IResolvable;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/iot_authorizer#id IotAuthorizer#id}
   *
   * Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.
@@ -66,8 +70,8 @@ export class IotAuthorizer extends cdktf.TerraformResource {
       terraformResourceType: 'aws_iot_authorizer',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -78,6 +82,7 @@ export class IotAuthorizer extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._authorizerFunctionArn = config.authorizerFunctionArn;
+    this._enableCachingForHttp = config.enableCachingForHttp;
     this._id = config.id;
     this._name = config.name;
     this._signingDisabled = config.signingDisabled;
@@ -106,6 +111,22 @@ export class IotAuthorizer extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get authorizerFunctionArnInput() {
     return this._authorizerFunctionArn;
+  }
+
+  // enable_caching_for_http - computed: false, optional: true, required: false
+  private _enableCachingForHttp?: boolean | cdktf.IResolvable; 
+  public get enableCachingForHttp() {
+    return this.getBooleanAttribute('enable_caching_for_http');
+  }
+  public set enableCachingForHttp(value: boolean | cdktf.IResolvable) {
+    this._enableCachingForHttp = value;
+  }
+  public resetEnableCachingForHttp() {
+    this._enableCachingForHttp = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get enableCachingForHttpInput() {
+    return this._enableCachingForHttp;
   }
 
   // id - computed: true, optional: true, required: false
@@ -208,6 +229,7 @@ export class IotAuthorizer extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       authorizer_function_arn: cdktf.stringToTerraform(this._authorizerFunctionArn),
+      enable_caching_for_http: cdktf.booleanToTerraform(this._enableCachingForHttp),
       id: cdktf.stringToTerraform(this._id),
       name: cdktf.stringToTerraform(this._name),
       signing_disabled: cdktf.booleanToTerraform(this._signingDisabled),

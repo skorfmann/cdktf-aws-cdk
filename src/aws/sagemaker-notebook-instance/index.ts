@@ -8,6 +8,10 @@ import * as cdktf from 'cdktf';
 
 export interface SagemakerNotebookInstanceConfig extends cdktf.TerraformMetaArguments {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/sagemaker_notebook_instance#accelerator_types SagemakerNotebookInstance#accelerator_types}
+  */
+  readonly acceleratorTypes?: string[];
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/sagemaker_notebook_instance#additional_code_repositories SagemakerNotebookInstance#additional_code_repositories}
   */
   readonly additionalCodeRepositories?: string[];
@@ -74,6 +78,77 @@ export interface SagemakerNotebookInstanceConfig extends cdktf.TerraformMetaArgu
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/sagemaker_notebook_instance#volume_size SagemakerNotebookInstance#volume_size}
   */
   readonly volumeSize?: number;
+  /**
+  * instance_metadata_service_configuration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/sagemaker_notebook_instance#instance_metadata_service_configuration SagemakerNotebookInstance#instance_metadata_service_configuration}
+  */
+  readonly instanceMetadataServiceConfiguration?: SagemakerNotebookInstanceInstanceMetadataServiceConfiguration;
+}
+export interface SagemakerNotebookInstanceInstanceMetadataServiceConfiguration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/sagemaker_notebook_instance#minimum_instance_metadata_service_version SagemakerNotebookInstance#minimum_instance_metadata_service_version}
+  */
+  readonly minimumInstanceMetadataServiceVersion?: string;
+}
+
+export function sagemakerNotebookInstanceInstanceMetadataServiceConfigurationToTerraform(struct?: SagemakerNotebookInstanceInstanceMetadataServiceConfigurationOutputReference | SagemakerNotebookInstanceInstanceMetadataServiceConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    minimum_instance_metadata_service_version: cdktf.stringToTerraform(struct!.minimumInstanceMetadataServiceVersion),
+  }
+}
+
+export class SagemakerNotebookInstanceInstanceMetadataServiceConfigurationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): SagemakerNotebookInstanceInstanceMetadataServiceConfiguration | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._minimumInstanceMetadataServiceVersion !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.minimumInstanceMetadataServiceVersion = this._minimumInstanceMetadataServiceVersion;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: SagemakerNotebookInstanceInstanceMetadataServiceConfiguration | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._minimumInstanceMetadataServiceVersion = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._minimumInstanceMetadataServiceVersion = value.minimumInstanceMetadataServiceVersion;
+    }
+  }
+
+  // minimum_instance_metadata_service_version - computed: true, optional: true, required: false
+  private _minimumInstanceMetadataServiceVersion?: string; 
+  public get minimumInstanceMetadataServiceVersion() {
+    return this.getStringAttribute('minimum_instance_metadata_service_version');
+  }
+  public set minimumInstanceMetadataServiceVersion(value: string) {
+    this._minimumInstanceMetadataServiceVersion = value;
+  }
+  public resetMinimumInstanceMetadataServiceVersion() {
+    this._minimumInstanceMetadataServiceVersion = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get minimumInstanceMetadataServiceVersionInput() {
+    return this._minimumInstanceMetadataServiceVersion;
+  }
 }
 
 /**
@@ -102,8 +177,8 @@ export class SagemakerNotebookInstance extends cdktf.TerraformResource {
       terraformResourceType: 'aws_sagemaker_notebook_instance',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -113,6 +188,7 @@ export class SagemakerNotebookInstance extends cdktf.TerraformResource {
       connection: config.connection,
       forEach: config.forEach
     });
+    this._acceleratorTypes = config.acceleratorTypes;
     this._additionalCodeRepositories = config.additionalCodeRepositories;
     this._defaultCodeRepository = config.defaultCodeRepository;
     this._directInternetAccess = config.directInternetAccess;
@@ -129,11 +205,28 @@ export class SagemakerNotebookInstance extends cdktf.TerraformResource {
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
     this._volumeSize = config.volumeSize;
+    this._instanceMetadataServiceConfiguration.internalValue = config.instanceMetadataServiceConfiguration;
   }
 
   // ==========
   // ATTRIBUTES
   // ==========
+
+  // accelerator_types - computed: false, optional: true, required: false
+  private _acceleratorTypes?: string[]; 
+  public get acceleratorTypes() {
+    return cdktf.Fn.tolist(this.getListAttribute('accelerator_types'));
+  }
+  public set acceleratorTypes(value: string[]) {
+    this._acceleratorTypes = value;
+  }
+  public resetAcceleratorTypes() {
+    this._acceleratorTypes = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get acceleratorTypesInput() {
+    return this._acceleratorTypes;
+  }
 
   // additional_code_repositories - computed: false, optional: true, required: false
   private _additionalCodeRepositories?: string[]; 
@@ -397,12 +490,29 @@ export class SagemakerNotebookInstance extends cdktf.TerraformResource {
     return this._volumeSize;
   }
 
+  // instance_metadata_service_configuration - computed: false, optional: true, required: false
+  private _instanceMetadataServiceConfiguration = new SagemakerNotebookInstanceInstanceMetadataServiceConfigurationOutputReference(this, "instance_metadata_service_configuration");
+  public get instanceMetadataServiceConfiguration() {
+    return this._instanceMetadataServiceConfiguration;
+  }
+  public putInstanceMetadataServiceConfiguration(value: SagemakerNotebookInstanceInstanceMetadataServiceConfiguration) {
+    this._instanceMetadataServiceConfiguration.internalValue = value;
+  }
+  public resetInstanceMetadataServiceConfiguration() {
+    this._instanceMetadataServiceConfiguration.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get instanceMetadataServiceConfigurationInput() {
+    return this._instanceMetadataServiceConfiguration.internalValue;
+  }
+
   // =========
   // SYNTHESIS
   // =========
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
+      accelerator_types: cdktf.listMapper(cdktf.stringToTerraform, false)(this._acceleratorTypes),
       additional_code_repositories: cdktf.listMapper(cdktf.stringToTerraform, false)(this._additionalCodeRepositories),
       default_code_repository: cdktf.stringToTerraform(this._defaultCodeRepository),
       direct_internet_access: cdktf.stringToTerraform(this._directInternetAccess),
@@ -419,6 +529,7 @@ export class SagemakerNotebookInstance extends cdktf.TerraformResource {
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       volume_size: cdktf.numberToTerraform(this._volumeSize),
+      instance_metadata_service_configuration: sagemakerNotebookInstanceInstanceMetadataServiceConfigurationToTerraform(this._instanceMetadataServiceConfiguration.internalValue),
     };
   }
 }

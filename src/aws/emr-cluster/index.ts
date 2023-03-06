@@ -47,6 +47,10 @@ export interface EmrClusterConfig extends cdktf.TerraformMetaArguments {
   */
   readonly keepJobFlowAliveWhenNoSteps?: boolean | cdktf.IResolvable;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/emr_cluster#list_steps_states EmrCluster#list_steps_states}
+  */
+  readonly listStepsStates?: string[];
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/emr_cluster#log_encryption_kms_key_id EmrCluster#log_encryption_kms_key_id}
   */
   readonly logEncryptionKmsKeyId?: string;
@@ -1776,6 +1780,10 @@ export interface EmrClusterCoreInstanceGroupEbsConfig {
   */
   readonly size: number;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/emr_cluster#throughput EmrCluster#throughput}
+  */
+  readonly throughput?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/emr_cluster#type EmrCluster#type}
   */
   readonly type: string;
@@ -1793,6 +1801,7 @@ export function emrClusterCoreInstanceGroupEbsConfigToTerraform(struct?: EmrClus
   return {
     iops: cdktf.numberToTerraform(struct!.iops),
     size: cdktf.numberToTerraform(struct!.size),
+    throughput: cdktf.numberToTerraform(struct!.throughput),
     type: cdktf.stringToTerraform(struct!.type),
     volumes_per_instance: cdktf.numberToTerraform(struct!.volumesPerInstance),
   }
@@ -1826,6 +1835,10 @@ export class EmrClusterCoreInstanceGroupEbsConfigOutputReference extends cdktf.C
       hasAnyValues = true;
       internalValueResult.size = this._size;
     }
+    if (this._throughput !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.throughput = this._throughput;
+    }
     if (this._type !== undefined) {
       hasAnyValues = true;
       internalValueResult.type = this._type;
@@ -1843,6 +1856,7 @@ export class EmrClusterCoreInstanceGroupEbsConfigOutputReference extends cdktf.C
       this.resolvableValue = undefined;
       this._iops = undefined;
       this._size = undefined;
+      this._throughput = undefined;
       this._type = undefined;
       this._volumesPerInstance = undefined;
     }
@@ -1855,6 +1869,7 @@ export class EmrClusterCoreInstanceGroupEbsConfigOutputReference extends cdktf.C
       this.resolvableValue = undefined;
       this._iops = value.iops;
       this._size = value.size;
+      this._throughput = value.throughput;
       this._type = value.type;
       this._volumesPerInstance = value.volumesPerInstance;
     }
@@ -1887,6 +1902,22 @@ export class EmrClusterCoreInstanceGroupEbsConfigOutputReference extends cdktf.C
   // Temporarily expose input value. Use with caution.
   public get sizeInput() {
     return this._size;
+  }
+
+  // throughput - computed: false, optional: true, required: false
+  private _throughput?: number; 
+  public get throughput() {
+    return this.getNumberAttribute('throughput');
+  }
+  public set throughput(value: number) {
+    this._throughput = value;
+  }
+  public resetThroughput() {
+    this._throughput = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get throughputInput() {
+    return this._throughput;
   }
 
   // type - computed: false, optional: false, required: true
@@ -3677,6 +3708,10 @@ export interface EmrClusterMasterInstanceGroupEbsConfig {
   */
   readonly size: number;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/emr_cluster#throughput EmrCluster#throughput}
+  */
+  readonly throughput?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/emr_cluster#type EmrCluster#type}
   */
   readonly type: string;
@@ -3694,6 +3729,7 @@ export function emrClusterMasterInstanceGroupEbsConfigToTerraform(struct?: EmrCl
   return {
     iops: cdktf.numberToTerraform(struct!.iops),
     size: cdktf.numberToTerraform(struct!.size),
+    throughput: cdktf.numberToTerraform(struct!.throughput),
     type: cdktf.stringToTerraform(struct!.type),
     volumes_per_instance: cdktf.numberToTerraform(struct!.volumesPerInstance),
   }
@@ -3727,6 +3763,10 @@ export class EmrClusterMasterInstanceGroupEbsConfigOutputReference extends cdktf
       hasAnyValues = true;
       internalValueResult.size = this._size;
     }
+    if (this._throughput !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.throughput = this._throughput;
+    }
     if (this._type !== undefined) {
       hasAnyValues = true;
       internalValueResult.type = this._type;
@@ -3744,6 +3784,7 @@ export class EmrClusterMasterInstanceGroupEbsConfigOutputReference extends cdktf
       this.resolvableValue = undefined;
       this._iops = undefined;
       this._size = undefined;
+      this._throughput = undefined;
       this._type = undefined;
       this._volumesPerInstance = undefined;
     }
@@ -3756,6 +3797,7 @@ export class EmrClusterMasterInstanceGroupEbsConfigOutputReference extends cdktf
       this.resolvableValue = undefined;
       this._iops = value.iops;
       this._size = value.size;
+      this._throughput = value.throughput;
       this._type = value.type;
       this._volumesPerInstance = value.volumesPerInstance;
     }
@@ -3788,6 +3830,22 @@ export class EmrClusterMasterInstanceGroupEbsConfigOutputReference extends cdktf
   // Temporarily expose input value. Use with caution.
   public get sizeInput() {
     return this._size;
+  }
+
+  // throughput - computed: false, optional: true, required: false
+  private _throughput?: number; 
+  public get throughput() {
+    return this.getNumberAttribute('throughput');
+  }
+  public set throughput(value: number) {
+    this._throughput = value;
+  }
+  public resetThroughput() {
+    this._throughput = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get throughputInput() {
+    return this._throughput;
   }
 
   // type - computed: false, optional: false, required: true
@@ -4043,8 +4101,8 @@ export class EmrCluster extends cdktf.TerraformResource {
       terraformResourceType: 'aws_emr_cluster',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -4063,6 +4121,7 @@ export class EmrCluster extends cdktf.TerraformResource {
     this._ebsRootVolumeSize = config.ebsRootVolumeSize;
     this._id = config.id;
     this._keepJobFlowAliveWhenNoSteps = config.keepJobFlowAliveWhenNoSteps;
+    this._listStepsStates = config.listStepsStates;
     this._logEncryptionKmsKeyId = config.logEncryptionKmsKeyId;
     this._logUri = config.logUri;
     this._name = config.name;
@@ -4242,6 +4301,22 @@ export class EmrCluster extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get keepJobFlowAliveWhenNoStepsInput() {
     return this._keepJobFlowAliveWhenNoSteps;
+  }
+
+  // list_steps_states - computed: false, optional: true, required: false
+  private _listStepsStates?: string[]; 
+  public get listStepsStates() {
+    return cdktf.Fn.tolist(this.getListAttribute('list_steps_states'));
+  }
+  public set listStepsStates(value: string[]) {
+    this._listStepsStates = value;
+  }
+  public resetListStepsStates() {
+    this._listStepsStates = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get listStepsStatesInput() {
+    return this._listStepsStates;
   }
 
   // log_encryption_kms_key_id - computed: false, optional: true, required: false
@@ -4591,6 +4666,7 @@ export class EmrCluster extends cdktf.TerraformResource {
       ebs_root_volume_size: cdktf.numberToTerraform(this._ebsRootVolumeSize),
       id: cdktf.stringToTerraform(this._id),
       keep_job_flow_alive_when_no_steps: cdktf.booleanToTerraform(this._keepJobFlowAliveWhenNoSteps),
+      list_steps_states: cdktf.listMapper(cdktf.stringToTerraform, false)(this._listStepsStates),
       log_encryption_kms_key_id: cdktf.stringToTerraform(this._logEncryptionKmsKeyId),
       log_uri: cdktf.stringToTerraform(this._logUri),
       name: cdktf.stringToTerraform(this._name),

@@ -66,8 +66,8 @@ export class DbSubnetGroup extends cdktf.TerraformResource {
       terraformResourceType: 'aws_db_subnet_group',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -170,6 +170,11 @@ export class DbSubnetGroup extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get subnetIdsInput() {
     return this._subnetIds;
+  }
+
+  // supported_network_types - computed: true, optional: false, required: false
+  public get supportedNetworkTypes() {
+    return cdktf.Fn.tolist(this.getListAttribute('supported_network_types'));
   }
 
   // tags - computed: false, optional: true, required: false

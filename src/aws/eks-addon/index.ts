@@ -20,12 +20,20 @@ export interface EksAddonConfig extends cdktf.TerraformMetaArguments {
   */
   readonly clusterName: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_addon#configuration_values EksAddon#configuration_values}
+  */
+  readonly configurationValues?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_addon#id EksAddon#id}
   *
   * Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.
   * If you experience problems setting this value it might not be settable. Please take a look at the provider documentation to ensure it should be settable.
   */
   readonly id?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_addon#preserve EksAddon#preserve}
+  */
+  readonly preserve?: boolean | cdktf.IResolvable;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_addon#resolve_conflicts EksAddon#resolve_conflicts}
   */
@@ -42,6 +50,141 @@ export interface EksAddonConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_addon#tags_all EksAddon#tags_all}
   */
   readonly tagsAll?: { [key: string]: string };
+  /**
+  * timeouts block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_addon#timeouts EksAddon#timeouts}
+  */
+  readonly timeouts?: EksAddonTimeouts;
+}
+export interface EksAddonTimeouts {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_addon#create EksAddon#create}
+  */
+  readonly create?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_addon#delete EksAddon#delete}
+  */
+  readonly delete?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_addon#update EksAddon#update}
+  */
+  readonly update?: string;
+}
+
+export function eksAddonTimeoutsToTerraform(struct?: EksAddonTimeoutsOutputReference | EksAddonTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    create: cdktf.stringToTerraform(struct!.create),
+    delete: cdktf.stringToTerraform(struct!.delete),
+    update: cdktf.stringToTerraform(struct!.update),
+  }
+}
+
+export class EksAddonTimeoutsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): EksAddonTimeouts | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._create !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.create = this._create;
+    }
+    if (this._delete !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.delete = this._delete;
+    }
+    if (this._update !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.update = this._update;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: EksAddonTimeouts | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._create = undefined;
+      this._delete = undefined;
+      this._update = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._create = value.create;
+      this._delete = value.delete;
+      this._update = value.update;
+    }
+  }
+
+  // create - computed: false, optional: true, required: false
+  private _create?: string; 
+  public get create() {
+    return this.getStringAttribute('create');
+  }
+  public set create(value: string) {
+    this._create = value;
+  }
+  public resetCreate() {
+    this._create = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get createInput() {
+    return this._create;
+  }
+
+  // delete - computed: false, optional: true, required: false
+  private _delete?: string; 
+  public get delete() {
+    return this.getStringAttribute('delete');
+  }
+  public set delete(value: string) {
+    this._delete = value;
+  }
+  public resetDelete() {
+    this._delete = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get deleteInput() {
+    return this._delete;
+  }
+
+  // update - computed: false, optional: true, required: false
+  private _update?: string; 
+  public get update() {
+    return this.getStringAttribute('update');
+  }
+  public set update(value: string) {
+    this._update = value;
+  }
+  public resetUpdate() {
+    this._update = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get updateInput() {
+    return this._update;
+  }
 }
 
 /**
@@ -70,8 +213,8 @@ export class EksAddon extends cdktf.TerraformResource {
       terraformResourceType: 'aws_eks_addon',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -84,11 +227,14 @@ export class EksAddon extends cdktf.TerraformResource {
     this._addonName = config.addonName;
     this._addonVersion = config.addonVersion;
     this._clusterName = config.clusterName;
+    this._configurationValues = config.configurationValues;
     this._id = config.id;
+    this._preserve = config.preserve;
     this._resolveConflicts = config.resolveConflicts;
     this._serviceAccountRoleArn = config.serviceAccountRoleArn;
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
+    this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
@@ -142,6 +288,22 @@ export class EksAddon extends cdktf.TerraformResource {
     return this._clusterName;
   }
 
+  // configuration_values - computed: true, optional: true, required: false
+  private _configurationValues?: string; 
+  public get configurationValues() {
+    return this.getStringAttribute('configuration_values');
+  }
+  public set configurationValues(value: string) {
+    this._configurationValues = value;
+  }
+  public resetConfigurationValues() {
+    this._configurationValues = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get configurationValuesInput() {
+    return this._configurationValues;
+  }
+
   // created_at - computed: true, optional: false, required: false
   public get createdAt() {
     return this.getStringAttribute('created_at');
@@ -166,6 +328,22 @@ export class EksAddon extends cdktf.TerraformResource {
   // modified_at - computed: true, optional: false, required: false
   public get modifiedAt() {
     return this.getStringAttribute('modified_at');
+  }
+
+  // preserve - computed: false, optional: true, required: false
+  private _preserve?: boolean | cdktf.IResolvable; 
+  public get preserve() {
+    return this.getBooleanAttribute('preserve');
+  }
+  public set preserve(value: boolean | cdktf.IResolvable) {
+    this._preserve = value;
+  }
+  public resetPreserve() {
+    this._preserve = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get preserveInput() {
+    return this._preserve;
   }
 
   // resolve_conflicts - computed: false, optional: true, required: false
@@ -232,6 +410,22 @@ export class EksAddon extends cdktf.TerraformResource {
     return this._tagsAll;
   }
 
+  // timeouts - computed: false, optional: true, required: false
+  private _timeouts = new EksAddonTimeoutsOutputReference(this, "timeouts");
+  public get timeouts() {
+    return this._timeouts;
+  }
+  public putTimeouts(value: EksAddonTimeouts) {
+    this._timeouts.internalValue = value;
+  }
+  public resetTimeouts() {
+    this._timeouts.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get timeoutsInput() {
+    return this._timeouts.internalValue;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -241,11 +435,14 @@ export class EksAddon extends cdktf.TerraformResource {
       addon_name: cdktf.stringToTerraform(this._addonName),
       addon_version: cdktf.stringToTerraform(this._addonVersion),
       cluster_name: cdktf.stringToTerraform(this._clusterName),
+      configuration_values: cdktf.stringToTerraform(this._configurationValues),
       id: cdktf.stringToTerraform(this._id),
+      preserve: cdktf.booleanToTerraform(this._preserve),
       resolve_conflicts: cdktf.stringToTerraform(this._resolveConflicts),
       service_account_role_arn: cdktf.stringToTerraform(this._serviceAccountRoleArn),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
+      timeouts: eksAddonTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }

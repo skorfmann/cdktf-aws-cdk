@@ -51,6 +51,10 @@ export interface RouteTableRoute {
   */
   readonly cidrBlock?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/route_table#core_network_arn RouteTable#core_network_arn}
+  */
+  readonly coreNetworkArn?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/route_table#destination_prefix_list_id RouteTable#destination_prefix_list_id}
   */
   readonly destinationPrefixListId?: string;
@@ -104,6 +108,7 @@ export function routeTableRouteToTerraform(struct?: RouteTableRoute | cdktf.IRes
   return {
     carrier_gateway_id: struct!.carrierGatewayId === undefined ? null : cdktf.stringToTerraform(struct!.carrierGatewayId),
     cidr_block: struct!.cidrBlock === undefined ? null : cdktf.stringToTerraform(struct!.cidrBlock),
+    core_network_arn: struct!.coreNetworkArn === undefined ? null : cdktf.stringToTerraform(struct!.coreNetworkArn),
     destination_prefix_list_id: struct!.destinationPrefixListId === undefined ? null : cdktf.stringToTerraform(struct!.destinationPrefixListId),
     egress_only_gateway_id: struct!.egressOnlyGatewayId === undefined ? null : cdktf.stringToTerraform(struct!.egressOnlyGatewayId),
     gateway_id: struct!.gatewayId === undefined ? null : cdktf.stringToTerraform(struct!.gatewayId),
@@ -145,6 +150,10 @@ export class RouteTableRouteOutputReference extends cdktf.ComplexObject {
     if (this._cidrBlock !== undefined) {
       hasAnyValues = true;
       internalValueResult.cidrBlock = this._cidrBlock;
+    }
+    if (this._coreNetworkArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.coreNetworkArn = this._coreNetworkArn;
     }
     if (this._destinationPrefixListId !== undefined) {
       hasAnyValues = true;
@@ -199,6 +208,7 @@ export class RouteTableRouteOutputReference extends cdktf.ComplexObject {
       this.resolvableValue = undefined;
       this._carrierGatewayId = undefined;
       this._cidrBlock = undefined;
+      this._coreNetworkArn = undefined;
       this._destinationPrefixListId = undefined;
       this._egressOnlyGatewayId = undefined;
       this._gatewayId = undefined;
@@ -220,6 +230,7 @@ export class RouteTableRouteOutputReference extends cdktf.ComplexObject {
       this.resolvableValue = undefined;
       this._carrierGatewayId = value.carrierGatewayId;
       this._cidrBlock = value.cidrBlock;
+      this._coreNetworkArn = value.coreNetworkArn;
       this._destinationPrefixListId = value.destinationPrefixListId;
       this._egressOnlyGatewayId = value.egressOnlyGatewayId;
       this._gatewayId = value.gatewayId;
@@ -264,6 +275,22 @@ export class RouteTableRouteOutputReference extends cdktf.ComplexObject {
   // Temporarily expose input value. Use with caution.
   public get cidrBlockInput() {
     return this._cidrBlock;
+  }
+
+  // core_network_arn - computed: true, optional: true, required: false
+  private _coreNetworkArn?: string; 
+  public get coreNetworkArn() {
+    return this.getStringAttribute('core_network_arn');
+  }
+  public set coreNetworkArn(value: string) {
+    this._coreNetworkArn = value;
+  }
+  public resetCoreNetworkArn() {
+    this._coreNetworkArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get coreNetworkArnInput() {
+    return this._coreNetworkArn;
   }
 
   // destination_prefix_list_id - computed: true, optional: true, required: false
@@ -618,8 +645,8 @@ export class RouteTable extends cdktf.TerraformResource {
       terraformResourceType: 'aws_route_table',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

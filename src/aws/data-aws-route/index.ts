@@ -12,6 +12,10 @@ export interface DataAwsRouteConfig extends cdktf.TerraformMetaArguments {
   */
   readonly carrierGatewayId?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/route#core_network_arn DataAwsRoute#core_network_arn}
+  */
+  readonly coreNetworkArn?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/route#destination_cidr_block DataAwsRoute#destination_cidr_block}
   */
   readonly destinationCidrBlock?: string;
@@ -66,6 +70,87 @@ export interface DataAwsRouteConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/route#vpc_peering_connection_id DataAwsRoute#vpc_peering_connection_id}
   */
   readonly vpcPeeringConnectionId?: string;
+  /**
+  * timeouts block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/route#timeouts DataAwsRoute#timeouts}
+  */
+  readonly timeouts?: DataAwsRouteTimeouts;
+}
+export interface DataAwsRouteTimeouts {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/route#read DataAwsRoute#read}
+  */
+  readonly read?: string;
+}
+
+export function dataAwsRouteTimeoutsToTerraform(struct?: DataAwsRouteTimeoutsOutputReference | DataAwsRouteTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    read: cdktf.stringToTerraform(struct!.read),
+  }
+}
+
+export class DataAwsRouteTimeoutsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): DataAwsRouteTimeouts | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._read !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.read = this._read;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsRouteTimeouts | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._read = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._read = value.read;
+    }
+  }
+
+  // read - computed: false, optional: true, required: false
+  private _read?: string; 
+  public get read() {
+    return this.getStringAttribute('read');
+  }
+  public set read(value: string) {
+    this._read = value;
+  }
+  public resetRead() {
+    this._read = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get readInput() {
+    return this._read;
+  }
 }
 
 /**
@@ -94,8 +179,8 @@ export class DataAwsRoute extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_route',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -106,6 +191,7 @@ export class DataAwsRoute extends cdktf.TerraformDataSource {
       forEach: config.forEach
     });
     this._carrierGatewayId = config.carrierGatewayId;
+    this._coreNetworkArn = config.coreNetworkArn;
     this._destinationCidrBlock = config.destinationCidrBlock;
     this._destinationIpv6CidrBlock = config.destinationIpv6CidrBlock;
     this._destinationPrefixListId = config.destinationPrefixListId;
@@ -119,6 +205,7 @@ export class DataAwsRoute extends cdktf.TerraformDataSource {
     this._routeTableId = config.routeTableId;
     this._transitGatewayId = config.transitGatewayId;
     this._vpcPeeringConnectionId = config.vpcPeeringConnectionId;
+    this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
@@ -139,6 +226,22 @@ export class DataAwsRoute extends cdktf.TerraformDataSource {
   // Temporarily expose input value. Use with caution.
   public get carrierGatewayIdInput() {
     return this._carrierGatewayId;
+  }
+
+  // core_network_arn - computed: true, optional: true, required: false
+  private _coreNetworkArn?: string; 
+  public get coreNetworkArn() {
+    return this.getStringAttribute('core_network_arn');
+  }
+  public set coreNetworkArn(value: string) {
+    this._coreNetworkArn = value;
+  }
+  public resetCoreNetworkArn() {
+    this._coreNetworkArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get coreNetworkArnInput() {
+    return this._coreNetworkArn;
   }
 
   // destination_cidr_block - computed: true, optional: true, required: false
@@ -346,6 +449,22 @@ export class DataAwsRoute extends cdktf.TerraformDataSource {
     return this._vpcPeeringConnectionId;
   }
 
+  // timeouts - computed: false, optional: true, required: false
+  private _timeouts = new DataAwsRouteTimeoutsOutputReference(this, "timeouts");
+  public get timeouts() {
+    return this._timeouts;
+  }
+  public putTimeouts(value: DataAwsRouteTimeouts) {
+    this._timeouts.internalValue = value;
+  }
+  public resetTimeouts() {
+    this._timeouts.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get timeoutsInput() {
+    return this._timeouts.internalValue;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -353,6 +472,7 @@ export class DataAwsRoute extends cdktf.TerraformDataSource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       carrier_gateway_id: cdktf.stringToTerraform(this._carrierGatewayId),
+      core_network_arn: cdktf.stringToTerraform(this._coreNetworkArn),
       destination_cidr_block: cdktf.stringToTerraform(this._destinationCidrBlock),
       destination_ipv6_cidr_block: cdktf.stringToTerraform(this._destinationIpv6CidrBlock),
       destination_prefix_list_id: cdktf.stringToTerraform(this._destinationPrefixListId),
@@ -366,6 +486,7 @@ export class DataAwsRoute extends cdktf.TerraformDataSource {
       route_table_id: cdktf.stringToTerraform(this._routeTableId),
       transit_gateway_id: cdktf.stringToTerraform(this._transitGatewayId),
       vpc_peering_connection_id: cdktf.stringToTerraform(this._vpcPeeringConnectionId),
+      timeouts: dataAwsRouteTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }

@@ -203,8 +203,8 @@ export class ConnectQueue extends cdktf.TerraformResource {
       terraformResourceType: 'aws_connect_queue',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -342,6 +342,11 @@ export class ConnectQueue extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get quickConnectIdsInput() {
     return this._quickConnectIds;
+  }
+
+  // quick_connect_ids_associated - computed: true, optional: false, required: false
+  public get quickConnectIdsAssociated() {
+    return cdktf.Fn.tolist(this.getListAttribute('quick_connect_ids_associated'));
   }
 
   // status - computed: true, optional: true, required: false

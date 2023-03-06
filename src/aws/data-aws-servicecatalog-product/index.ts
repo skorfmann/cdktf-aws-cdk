@@ -22,6 +22,87 @@ export interface DataAwsServicecatalogProductConfig extends cdktf.TerraformMetaA
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/servicecatalog_product#tags DataAwsServicecatalogProduct#tags}
   */
   readonly tags?: { [key: string]: string };
+  /**
+  * timeouts block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/servicecatalog_product#timeouts DataAwsServicecatalogProduct#timeouts}
+  */
+  readonly timeouts?: DataAwsServicecatalogProductTimeouts;
+}
+export interface DataAwsServicecatalogProductTimeouts {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/servicecatalog_product#read DataAwsServicecatalogProduct#read}
+  */
+  readonly read?: string;
+}
+
+export function dataAwsServicecatalogProductTimeoutsToTerraform(struct?: DataAwsServicecatalogProductTimeoutsOutputReference | DataAwsServicecatalogProductTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    read: cdktf.stringToTerraform(struct!.read),
+  }
+}
+
+export class DataAwsServicecatalogProductTimeoutsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): DataAwsServicecatalogProductTimeouts | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._read !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.read = this._read;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsServicecatalogProductTimeouts | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._read = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._read = value.read;
+    }
+  }
+
+  // read - computed: false, optional: true, required: false
+  private _read?: string; 
+  public get read() {
+    return this.getStringAttribute('read');
+  }
+  public set read(value: string) {
+    this._read = value;
+  }
+  public resetRead() {
+    this._read = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get readInput() {
+    return this._read;
+  }
 }
 
 /**
@@ -50,8 +131,8 @@ export class DataAwsServicecatalogProduct extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_servicecatalog_product',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -64,6 +145,7 @@ export class DataAwsServicecatalogProduct extends cdktf.TerraformDataSource {
     this._acceptLanguage = config.acceptLanguage;
     this._id = config.id;
     this._tags = config.tags;
+    this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
@@ -175,6 +257,22 @@ export class DataAwsServicecatalogProduct extends cdktf.TerraformDataSource {
     return this.getStringAttribute('type');
   }
 
+  // timeouts - computed: false, optional: true, required: false
+  private _timeouts = new DataAwsServicecatalogProductTimeoutsOutputReference(this, "timeouts");
+  public get timeouts() {
+    return this._timeouts;
+  }
+  public putTimeouts(value: DataAwsServicecatalogProductTimeouts) {
+    this._timeouts.internalValue = value;
+  }
+  public resetTimeouts() {
+    this._timeouts.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get timeoutsInput() {
+    return this._timeouts.internalValue;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -184,6 +282,7 @@ export class DataAwsServicecatalogProduct extends cdktf.TerraformDataSource {
       accept_language: cdktf.stringToTerraform(this._acceptLanguage),
       id: cdktf.stringToTerraform(this._id),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
+      timeouts: dataAwsServicecatalogProductTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }

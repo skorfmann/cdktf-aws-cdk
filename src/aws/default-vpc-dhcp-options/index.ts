@@ -15,14 +15,6 @@ export interface DefaultVpcDhcpOptionsConfig extends cdktf.TerraformMetaArgument
   */
   readonly id?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/default_vpc_dhcp_options#netbios_name_servers DefaultVpcDhcpOptions#netbios_name_servers}
-  */
-  readonly netbiosNameServers?: string[];
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/default_vpc_dhcp_options#netbios_node_type DefaultVpcDhcpOptions#netbios_node_type}
-  */
-  readonly netbiosNodeType?: string;
-  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/default_vpc_dhcp_options#owner_id DefaultVpcDhcpOptions#owner_id}
   */
   readonly ownerId?: string;
@@ -62,8 +54,8 @@ export class DefaultVpcDhcpOptions extends cdktf.TerraformResource {
       terraformResourceType: 'aws_default_vpc_dhcp_options',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -74,8 +66,6 @@ export class DefaultVpcDhcpOptions extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._id = config.id;
-    this._netbiosNameServers = config.netbiosNameServers;
-    this._netbiosNodeType = config.netbiosNodeType;
     this._ownerId = config.ownerId;
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
@@ -116,36 +106,14 @@ export class DefaultVpcDhcpOptions extends cdktf.TerraformResource {
     return this._id;
   }
 
-  // netbios_name_servers - computed: false, optional: true, required: false
-  private _netbiosNameServers?: string[]; 
+  // netbios_name_servers - computed: true, optional: false, required: false
   public get netbiosNameServers() {
-    return this.getListAttribute('netbios_name_servers');
-  }
-  public set netbiosNameServers(value: string[]) {
-    this._netbiosNameServers = value;
-  }
-  public resetNetbiosNameServers() {
-    this._netbiosNameServers = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get netbiosNameServersInput() {
-    return this._netbiosNameServers;
+    return this.getStringAttribute('netbios_name_servers');
   }
 
-  // netbios_node_type - computed: false, optional: true, required: false
-  private _netbiosNodeType?: string; 
+  // netbios_node_type - computed: true, optional: false, required: false
   public get netbiosNodeType() {
     return this.getStringAttribute('netbios_node_type');
-  }
-  public set netbiosNodeType(value: string) {
-    this._netbiosNodeType = value;
-  }
-  public resetNetbiosNodeType() {
-    this._netbiosNodeType = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get netbiosNodeTypeInput() {
-    return this._netbiosNodeType;
   }
 
   // ntp_servers - computed: true, optional: false, required: false
@@ -208,8 +176,6 @@ export class DefaultVpcDhcpOptions extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       id: cdktf.stringToTerraform(this._id),
-      netbios_name_servers: cdktf.listMapper(cdktf.stringToTerraform, false)(this._netbiosNameServers),
-      netbios_node_type: cdktf.stringToTerraform(this._netbiosNodeType),
       owner_id: cdktf.stringToTerraform(this._ownerId),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),

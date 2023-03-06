@@ -50,8 +50,8 @@ export class DataAwsKmsPublicKey extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_kms_public_key',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -138,6 +138,11 @@ export class DataAwsKmsPublicKey extends cdktf.TerraformDataSource {
   // public_key - computed: true, optional: false, required: false
   public get publicKey() {
     return this.getStringAttribute('public_key');
+  }
+
+  // public_key_pem - computed: true, optional: false, required: false
+  public get publicKeyPem() {
+    return this.getStringAttribute('public_key_pem');
   }
 
   // signing_algorithms - computed: true, optional: false, required: false

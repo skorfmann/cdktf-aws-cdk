@@ -50,8 +50,8 @@ export class DataAwsMskCluster extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_msk_cluster',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -78,6 +78,21 @@ export class DataAwsMskCluster extends cdktf.TerraformDataSource {
   // bootstrap_brokers - computed: true, optional: false, required: false
   public get bootstrapBrokers() {
     return this.getStringAttribute('bootstrap_brokers');
+  }
+
+  // bootstrap_brokers_public_sasl_iam - computed: true, optional: false, required: false
+  public get bootstrapBrokersPublicSaslIam() {
+    return this.getStringAttribute('bootstrap_brokers_public_sasl_iam');
+  }
+
+  // bootstrap_brokers_public_sasl_scram - computed: true, optional: false, required: false
+  public get bootstrapBrokersPublicSaslScram() {
+    return this.getStringAttribute('bootstrap_brokers_public_sasl_scram');
+  }
+
+  // bootstrap_brokers_public_tls - computed: true, optional: false, required: false
+  public get bootstrapBrokersPublicTls() {
+    return this.getStringAttribute('bootstrap_brokers_public_tls');
   }
 
   // bootstrap_brokers_sasl_iam - computed: true, optional: false, required: false
@@ -153,6 +168,11 @@ export class DataAwsMskCluster extends cdktf.TerraformDataSource {
   // zookeeper_connect_string - computed: true, optional: false, required: false
   public get zookeeperConnectString() {
     return this.getStringAttribute('zookeeper_connect_string');
+  }
+
+  // zookeeper_connect_string_tls - computed: true, optional: false, required: false
+  public get zookeeperConnectStringTls() {
+    return this.getStringAttribute('zookeeper_connect_string_tls');
   }
 
   // =========

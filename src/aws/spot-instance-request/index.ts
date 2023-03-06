@@ -32,6 +32,10 @@ export interface SpotInstanceRequestConfig extends cdktf.TerraformMetaArguments 
   */
   readonly cpuThreadsPerCore?: number;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#disable_api_stop SpotInstanceRequest#disable_api_stop}
+  */
+  readonly disableApiStop?: boolean | cdktf.IResolvable;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#disable_api_termination SpotInstanceRequest#disable_api_termination}
   */
   readonly disableApiTermination?: boolean | cdktf.IResolvable;
@@ -52,6 +56,10 @@ export interface SpotInstanceRequestConfig extends cdktf.TerraformMetaArguments 
   */
   readonly hostId?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#host_resource_group_arn SpotInstanceRequest#host_resource_group_arn}
+  */
+  readonly hostResourceGroupArn?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#iam_instance_profile SpotInstanceRequest#iam_instance_profile}
   */
   readonly iamInstanceProfile?: string;
@@ -70,10 +78,6 @@ export interface SpotInstanceRequestConfig extends cdktf.TerraformMetaArguments 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#instance_interruption_behavior SpotInstanceRequest#instance_interruption_behavior}
   */
   readonly instanceInterruptionBehavior?: string;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#instance_interruption_behaviour SpotInstanceRequest#instance_interruption_behaviour}
-  */
-  readonly instanceInterruptionBehaviour?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#instance_type SpotInstanceRequest#instance_type}
   */
@@ -155,6 +159,10 @@ export interface SpotInstanceRequestConfig extends cdktf.TerraformMetaArguments 
   */
   readonly userDataBase64?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#user_data_replace_on_change SpotInstanceRequest#user_data_replace_on_change}
+  */
+  readonly userDataReplaceOnChange?: boolean | cdktf.IResolvable;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#valid_from SpotInstanceRequest#valid_from}
   */
   readonly validFrom?: string;
@@ -211,6 +219,12 @@ export interface SpotInstanceRequestConfig extends cdktf.TerraformMetaArguments 
   */
   readonly launchTemplate?: SpotInstanceRequestLaunchTemplate;
   /**
+  * maintenance_options block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#maintenance_options SpotInstanceRequest#maintenance_options}
+  */
+  readonly maintenanceOptions?: SpotInstanceRequestMaintenanceOptions;
+  /**
   * metadata_options block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#metadata_options SpotInstanceRequest#metadata_options}
@@ -222,6 +236,12 @@ export interface SpotInstanceRequestConfig extends cdktf.TerraformMetaArguments 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#network_interface SpotInstanceRequest#network_interface}
   */
   readonly networkInterface?: SpotInstanceRequestNetworkInterface[] | cdktf.IResolvable;
+  /**
+  * private_dns_name_options block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#private_dns_name_options SpotInstanceRequest#private_dns_name_options}
+  */
+  readonly privateDnsNameOptions?: SpotInstanceRequestPrivateDnsNameOptions;
   /**
   * root_block_device block
   * 
@@ -240,6 +260,10 @@ export interface SpotInstanceRequestCapacityReservationSpecificationCapacityRese
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#capacity_reservation_id SpotInstanceRequest#capacity_reservation_id}
   */
   readonly capacityReservationId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#capacity_reservation_resource_group_arn SpotInstanceRequest#capacity_reservation_resource_group_arn}
+  */
+  readonly capacityReservationResourceGroupArn?: string;
 }
 
 export function spotInstanceRequestCapacityReservationSpecificationCapacityReservationTargetToTerraform(struct?: SpotInstanceRequestCapacityReservationSpecificationCapacityReservationTargetOutputReference | SpotInstanceRequestCapacityReservationSpecificationCapacityReservationTarget): any {
@@ -249,6 +273,7 @@ export function spotInstanceRequestCapacityReservationSpecificationCapacityReser
   }
   return {
     capacity_reservation_id: cdktf.stringToTerraform(struct!.capacityReservationId),
+    capacity_reservation_resource_group_arn: cdktf.stringToTerraform(struct!.capacityReservationResourceGroupArn),
   }
 }
 
@@ -270,6 +295,10 @@ export class SpotInstanceRequestCapacityReservationSpecificationCapacityReservat
       hasAnyValues = true;
       internalValueResult.capacityReservationId = this._capacityReservationId;
     }
+    if (this._capacityReservationResourceGroupArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.capacityReservationResourceGroupArn = this._capacityReservationResourceGroupArn;
+    }
     return hasAnyValues ? internalValueResult : undefined;
   }
 
@@ -277,10 +306,12 @@ export class SpotInstanceRequestCapacityReservationSpecificationCapacityReservat
     if (value === undefined) {
       this.isEmptyObject = false;
       this._capacityReservationId = undefined;
+      this._capacityReservationResourceGroupArn = undefined;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this._capacityReservationId = value.capacityReservationId;
+      this._capacityReservationResourceGroupArn = value.capacityReservationResourceGroupArn;
     }
   }
 
@@ -298,6 +329,22 @@ export class SpotInstanceRequestCapacityReservationSpecificationCapacityReservat
   // Temporarily expose input value. Use with caution.
   public get capacityReservationIdInput() {
     return this._capacityReservationId;
+  }
+
+  // capacity_reservation_resource_group_arn - computed: false, optional: true, required: false
+  private _capacityReservationResourceGroupArn?: string; 
+  public get capacityReservationResourceGroupArn() {
+    return this.getStringAttribute('capacity_reservation_resource_group_arn');
+  }
+  public set capacityReservationResourceGroupArn(value: string) {
+    this._capacityReservationResourceGroupArn = value;
+  }
+  public resetCapacityReservationResourceGroupArn() {
+    this._capacityReservationResourceGroupArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get capacityReservationResourceGroupArnInput() {
+    return this._capacityReservationResourceGroupArn;
   }
 }
 export interface SpotInstanceRequestCapacityReservationSpecification {
@@ -1136,6 +1183,71 @@ export class SpotInstanceRequestLaunchTemplateOutputReference extends cdktf.Comp
     return this._version;
   }
 }
+export interface SpotInstanceRequestMaintenanceOptions {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#auto_recovery SpotInstanceRequest#auto_recovery}
+  */
+  readonly autoRecovery?: string;
+}
+
+export function spotInstanceRequestMaintenanceOptionsToTerraform(struct?: SpotInstanceRequestMaintenanceOptionsOutputReference | SpotInstanceRequestMaintenanceOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    auto_recovery: cdktf.stringToTerraform(struct!.autoRecovery),
+  }
+}
+
+export class SpotInstanceRequestMaintenanceOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): SpotInstanceRequestMaintenanceOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._autoRecovery !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.autoRecovery = this._autoRecovery;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: SpotInstanceRequestMaintenanceOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._autoRecovery = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._autoRecovery = value.autoRecovery;
+    }
+  }
+
+  // auto_recovery - computed: true, optional: true, required: false
+  private _autoRecovery?: string; 
+  public get autoRecovery() {
+    return this.getStringAttribute('auto_recovery');
+  }
+  public set autoRecovery(value: string) {
+    this._autoRecovery = value;
+  }
+  public resetAutoRecovery() {
+    this._autoRecovery = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get autoRecoveryInput() {
+    return this._autoRecovery;
+  }
+}
 export interface SpotInstanceRequestMetadataOptions {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#http_endpoint SpotInstanceRequest#http_endpoint}
@@ -1266,7 +1378,7 @@ export class SpotInstanceRequestMetadataOptionsOutputReference extends cdktf.Com
     return this._httpTokens;
   }
 
-  // instance_metadata_tags - computed: false, optional: true, required: false
+  // instance_metadata_tags - computed: true, optional: true, required: false
   private _instanceMetadataTags?: string; 
   public get instanceMetadataTags() {
     return this.getStringAttribute('instance_metadata_tags');
@@ -1292,6 +1404,10 @@ export interface SpotInstanceRequestNetworkInterface {
   */
   readonly deviceIndex: number;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#network_card_index SpotInstanceRequest#network_card_index}
+  */
+  readonly networkCardIndex?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#network_interface_id SpotInstanceRequest#network_interface_id}
   */
   readonly networkInterfaceId: string;
@@ -1305,6 +1421,7 @@ export function spotInstanceRequestNetworkInterfaceToTerraform(struct?: SpotInst
   return {
     delete_on_termination: cdktf.booleanToTerraform(struct!.deleteOnTermination),
     device_index: cdktf.numberToTerraform(struct!.deviceIndex),
+    network_card_index: cdktf.numberToTerraform(struct!.networkCardIndex),
     network_interface_id: cdktf.stringToTerraform(struct!.networkInterfaceId),
   }
 }
@@ -1337,6 +1454,10 @@ export class SpotInstanceRequestNetworkInterfaceOutputReference extends cdktf.Co
       hasAnyValues = true;
       internalValueResult.deviceIndex = this._deviceIndex;
     }
+    if (this._networkCardIndex !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.networkCardIndex = this._networkCardIndex;
+    }
     if (this._networkInterfaceId !== undefined) {
       hasAnyValues = true;
       internalValueResult.networkInterfaceId = this._networkInterfaceId;
@@ -1350,6 +1471,7 @@ export class SpotInstanceRequestNetworkInterfaceOutputReference extends cdktf.Co
       this.resolvableValue = undefined;
       this._deleteOnTermination = undefined;
       this._deviceIndex = undefined;
+      this._networkCardIndex = undefined;
       this._networkInterfaceId = undefined;
     }
     else if (cdktf.Tokenization.isResolvable(value)) {
@@ -1361,6 +1483,7 @@ export class SpotInstanceRequestNetworkInterfaceOutputReference extends cdktf.Co
       this.resolvableValue = undefined;
       this._deleteOnTermination = value.deleteOnTermination;
       this._deviceIndex = value.deviceIndex;
+      this._networkCardIndex = value.networkCardIndex;
       this._networkInterfaceId = value.networkInterfaceId;
     }
   }
@@ -1394,6 +1517,22 @@ export class SpotInstanceRequestNetworkInterfaceOutputReference extends cdktf.Co
     return this._deviceIndex;
   }
 
+  // network_card_index - computed: false, optional: true, required: false
+  private _networkCardIndex?: number; 
+  public get networkCardIndex() {
+    return this.getNumberAttribute('network_card_index');
+  }
+  public set networkCardIndex(value: number) {
+    this._networkCardIndex = value;
+  }
+  public resetNetworkCardIndex() {
+    this._networkCardIndex = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get networkCardIndexInput() {
+    return this._networkCardIndex;
+  }
+
   // network_interface_id - computed: false, optional: false, required: true
   private _networkInterfaceId?: string; 
   public get networkInterfaceId() {
@@ -1425,6 +1564,125 @@ export class SpotInstanceRequestNetworkInterfaceList extends cdktf.ComplexList {
   */
   public get(index: number): SpotInstanceRequestNetworkInterfaceOutputReference {
     return new SpotInstanceRequestNetworkInterfaceOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface SpotInstanceRequestPrivateDnsNameOptions {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#enable_resource_name_dns_a_record SpotInstanceRequest#enable_resource_name_dns_a_record}
+  */
+  readonly enableResourceNameDnsARecord?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#enable_resource_name_dns_aaaa_record SpotInstanceRequest#enable_resource_name_dns_aaaa_record}
+  */
+  readonly enableResourceNameDnsAaaaRecord?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/spot_instance_request#hostname_type SpotInstanceRequest#hostname_type}
+  */
+  readonly hostnameType?: string;
+}
+
+export function spotInstanceRequestPrivateDnsNameOptionsToTerraform(struct?: SpotInstanceRequestPrivateDnsNameOptionsOutputReference | SpotInstanceRequestPrivateDnsNameOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    enable_resource_name_dns_a_record: cdktf.booleanToTerraform(struct!.enableResourceNameDnsARecord),
+    enable_resource_name_dns_aaaa_record: cdktf.booleanToTerraform(struct!.enableResourceNameDnsAaaaRecord),
+    hostname_type: cdktf.stringToTerraform(struct!.hostnameType),
+  }
+}
+
+export class SpotInstanceRequestPrivateDnsNameOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): SpotInstanceRequestPrivateDnsNameOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._enableResourceNameDnsARecord !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.enableResourceNameDnsARecord = this._enableResourceNameDnsARecord;
+    }
+    if (this._enableResourceNameDnsAaaaRecord !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.enableResourceNameDnsAaaaRecord = this._enableResourceNameDnsAaaaRecord;
+    }
+    if (this._hostnameType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.hostnameType = this._hostnameType;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: SpotInstanceRequestPrivateDnsNameOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._enableResourceNameDnsARecord = undefined;
+      this._enableResourceNameDnsAaaaRecord = undefined;
+      this._hostnameType = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._enableResourceNameDnsARecord = value.enableResourceNameDnsARecord;
+      this._enableResourceNameDnsAaaaRecord = value.enableResourceNameDnsAaaaRecord;
+      this._hostnameType = value.hostnameType;
+    }
+  }
+
+  // enable_resource_name_dns_a_record - computed: true, optional: true, required: false
+  private _enableResourceNameDnsARecord?: boolean | cdktf.IResolvable; 
+  public get enableResourceNameDnsARecord() {
+    return this.getBooleanAttribute('enable_resource_name_dns_a_record');
+  }
+  public set enableResourceNameDnsARecord(value: boolean | cdktf.IResolvable) {
+    this._enableResourceNameDnsARecord = value;
+  }
+  public resetEnableResourceNameDnsARecord() {
+    this._enableResourceNameDnsARecord = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get enableResourceNameDnsARecordInput() {
+    return this._enableResourceNameDnsARecord;
+  }
+
+  // enable_resource_name_dns_aaaa_record - computed: true, optional: true, required: false
+  private _enableResourceNameDnsAaaaRecord?: boolean | cdktf.IResolvable; 
+  public get enableResourceNameDnsAaaaRecord() {
+    return this.getBooleanAttribute('enable_resource_name_dns_aaaa_record');
+  }
+  public set enableResourceNameDnsAaaaRecord(value: boolean | cdktf.IResolvable) {
+    this._enableResourceNameDnsAaaaRecord = value;
+  }
+  public resetEnableResourceNameDnsAaaaRecord() {
+    this._enableResourceNameDnsAaaaRecord = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get enableResourceNameDnsAaaaRecordInput() {
+    return this._enableResourceNameDnsAaaaRecord;
+  }
+
+  // hostname_type - computed: true, optional: true, required: false
+  private _hostnameType?: string; 
+  public get hostnameType() {
+    return this.getStringAttribute('hostname_type');
+  }
+  public set hostnameType(value: string) {
+    this._hostnameType = value;
+  }
+  public resetHostnameType() {
+    this._hostnameType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get hostnameTypeInput() {
+    return this._hostnameType;
   }
 }
 export interface SpotInstanceRequestRootBlockDevice {
@@ -1820,8 +2078,8 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
       terraformResourceType: 'aws_spot_instance_request',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -1837,16 +2095,17 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
     this._blockDurationMinutes = config.blockDurationMinutes;
     this._cpuCoreCount = config.cpuCoreCount;
     this._cpuThreadsPerCore = config.cpuThreadsPerCore;
+    this._disableApiStop = config.disableApiStop;
     this._disableApiTermination = config.disableApiTermination;
     this._ebsOptimized = config.ebsOptimized;
     this._getPasswordData = config.fetchPasswordData;
     this._hibernation = config.hibernation;
     this._hostId = config.hostId;
+    this._hostResourceGroupArn = config.hostResourceGroupArn;
     this._iamInstanceProfile = config.iamInstanceProfile;
     this._id = config.id;
     this._instanceInitiatedShutdownBehavior = config.instanceInitiatedShutdownBehavior;
     this._instanceInterruptionBehavior = config.instanceInterruptionBehavior;
-    this._instanceInterruptionBehaviour = config.instanceInterruptionBehaviour;
     this._instanceType = config.instanceType;
     this._ipv6AddressCount = config.ipv6AddressCount;
     this._ipv6Addresses = config.ipv6Addresses;
@@ -1867,6 +2126,7 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
     this._tenancy = config.tenancy;
     this._userData = config.userData;
     this._userDataBase64 = config.userDataBase64;
+    this._userDataReplaceOnChange = config.userDataReplaceOnChange;
     this._validFrom = config.validFrom;
     this._validUntil = config.validUntil;
     this._volumeTags = config.volumeTags;
@@ -1878,8 +2138,10 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
     this._enclaveOptions.internalValue = config.enclaveOptions;
     this._ephemeralBlockDevice.internalValue = config.ephemeralBlockDevice;
     this._launchTemplate.internalValue = config.launchTemplate;
+    this._maintenanceOptions.internalValue = config.maintenanceOptions;
     this._metadataOptions.internalValue = config.metadataOptions;
     this._networkInterface.internalValue = config.networkInterface;
+    this._privateDnsNameOptions.internalValue = config.privateDnsNameOptions;
     this._rootBlockDevice.internalValue = config.rootBlockDevice;
     this._timeouts.internalValue = config.timeouts;
   }
@@ -1989,6 +2251,22 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
     return this._cpuThreadsPerCore;
   }
 
+  // disable_api_stop - computed: true, optional: true, required: false
+  private _disableApiStop?: boolean | cdktf.IResolvable; 
+  public get disableApiStop() {
+    return this.getBooleanAttribute('disable_api_stop');
+  }
+  public set disableApiStop(value: boolean | cdktf.IResolvable) {
+    this._disableApiStop = value;
+  }
+  public resetDisableApiStop() {
+    this._disableApiStop = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get disableApiStopInput() {
+    return this._disableApiStop;
+  }
+
   // disable_api_termination - computed: true, optional: true, required: false
   private _disableApiTermination?: boolean | cdktf.IResolvable; 
   public get disableApiTermination() {
@@ -2069,7 +2347,23 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
     return this._hostId;
   }
 
-  // iam_instance_profile - computed: false, optional: true, required: false
+  // host_resource_group_arn - computed: true, optional: true, required: false
+  private _hostResourceGroupArn?: string; 
+  public get hostResourceGroupArn() {
+    return this.getStringAttribute('host_resource_group_arn');
+  }
+  public set hostResourceGroupArn(value: string) {
+    this._hostResourceGroupArn = value;
+  }
+  public resetHostResourceGroupArn() {
+    this._hostResourceGroupArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get hostResourceGroupArnInput() {
+    return this._hostResourceGroupArn;
+  }
+
+  // iam_instance_profile - computed: true, optional: true, required: false
   private _iamInstanceProfile?: string; 
   public get iamInstanceProfile() {
     return this.getStringAttribute('iam_instance_profile');
@@ -2117,7 +2411,7 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
     return this._instanceInitiatedShutdownBehavior;
   }
 
-  // instance_interruption_behavior - computed: true, optional: true, required: false
+  // instance_interruption_behavior - computed: false, optional: true, required: false
   private _instanceInterruptionBehavior?: string; 
   public get instanceInterruptionBehavior() {
     return this.getStringAttribute('instance_interruption_behavior');
@@ -2131,22 +2425,6 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get instanceInterruptionBehaviorInput() {
     return this._instanceInterruptionBehavior;
-  }
-
-  // instance_interruption_behaviour - computed: true, optional: true, required: false
-  private _instanceInterruptionBehaviour?: string; 
-  public get instanceInterruptionBehaviour() {
-    return this.getStringAttribute('instance_interruption_behaviour');
-  }
-  public set instanceInterruptionBehaviour(value: string) {
-    this._instanceInterruptionBehaviour = value;
-  }
-  public resetInstanceInterruptionBehaviour() {
-    this._instanceInterruptionBehaviour = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get instanceInterruptionBehaviourInput() {
-    return this._instanceInterruptionBehaviour;
   }
 
   // instance_state - computed: true, optional: false, required: false
@@ -2519,6 +2797,22 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
     return this._userDataBase64;
   }
 
+  // user_data_replace_on_change - computed: false, optional: true, required: false
+  private _userDataReplaceOnChange?: boolean | cdktf.IResolvable; 
+  public get userDataReplaceOnChange() {
+    return this.getBooleanAttribute('user_data_replace_on_change');
+  }
+  public set userDataReplaceOnChange(value: boolean | cdktf.IResolvable) {
+    this._userDataReplaceOnChange = value;
+  }
+  public resetUserDataReplaceOnChange() {
+    this._userDataReplaceOnChange = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get userDataReplaceOnChangeInput() {
+    return this._userDataReplaceOnChange;
+  }
+
   // valid_from - computed: true, optional: true, required: false
   private _validFrom?: string; 
   public get validFrom() {
@@ -2695,6 +2989,22 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
     return this._launchTemplate.internalValue;
   }
 
+  // maintenance_options - computed: false, optional: true, required: false
+  private _maintenanceOptions = new SpotInstanceRequestMaintenanceOptionsOutputReference(this, "maintenance_options");
+  public get maintenanceOptions() {
+    return this._maintenanceOptions;
+  }
+  public putMaintenanceOptions(value: SpotInstanceRequestMaintenanceOptions) {
+    this._maintenanceOptions.internalValue = value;
+  }
+  public resetMaintenanceOptions() {
+    this._maintenanceOptions.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get maintenanceOptionsInput() {
+    return this._maintenanceOptions.internalValue;
+  }
+
   // metadata_options - computed: false, optional: true, required: false
   private _metadataOptions = new SpotInstanceRequestMetadataOptionsOutputReference(this, "metadata_options");
   public get metadataOptions() {
@@ -2725,6 +3035,22 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get networkInterfaceInput() {
     return this._networkInterface.internalValue;
+  }
+
+  // private_dns_name_options - computed: false, optional: true, required: false
+  private _privateDnsNameOptions = new SpotInstanceRequestPrivateDnsNameOptionsOutputReference(this, "private_dns_name_options");
+  public get privateDnsNameOptions() {
+    return this._privateDnsNameOptions;
+  }
+  public putPrivateDnsNameOptions(value: SpotInstanceRequestPrivateDnsNameOptions) {
+    this._privateDnsNameOptions.internalValue = value;
+  }
+  public resetPrivateDnsNameOptions() {
+    this._privateDnsNameOptions.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get privateDnsNameOptionsInput() {
+    return this._privateDnsNameOptions.internalValue;
   }
 
   // root_block_device - computed: false, optional: true, required: false
@@ -2771,16 +3097,17 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
       block_duration_minutes: cdktf.numberToTerraform(this._blockDurationMinutes),
       cpu_core_count: cdktf.numberToTerraform(this._cpuCoreCount),
       cpu_threads_per_core: cdktf.numberToTerraform(this._cpuThreadsPerCore),
+      disable_api_stop: cdktf.booleanToTerraform(this._disableApiStop),
       disable_api_termination: cdktf.booleanToTerraform(this._disableApiTermination),
       ebs_optimized: cdktf.booleanToTerraform(this._ebsOptimized),
       get_password_data: cdktf.booleanToTerraform(this._getPasswordData),
       hibernation: cdktf.booleanToTerraform(this._hibernation),
       host_id: cdktf.stringToTerraform(this._hostId),
+      host_resource_group_arn: cdktf.stringToTerraform(this._hostResourceGroupArn),
       iam_instance_profile: cdktf.stringToTerraform(this._iamInstanceProfile),
       id: cdktf.stringToTerraform(this._id),
       instance_initiated_shutdown_behavior: cdktf.stringToTerraform(this._instanceInitiatedShutdownBehavior),
       instance_interruption_behavior: cdktf.stringToTerraform(this._instanceInterruptionBehavior),
-      instance_interruption_behaviour: cdktf.stringToTerraform(this._instanceInterruptionBehaviour),
       instance_type: cdktf.stringToTerraform(this._instanceType),
       ipv6_address_count: cdktf.numberToTerraform(this._ipv6AddressCount),
       ipv6_addresses: cdktf.listMapper(cdktf.stringToTerraform, false)(this._ipv6Addresses),
@@ -2801,6 +3128,7 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
       tenancy: cdktf.stringToTerraform(this._tenancy),
       user_data: cdktf.stringToTerraform(this._userData),
       user_data_base64: cdktf.stringToTerraform(this._userDataBase64),
+      user_data_replace_on_change: cdktf.booleanToTerraform(this._userDataReplaceOnChange),
       valid_from: cdktf.stringToTerraform(this._validFrom),
       valid_until: cdktf.stringToTerraform(this._validUntil),
       volume_tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._volumeTags),
@@ -2812,8 +3140,10 @@ export class SpotInstanceRequest extends cdktf.TerraformResource {
       enclave_options: spotInstanceRequestEnclaveOptionsToTerraform(this._enclaveOptions.internalValue),
       ephemeral_block_device: cdktf.listMapper(spotInstanceRequestEphemeralBlockDeviceToTerraform, true)(this._ephemeralBlockDevice.internalValue),
       launch_template: spotInstanceRequestLaunchTemplateToTerraform(this._launchTemplate.internalValue),
+      maintenance_options: spotInstanceRequestMaintenanceOptionsToTerraform(this._maintenanceOptions.internalValue),
       metadata_options: spotInstanceRequestMetadataOptionsToTerraform(this._metadataOptions.internalValue),
       network_interface: cdktf.listMapper(spotInstanceRequestNetworkInterfaceToTerraform, true)(this._networkInterface.internalValue),
+      private_dns_name_options: spotInstanceRequestPrivateDnsNameOptionsToTerraform(this._privateDnsNameOptions.internalValue),
       root_block_device: spotInstanceRequestRootBlockDeviceToTerraform(this._rootBlockDevice.internalValue),
       timeouts: spotInstanceRequestTimeoutsToTerraform(this._timeouts.internalValue),
     };

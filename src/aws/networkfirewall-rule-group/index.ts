@@ -43,11 +43,387 @@ export interface NetworkfirewallRuleGroupConfig extends cdktf.TerraformMetaArgum
   */
   readonly type: string;
   /**
+  * encryption_configuration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/networkfirewall_rule_group#encryption_configuration NetworkfirewallRuleGroup#encryption_configuration}
+  */
+  readonly encryptionConfiguration?: NetworkfirewallRuleGroupEncryptionConfiguration;
+  /**
   * rule_group block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/networkfirewall_rule_group#rule_group NetworkfirewallRuleGroup#rule_group}
   */
   readonly ruleGroup?: NetworkfirewallRuleGroupRuleGroup;
+}
+export interface NetworkfirewallRuleGroupEncryptionConfiguration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/networkfirewall_rule_group#key_id NetworkfirewallRuleGroup#key_id}
+  */
+  readonly keyId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/networkfirewall_rule_group#type NetworkfirewallRuleGroup#type}
+  */
+  readonly type: string;
+}
+
+export function networkfirewallRuleGroupEncryptionConfigurationToTerraform(struct?: NetworkfirewallRuleGroupEncryptionConfigurationOutputReference | NetworkfirewallRuleGroupEncryptionConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    key_id: cdktf.stringToTerraform(struct!.keyId),
+    type: cdktf.stringToTerraform(struct!.type),
+  }
+}
+
+export class NetworkfirewallRuleGroupEncryptionConfigurationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): NetworkfirewallRuleGroupEncryptionConfiguration | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._keyId !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.keyId = this._keyId;
+    }
+    if (this._type !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.type = this._type;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: NetworkfirewallRuleGroupEncryptionConfiguration | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._keyId = undefined;
+      this._type = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._keyId = value.keyId;
+      this._type = value.type;
+    }
+  }
+
+  // key_id - computed: false, optional: true, required: false
+  private _keyId?: string; 
+  public get keyId() {
+    return this.getStringAttribute('key_id');
+  }
+  public set keyId(value: string) {
+    this._keyId = value;
+  }
+  public resetKeyId() {
+    this._keyId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get keyIdInput() {
+    return this._keyId;
+  }
+
+  // type - computed: false, optional: false, required: true
+  private _type?: string; 
+  public get type() {
+    return this.getStringAttribute('type');
+  }
+  public set type(value: string) {
+    this._type = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get typeInput() {
+    return this._type;
+  }
+}
+export interface NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReference {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/networkfirewall_rule_group#reference_arn NetworkfirewallRuleGroup#reference_arn}
+  */
+  readonly referenceArn: string;
+}
+
+export function networkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReferenceToTerraform(struct?: NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReference | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    reference_arn: cdktf.stringToTerraform(struct!.referenceArn),
+  }
+}
+
+export class NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReferenceOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReference | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._referenceArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.referenceArn = this._referenceArn;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReference | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._referenceArn = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._referenceArn = value.referenceArn;
+    }
+  }
+
+  // reference_arn - computed: false, optional: false, required: true
+  private _referenceArn?: string; 
+  public get referenceArn() {
+    return this.getStringAttribute('reference_arn');
+  }
+  public set referenceArn(value: string) {
+    this._referenceArn = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get referenceArnInput() {
+    return this._referenceArn;
+  }
+}
+
+export class NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReferenceList extends cdktf.ComplexList {
+  public internalValue? : NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReference[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReferenceOutputReference {
+    return new NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReferenceOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferences {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/networkfirewall_rule_group#key NetworkfirewallRuleGroup#key}
+  */
+  readonly key: string;
+  /**
+  * ip_set_reference block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/networkfirewall_rule_group#ip_set_reference NetworkfirewallRuleGroup#ip_set_reference}
+  */
+  readonly ipSetReference: NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReference[] | cdktf.IResolvable;
+}
+
+export function networkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesToTerraform(struct?: NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferences | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    key: cdktf.stringToTerraform(struct!.key),
+    ip_set_reference: cdktf.listMapper(networkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReferenceToTerraform, true)(struct!.ipSetReference),
+  }
+}
+
+export class NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferences | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._key !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.key = this._key;
+    }
+    if (this._ipSetReference?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.ipSetReference = this._ipSetReference?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferences | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._key = undefined;
+      this._ipSetReference.internalValue = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._key = value.key;
+      this._ipSetReference.internalValue = value.ipSetReference;
+    }
+  }
+
+  // key - computed: false, optional: false, required: true
+  private _key?: string; 
+  public get key() {
+    return this.getStringAttribute('key');
+  }
+  public set key(value: string) {
+    this._key = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get keyInput() {
+    return this._key;
+  }
+
+  // ip_set_reference - computed: false, optional: false, required: true
+  private _ipSetReference = new NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReferenceList(this, "ip_set_reference", false);
+  public get ipSetReference() {
+    return this._ipSetReference;
+  }
+  public putIpSetReference(value: NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesIpSetReference[] | cdktf.IResolvable) {
+    this._ipSetReference.internalValue = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ipSetReferenceInput() {
+    return this._ipSetReference.internalValue;
+  }
+}
+
+export class NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesList extends cdktf.ComplexList {
+  public internalValue? : NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferences[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesOutputReference {
+    return new NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface NetworkfirewallRuleGroupRuleGroupReferenceSets {
+  /**
+  * ip_set_references block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/networkfirewall_rule_group#ip_set_references NetworkfirewallRuleGroup#ip_set_references}
+  */
+  readonly ipSetReferences?: NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferences[] | cdktf.IResolvable;
+}
+
+export function networkfirewallRuleGroupRuleGroupReferenceSetsToTerraform(struct?: NetworkfirewallRuleGroupRuleGroupReferenceSetsOutputReference | NetworkfirewallRuleGroupRuleGroupReferenceSets): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    ip_set_references: cdktf.listMapper(networkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesToTerraform, true)(struct!.ipSetReferences),
+  }
+}
+
+export class NetworkfirewallRuleGroupRuleGroupReferenceSetsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): NetworkfirewallRuleGroupRuleGroupReferenceSets | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._ipSetReferences?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.ipSetReferences = this._ipSetReferences?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: NetworkfirewallRuleGroupRuleGroupReferenceSets | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._ipSetReferences.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._ipSetReferences.internalValue = value.ipSetReferences;
+    }
+  }
+
+  // ip_set_references - computed: false, optional: true, required: false
+  private _ipSetReferences = new NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferencesList(this, "ip_set_references", true);
+  public get ipSetReferences() {
+    return this._ipSetReferences;
+  }
+  public putIpSetReferences(value: NetworkfirewallRuleGroupRuleGroupReferenceSetsIpSetReferences[] | cdktf.IResolvable) {
+    this._ipSetReferences.internalValue = value;
+  }
+  public resetIpSetReferences() {
+    this._ipSetReferences.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ipSetReferencesInput() {
+    return this._ipSetReferences.internalValue;
+  }
 }
 export interface NetworkfirewallRuleGroupRuleGroupRuleVariablesIpSetsIpSet {
   /**
@@ -2593,7 +2969,7 @@ export class NetworkfirewallRuleGroupRuleGroupRulesSourceOutputReference extends
   }
 
   // stateful_rule - computed: false, optional: true, required: false
-  private _statefulRule = new NetworkfirewallRuleGroupRuleGroupRulesSourceStatefulRuleList(this, "stateful_rule", true);
+  private _statefulRule = new NetworkfirewallRuleGroupRuleGroupRulesSourceStatefulRuleList(this, "stateful_rule", false);
   public get statefulRule() {
     return this._statefulRule;
   }
@@ -2688,6 +3064,12 @@ export class NetworkfirewallRuleGroupRuleGroupStatefulRuleOptionsOutputReference
 }
 export interface NetworkfirewallRuleGroupRuleGroup {
   /**
+  * reference_sets block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/networkfirewall_rule_group#reference_sets NetworkfirewallRuleGroup#reference_sets}
+  */
+  readonly referenceSets?: NetworkfirewallRuleGroupRuleGroupReferenceSets;
+  /**
   * rule_variables block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/networkfirewall_rule_group#rule_variables NetworkfirewallRuleGroup#rule_variables}
@@ -2713,6 +3095,7 @@ export function networkfirewallRuleGroupRuleGroupToTerraform(struct?: Networkfir
     throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
+    reference_sets: networkfirewallRuleGroupRuleGroupReferenceSetsToTerraform(struct!.referenceSets),
     rule_variables: networkfirewallRuleGroupRuleGroupRuleVariablesToTerraform(struct!.ruleVariables),
     rules_source: networkfirewallRuleGroupRuleGroupRulesSourceToTerraform(struct!.rulesSource),
     stateful_rule_options: networkfirewallRuleGroupRuleGroupStatefulRuleOptionsToTerraform(struct!.statefulRuleOptions),
@@ -2733,6 +3116,10 @@ export class NetworkfirewallRuleGroupRuleGroupOutputReference extends cdktf.Comp
   public get internalValue(): NetworkfirewallRuleGroupRuleGroup | undefined {
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
+    if (this._referenceSets?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.referenceSets = this._referenceSets?.internalValue;
+    }
     if (this._ruleVariables?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.ruleVariables = this._ruleVariables?.internalValue;
@@ -2751,16 +3138,34 @@ export class NetworkfirewallRuleGroupRuleGroupOutputReference extends cdktf.Comp
   public set internalValue(value: NetworkfirewallRuleGroupRuleGroup | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
+      this._referenceSets.internalValue = undefined;
       this._ruleVariables.internalValue = undefined;
       this._rulesSource.internalValue = undefined;
       this._statefulRuleOptions.internalValue = undefined;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
+      this._referenceSets.internalValue = value.referenceSets;
       this._ruleVariables.internalValue = value.ruleVariables;
       this._rulesSource.internalValue = value.rulesSource;
       this._statefulRuleOptions.internalValue = value.statefulRuleOptions;
     }
+  }
+
+  // reference_sets - computed: false, optional: true, required: false
+  private _referenceSets = new NetworkfirewallRuleGroupRuleGroupReferenceSetsOutputReference(this, "reference_sets");
+  public get referenceSets() {
+    return this._referenceSets;
+  }
+  public putReferenceSets(value: NetworkfirewallRuleGroupRuleGroupReferenceSets) {
+    this._referenceSets.internalValue = value;
+  }
+  public resetReferenceSets() {
+    this._referenceSets.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get referenceSetsInput() {
+    return this._referenceSets.internalValue;
   }
 
   // rule_variables - computed: false, optional: true, required: false
@@ -2835,8 +3240,8 @@ export class NetworkfirewallRuleGroup extends cdktf.TerraformResource {
       terraformResourceType: 'aws_networkfirewall_rule_group',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -2854,6 +3259,7 @@ export class NetworkfirewallRuleGroup extends cdktf.TerraformResource {
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
     this._type = config.type;
+    this._encryptionConfiguration.internalValue = config.encryptionConfiguration;
     this._ruleGroup.internalValue = config.ruleGroup;
   }
 
@@ -2990,6 +3396,22 @@ export class NetworkfirewallRuleGroup extends cdktf.TerraformResource {
     return this.getStringAttribute('update_token');
   }
 
+  // encryption_configuration - computed: false, optional: true, required: false
+  private _encryptionConfiguration = new NetworkfirewallRuleGroupEncryptionConfigurationOutputReference(this, "encryption_configuration");
+  public get encryptionConfiguration() {
+    return this._encryptionConfiguration;
+  }
+  public putEncryptionConfiguration(value: NetworkfirewallRuleGroupEncryptionConfiguration) {
+    this._encryptionConfiguration.internalValue = value;
+  }
+  public resetEncryptionConfiguration() {
+    this._encryptionConfiguration.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get encryptionConfigurationInput() {
+    return this._encryptionConfiguration.internalValue;
+  }
+
   // rule_group - computed: false, optional: true, required: false
   private _ruleGroup = new NetworkfirewallRuleGroupRuleGroupOutputReference(this, "rule_group");
   public get ruleGroup() {
@@ -3020,6 +3442,7 @@ export class NetworkfirewallRuleGroup extends cdktf.TerraformResource {
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       type: cdktf.stringToTerraform(this._type),
+      encryption_configuration: networkfirewallRuleGroupEncryptionConfigurationToTerraform(this._encryptionConfiguration.internalValue),
       rule_group: networkfirewallRuleGroupRuleGroupToTerraform(this._ruleGroup.internalValue),
     };
   }

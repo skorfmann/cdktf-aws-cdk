@@ -26,6 +26,10 @@ export interface AutoscalingAttachmentConfig extends cdktf.TerraformMetaArgument
   * If you experience problems setting this value it might not be settable. Please take a look at the provider documentation to ensure it should be settable.
   */
   readonly id?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/autoscaling_attachment#lb_target_group_arn AutoscalingAttachment#lb_target_group_arn}
+  */
+  readonly lbTargetGroupArn?: string;
 }
 
 /**
@@ -54,8 +58,8 @@ export class AutoscalingAttachment extends cdktf.TerraformResource {
       terraformResourceType: 'aws_autoscaling_attachment',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -69,6 +73,7 @@ export class AutoscalingAttachment extends cdktf.TerraformResource {
     this._autoscalingGroupName = config.autoscalingGroupName;
     this._elb = config.elb;
     this._id = config.id;
+    this._lbTargetGroupArn = config.lbTargetGroupArn;
   }
 
   // ==========
@@ -136,6 +141,22 @@ export class AutoscalingAttachment extends cdktf.TerraformResource {
     return this._id;
   }
 
+  // lb_target_group_arn - computed: false, optional: true, required: false
+  private _lbTargetGroupArn?: string; 
+  public get lbTargetGroupArn() {
+    return this.getStringAttribute('lb_target_group_arn');
+  }
+  public set lbTargetGroupArn(value: string) {
+    this._lbTargetGroupArn = value;
+  }
+  public resetLbTargetGroupArn() {
+    this._lbTargetGroupArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get lbTargetGroupArnInput() {
+    return this._lbTargetGroupArn;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -146,6 +167,7 @@ export class AutoscalingAttachment extends cdktf.TerraformResource {
       autoscaling_group_name: cdktf.stringToTerraform(this._autoscalingGroupName),
       elb: cdktf.stringToTerraform(this._elb),
       id: cdktf.stringToTerraform(this._id),
+      lb_target_group_arn: cdktf.stringToTerraform(this._lbTargetGroupArn),
     };
   }
 }

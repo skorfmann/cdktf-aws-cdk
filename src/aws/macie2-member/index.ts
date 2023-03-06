@@ -25,7 +25,7 @@ export interface Macie2MemberConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/macie2_member#invitation_disable_email_notification Macie2Member#invitation_disable_email_notification}
   */
-  readonly invitationDisableEmailNotification?: string;
+  readonly invitationDisableEmailNotification?: boolean | cdktf.IResolvable;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/macie2_member#invitation_message Macie2Member#invitation_message}
   */
@@ -182,8 +182,8 @@ export class Macie2Member extends cdktf.TerraformResource {
       terraformResourceType: 'aws_macie2_member',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -262,11 +262,11 @@ export class Macie2Member extends cdktf.TerraformResource {
   }
 
   // invitation_disable_email_notification - computed: false, optional: true, required: false
-  private _invitationDisableEmailNotification?: string; 
+  private _invitationDisableEmailNotification?: boolean | cdktf.IResolvable; 
   public get invitationDisableEmailNotification() {
-    return this.getStringAttribute('invitation_disable_email_notification');
+    return this.getBooleanAttribute('invitation_disable_email_notification');
   }
-  public set invitationDisableEmailNotification(value: string) {
+  public set invitationDisableEmailNotification(value: boolean | cdktf.IResolvable) {
     this._invitationDisableEmailNotification = value;
   }
   public resetInvitationDisableEmailNotification() {
@@ -402,7 +402,7 @@ export class Macie2Member extends cdktf.TerraformResource {
       account_id: cdktf.stringToTerraform(this._accountId),
       email: cdktf.stringToTerraform(this._email),
       id: cdktf.stringToTerraform(this._id),
-      invitation_disable_email_notification: cdktf.stringToTerraform(this._invitationDisableEmailNotification),
+      invitation_disable_email_notification: cdktf.booleanToTerraform(this._invitationDisableEmailNotification),
       invitation_message: cdktf.stringToTerraform(this._invitationMessage),
       invite: cdktf.booleanToTerraform(this._invite),
       status: cdktf.stringToTerraform(this._status),

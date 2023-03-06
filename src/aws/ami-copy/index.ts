@@ -8,6 +8,10 @@ import * as cdktf from 'cdktf';
 
 export interface AmiCopyConfig extends cdktf.TerraformMetaArguments {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami_copy#deprecation_time AmiCopy#deprecation_time}
+  */
+  readonly deprecationTime?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami_copy#description AmiCopy#description}
   */
   readonly description?: string;
@@ -137,6 +141,11 @@ export class AmiCopyEbsBlockDeviceOutputReference extends cdktf.ComplexObject {
   // iops - computed: true, optional: false, required: false
   public get iops() {
     return this.getNumberAttribute('iops');
+  }
+
+  // outpost_arn - computed: true, optional: false, required: false
+  public get outpostArn() {
+    return this.getStringAttribute('outpost_arn');
   }
 
   // snapshot_id - computed: true, optional: false, required: false
@@ -415,8 +424,8 @@ export class AmiCopy extends cdktf.TerraformResource {
       terraformResourceType: 'aws_ami_copy',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -426,6 +435,7 @@ export class AmiCopy extends cdktf.TerraformResource {
       connection: config.connection,
       forEach: config.forEach
     });
+    this._deprecationTime = config.deprecationTime;
     this._description = config.description;
     this._destinationOutpostArn = config.destinationOutpostArn;
     this._encrypted = config.encrypted;
@@ -453,6 +463,27 @@ export class AmiCopy extends cdktf.TerraformResource {
   // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
+  }
+
+  // boot_mode - computed: true, optional: false, required: false
+  public get bootMode() {
+    return this.getStringAttribute('boot_mode');
+  }
+
+  // deprecation_time - computed: false, optional: true, required: false
+  private _deprecationTime?: string; 
+  public get deprecationTime() {
+    return this.getStringAttribute('deprecation_time');
+  }
+  public set deprecationTime(value: string) {
+    this._deprecationTime = value;
+  }
+  public resetDeprecationTime() {
+    this._deprecationTime = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get deprecationTimeInput() {
+    return this._deprecationTime;
   }
 
   // description - computed: false, optional: true, required: false
@@ -542,6 +573,11 @@ export class AmiCopy extends cdktf.TerraformResource {
   // image_type - computed: true, optional: false, required: false
   public get imageType() {
     return this.getStringAttribute('image_type');
+  }
+
+  // imds_support - computed: true, optional: false, required: false
+  public get imdsSupport() {
+    return this.getStringAttribute('imds_support');
   }
 
   // kernel_id - computed: true, optional: false, required: false
@@ -681,6 +717,11 @@ export class AmiCopy extends cdktf.TerraformResource {
     return this._tagsAll;
   }
 
+  // tpm_support - computed: true, optional: false, required: false
+  public get tpmSupport() {
+    return this.getStringAttribute('tpm_support');
+  }
+
   // usage_operation - computed: true, optional: false, required: false
   public get usageOperation() {
     return this.getStringAttribute('usage_operation');
@@ -745,6 +786,7 @@ export class AmiCopy extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
+      deprecation_time: cdktf.stringToTerraform(this._deprecationTime),
       description: cdktf.stringToTerraform(this._description),
       destination_outpost_arn: cdktf.stringToTerraform(this._destinationOutpostArn),
       encrypted: cdktf.booleanToTerraform(this._encrypted),

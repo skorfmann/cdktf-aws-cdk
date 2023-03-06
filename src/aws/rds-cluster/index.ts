@@ -8,6 +8,10 @@ import * as cdktf from 'cdktf';
 
 export interface RdsClusterConfig extends cdktf.TerraformMetaArguments {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#allocated_storage RdsCluster#allocated_storage}
+  */
+  readonly allocatedStorage?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#allow_major_version_upgrade RdsCluster#allow_major_version_upgrade}
   */
   readonly allowMajorVersionUpgrade?: boolean | cdktf.IResolvable;
@@ -47,6 +51,10 @@ export interface RdsClusterConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#database_name RdsCluster#database_name}
   */
   readonly databaseName?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#db_cluster_instance_class RdsCluster#db_cluster_instance_class}
+  */
+  readonly dbClusterInstanceClass?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#db_cluster_parameter_group_name RdsCluster#db_cluster_parameter_group_name}
   */
@@ -111,6 +119,10 @@ export interface RdsClusterConfig extends cdktf.TerraformMetaArguments {
   */
   readonly id?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#iops RdsCluster#iops}
+  */
+  readonly iops?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#kms_key_id RdsCluster#kms_key_id}
   */
   readonly kmsKeyId?: string;
@@ -122,6 +134,10 @@ export interface RdsClusterConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#master_username RdsCluster#master_username}
   */
   readonly masterUsername?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#network_type RdsCluster#network_type}
+  */
+  readonly networkType?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#port RdsCluster#port}
   */
@@ -155,6 +171,10 @@ export interface RdsClusterConfig extends cdktf.TerraformMetaArguments {
   */
   readonly storageEncrypted?: boolean | cdktf.IResolvable;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#storage_type RdsCluster#storage_type}
+  */
+  readonly storageType?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#tags RdsCluster#tags}
   */
   readonly tags?: { [key: string]: string };
@@ -184,6 +204,12 @@ export interface RdsClusterConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#scaling_configuration RdsCluster#scaling_configuration}
   */
   readonly scalingConfiguration?: RdsClusterScalingConfiguration;
+  /**
+  * serverlessv2_scaling_configuration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#serverlessv2_scaling_configuration RdsCluster#serverlessv2_scaling_configuration}
+  */
+  readonly serverlessv2ScalingConfiguration?: RdsClusterServerlessv2ScalingConfiguration;
   /**
   * timeouts block
   * 
@@ -668,6 +694,92 @@ export class RdsClusterScalingConfigurationOutputReference extends cdktf.Complex
     return this._timeoutAction;
   }
 }
+export interface RdsClusterServerlessv2ScalingConfiguration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#max_capacity RdsCluster#max_capacity}
+  */
+  readonly maxCapacity: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#min_capacity RdsCluster#min_capacity}
+  */
+  readonly minCapacity: number;
+}
+
+export function rdsClusterServerlessv2ScalingConfigurationToTerraform(struct?: RdsClusterServerlessv2ScalingConfigurationOutputReference | RdsClusterServerlessv2ScalingConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    max_capacity: cdktf.numberToTerraform(struct!.maxCapacity),
+    min_capacity: cdktf.numberToTerraform(struct!.minCapacity),
+  }
+}
+
+export class RdsClusterServerlessv2ScalingConfigurationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): RdsClusterServerlessv2ScalingConfiguration | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._maxCapacity !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.maxCapacity = this._maxCapacity;
+    }
+    if (this._minCapacity !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.minCapacity = this._minCapacity;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: RdsClusterServerlessv2ScalingConfiguration | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._maxCapacity = undefined;
+      this._minCapacity = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._maxCapacity = value.maxCapacity;
+      this._minCapacity = value.minCapacity;
+    }
+  }
+
+  // max_capacity - computed: false, optional: false, required: true
+  private _maxCapacity?: number; 
+  public get maxCapacity() {
+    return this.getNumberAttribute('max_capacity');
+  }
+  public set maxCapacity(value: number) {
+    this._maxCapacity = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get maxCapacityInput() {
+    return this._maxCapacity;
+  }
+
+  // min_capacity - computed: false, optional: false, required: true
+  private _minCapacity?: number; 
+  public get minCapacity() {
+    return this.getNumberAttribute('min_capacity');
+  }
+  public set minCapacity(value: number) {
+    this._minCapacity = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get minCapacityInput() {
+    return this._minCapacity;
+  }
+}
 export interface RdsClusterTimeouts {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/rds_cluster#create RdsCluster#create}
@@ -824,8 +936,8 @@ export class RdsCluster extends cdktf.TerraformResource {
       terraformResourceType: 'aws_rds_cluster',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -835,6 +947,7 @@ export class RdsCluster extends cdktf.TerraformResource {
       connection: config.connection,
       forEach: config.forEach
     });
+    this._allocatedStorage = config.allocatedStorage;
     this._allowMajorVersionUpgrade = config.allowMajorVersionUpgrade;
     this._applyImmediately = config.applyImmediately;
     this._availabilityZones = config.availabilityZones;
@@ -845,6 +958,7 @@ export class RdsCluster extends cdktf.TerraformResource {
     this._clusterMembers = config.clusterMembers;
     this._copyTagsToSnapshot = config.copyTagsToSnapshot;
     this._databaseName = config.databaseName;
+    this._dbClusterInstanceClass = config.dbClusterInstanceClass;
     this._dbClusterParameterGroupName = config.dbClusterParameterGroupName;
     this._dbInstanceParameterGroupName = config.dbInstanceParameterGroupName;
     this._dbSubnetGroupName = config.dbSubnetGroupName;
@@ -860,9 +974,11 @@ export class RdsCluster extends cdktf.TerraformResource {
     this._iamDatabaseAuthenticationEnabled = config.iamDatabaseAuthenticationEnabled;
     this._iamRoles = config.iamRoles;
     this._id = config.id;
+    this._iops = config.iops;
     this._kmsKeyId = config.kmsKeyId;
     this._masterPassword = config.masterPassword;
     this._masterUsername = config.masterUsername;
+    this._networkType = config.networkType;
     this._port = config.port;
     this._preferredBackupWindow = config.preferredBackupWindow;
     this._preferredMaintenanceWindow = config.preferredMaintenanceWindow;
@@ -871,18 +987,36 @@ export class RdsCluster extends cdktf.TerraformResource {
     this._snapshotIdentifier = config.snapshotIdentifier;
     this._sourceRegion = config.sourceRegion;
     this._storageEncrypted = config.storageEncrypted;
+    this._storageType = config.storageType;
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
     this._vpcSecurityGroupIds = config.vpcSecurityGroupIds;
     this._restoreToPointInTime.internalValue = config.restoreToPointInTime;
     this._s3Import.internalValue = config.s3Import;
     this._scalingConfiguration.internalValue = config.scalingConfiguration;
+    this._serverlessv2ScalingConfiguration.internalValue = config.serverlessv2ScalingConfiguration;
     this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
   // ATTRIBUTES
   // ==========
+
+  // allocated_storage - computed: true, optional: true, required: false
+  private _allocatedStorage?: number; 
+  public get allocatedStorage() {
+    return this.getNumberAttribute('allocated_storage');
+  }
+  public set allocatedStorage(value: number) {
+    this._allocatedStorage = value;
+  }
+  public resetAllocatedStorage() {
+    this._allocatedStorage = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get allocatedStorageInput() {
+    return this._allocatedStorage;
+  }
 
   // allow_major_version_upgrade - computed: false, optional: true, required: false
   private _allowMajorVersionUpgrade?: boolean | cdktf.IResolvable; 
@@ -1052,6 +1186,22 @@ export class RdsCluster extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get databaseNameInput() {
     return this._databaseName;
+  }
+
+  // db_cluster_instance_class - computed: false, optional: true, required: false
+  private _dbClusterInstanceClass?: string; 
+  public get dbClusterInstanceClass() {
+    return this.getStringAttribute('db_cluster_instance_class');
+  }
+  public set dbClusterInstanceClass(value: string) {
+    this._dbClusterInstanceClass = value;
+  }
+  public resetDbClusterInstanceClass() {
+    this._dbClusterInstanceClass = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dbClusterInstanceClassInput() {
+    return this._dbClusterInstanceClass;
   }
 
   // db_cluster_parameter_group_name - computed: true, optional: true, required: false
@@ -1309,6 +1459,22 @@ export class RdsCluster extends cdktf.TerraformResource {
     return this._id;
   }
 
+  // iops - computed: false, optional: true, required: false
+  private _iops?: number; 
+  public get iops() {
+    return this.getNumberAttribute('iops');
+  }
+  public set iops(value: number) {
+    this._iops = value;
+  }
+  public resetIops() {
+    this._iops = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get iopsInput() {
+    return this._iops;
+  }
+
   // kms_key_id - computed: true, optional: true, required: false
   private _kmsKeyId?: string; 
   public get kmsKeyId() {
@@ -1355,6 +1521,22 @@ export class RdsCluster extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get masterUsernameInput() {
     return this._masterUsername;
+  }
+
+  // network_type - computed: true, optional: true, required: false
+  private _networkType?: string; 
+  public get networkType() {
+    return this.getStringAttribute('network_type');
+  }
+  public set networkType(value: string) {
+    this._networkType = value;
+  }
+  public resetNetworkType() {
+    this._networkType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get networkTypeInput() {
+    return this._networkType;
   }
 
   // port - computed: true, optional: true, required: false
@@ -1490,6 +1672,22 @@ export class RdsCluster extends cdktf.TerraformResource {
     return this._storageEncrypted;
   }
 
+  // storage_type - computed: false, optional: true, required: false
+  private _storageType?: string; 
+  public get storageType() {
+    return this.getStringAttribute('storage_type');
+  }
+  public set storageType(value: string) {
+    this._storageType = value;
+  }
+  public resetStorageType() {
+    this._storageType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get storageTypeInput() {
+    return this._storageType;
+  }
+
   // tags - computed: false, optional: true, required: false
   private _tags?: { [key: string]: string }; 
   public get tags() {
@@ -1586,6 +1784,22 @@ export class RdsCluster extends cdktf.TerraformResource {
     return this._scalingConfiguration.internalValue;
   }
 
+  // serverlessv2_scaling_configuration - computed: false, optional: true, required: false
+  private _serverlessv2ScalingConfiguration = new RdsClusterServerlessv2ScalingConfigurationOutputReference(this, "serverlessv2_scaling_configuration");
+  public get serverlessv2ScalingConfiguration() {
+    return this._serverlessv2ScalingConfiguration;
+  }
+  public putServerlessv2ScalingConfiguration(value: RdsClusterServerlessv2ScalingConfiguration) {
+    this._serverlessv2ScalingConfiguration.internalValue = value;
+  }
+  public resetServerlessv2ScalingConfiguration() {
+    this._serverlessv2ScalingConfiguration.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get serverlessv2ScalingConfigurationInput() {
+    return this._serverlessv2ScalingConfiguration.internalValue;
+  }
+
   // timeouts - computed: false, optional: true, required: false
   private _timeouts = new RdsClusterTimeoutsOutputReference(this, "timeouts");
   public get timeouts() {
@@ -1608,6 +1822,7 @@ export class RdsCluster extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
+      allocated_storage: cdktf.numberToTerraform(this._allocatedStorage),
       allow_major_version_upgrade: cdktf.booleanToTerraform(this._allowMajorVersionUpgrade),
       apply_immediately: cdktf.booleanToTerraform(this._applyImmediately),
       availability_zones: cdktf.listMapper(cdktf.stringToTerraform, false)(this._availabilityZones),
@@ -1618,6 +1833,7 @@ export class RdsCluster extends cdktf.TerraformResource {
       cluster_members: cdktf.listMapper(cdktf.stringToTerraform, false)(this._clusterMembers),
       copy_tags_to_snapshot: cdktf.booleanToTerraform(this._copyTagsToSnapshot),
       database_name: cdktf.stringToTerraform(this._databaseName),
+      db_cluster_instance_class: cdktf.stringToTerraform(this._dbClusterInstanceClass),
       db_cluster_parameter_group_name: cdktf.stringToTerraform(this._dbClusterParameterGroupName),
       db_instance_parameter_group_name: cdktf.stringToTerraform(this._dbInstanceParameterGroupName),
       db_subnet_group_name: cdktf.stringToTerraform(this._dbSubnetGroupName),
@@ -1633,9 +1849,11 @@ export class RdsCluster extends cdktf.TerraformResource {
       iam_database_authentication_enabled: cdktf.booleanToTerraform(this._iamDatabaseAuthenticationEnabled),
       iam_roles: cdktf.listMapper(cdktf.stringToTerraform, false)(this._iamRoles),
       id: cdktf.stringToTerraform(this._id),
+      iops: cdktf.numberToTerraform(this._iops),
       kms_key_id: cdktf.stringToTerraform(this._kmsKeyId),
       master_password: cdktf.stringToTerraform(this._masterPassword),
       master_username: cdktf.stringToTerraform(this._masterUsername),
+      network_type: cdktf.stringToTerraform(this._networkType),
       port: cdktf.numberToTerraform(this._port),
       preferred_backup_window: cdktf.stringToTerraform(this._preferredBackupWindow),
       preferred_maintenance_window: cdktf.stringToTerraform(this._preferredMaintenanceWindow),
@@ -1644,12 +1862,14 @@ export class RdsCluster extends cdktf.TerraformResource {
       snapshot_identifier: cdktf.stringToTerraform(this._snapshotIdentifier),
       source_region: cdktf.stringToTerraform(this._sourceRegion),
       storage_encrypted: cdktf.booleanToTerraform(this._storageEncrypted),
+      storage_type: cdktf.stringToTerraform(this._storageType),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       vpc_security_group_ids: cdktf.listMapper(cdktf.stringToTerraform, false)(this._vpcSecurityGroupIds),
       restore_to_point_in_time: rdsClusterRestoreToPointInTimeToTerraform(this._restoreToPointInTime.internalValue),
       s3_import: rdsClusterS3ImportToTerraform(this._s3Import.internalValue),
       scaling_configuration: rdsClusterScalingConfigurationToTerraform(this._scalingConfiguration.internalValue),
+      serverlessv2_scaling_configuration: rdsClusterServerlessv2ScalingConfigurationToTerraform(this._serverlessv2ScalingConfiguration.internalValue),
       timeouts: rdsClusterTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }

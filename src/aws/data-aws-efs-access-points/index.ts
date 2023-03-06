@@ -46,8 +46,8 @@ export class DataAwsEfsAccessPoints extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_efs_access_points',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -67,7 +67,7 @@ export class DataAwsEfsAccessPoints extends cdktf.TerraformDataSource {
 
   // arns - computed: true, optional: false, required: false
   public get arns() {
-    return cdktf.Fn.tolist(this.getListAttribute('arns'));
+    return this.getListAttribute('arns');
   }
 
   // file_system_id - computed: false, optional: false, required: true
@@ -101,7 +101,7 @@ export class DataAwsEfsAccessPoints extends cdktf.TerraformDataSource {
 
   // ids - computed: true, optional: false, required: false
   public get ids() {
-    return cdktf.Fn.tolist(this.getListAttribute('ids'));
+    return this.getListAttribute('ids');
   }
 
   // =========

@@ -174,7 +174,7 @@ export class ElastictranscoderPresetAudioOutputReference extends cdktf.ComplexOb
     return this._audioPackingMode;
   }
 
-  // bit_rate - computed: false, optional: true, required: false
+  // bit_rate - computed: true, optional: true, required: false
   private _bitRate?: string; 
   public get bitRate() {
     return this.getStringAttribute('bit_rate');
@@ -320,7 +320,7 @@ export class ElastictranscoderPresetAudioCodecOptionsOutputReference extends cdk
     }
   }
 
-  // bit_depth - computed: false, optional: true, required: false
+  // bit_depth - computed: true, optional: true, required: false
   private _bitDepth?: string; 
   public get bitDepth() {
     return this.getStringAttribute('bit_depth');
@@ -336,7 +336,7 @@ export class ElastictranscoderPresetAudioCodecOptionsOutputReference extends cdk
     return this._bitDepth;
   }
 
-  // bit_order - computed: false, optional: true, required: false
+  // bit_order - computed: true, optional: true, required: false
   private _bitOrder?: string; 
   public get bitOrder() {
     return this.getStringAttribute('bit_order');
@@ -352,7 +352,7 @@ export class ElastictranscoderPresetAudioCodecOptionsOutputReference extends cdk
     return this._bitOrder;
   }
 
-  // profile - computed: false, optional: true, required: false
+  // profile - computed: true, optional: true, required: false
   private _profile?: string; 
   public get profile() {
     return this.getStringAttribute('profile');
@@ -368,7 +368,7 @@ export class ElastictranscoderPresetAudioCodecOptionsOutputReference extends cdk
     return this._profile;
   }
 
-  // signed - computed: false, optional: true, required: false
+  // signed - computed: true, optional: true, required: false
   private _signed?: string; 
   public get signed() {
     return this.getStringAttribute('signed');
@@ -835,7 +835,7 @@ export class ElastictranscoderPresetVideoOutputReference extends cdktf.ComplexOb
     return this._aspectRatio;
   }
 
-  // bit_rate - computed: false, optional: true, required: false
+  // bit_rate - computed: true, optional: true, required: false
   private _bitRate?: string; 
   public get bitRate() {
     return this.getStringAttribute('bit_rate');
@@ -1397,8 +1397,8 @@ export class ElastictranscoderPreset extends cdktf.TerraformResource {
       terraformResourceType: 'aws_elastictranscoder_preset',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

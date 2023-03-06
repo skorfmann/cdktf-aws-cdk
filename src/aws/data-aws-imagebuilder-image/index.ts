@@ -268,8 +268,8 @@ export class DataAwsImagebuilderImage extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_imagebuilder_image',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -304,6 +304,11 @@ export class DataAwsImagebuilderImage extends cdktf.TerraformDataSource {
   // build_version_arn - computed: true, optional: false, required: false
   public get buildVersionArn() {
     return this.getStringAttribute('build_version_arn');
+  }
+
+  // container_recipe_arn - computed: true, optional: false, required: false
+  public get containerRecipeArn() {
+    return this.getStringAttribute('container_recipe_arn');
   }
 
   // date_created - computed: true, optional: false, required: false

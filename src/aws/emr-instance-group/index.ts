@@ -252,8 +252,8 @@ export class EmrInstanceGroup extends cdktf.TerraformResource {
       terraformResourceType: 'aws_emr_instance_group',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -372,7 +372,7 @@ export class EmrInstanceGroup extends cdktf.TerraformResource {
     return this._id;
   }
 
-  // instance_count - computed: false, optional: true, required: false
+  // instance_count - computed: true, optional: true, required: false
   private _instanceCount?: number; 
   public get instanceCount() {
     return this.getNumberAttribute('instance_count');

@@ -42,8 +42,8 @@ export class DataAwsSsoadminInstances extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_ssoadmin_instances',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -62,7 +62,7 @@ export class DataAwsSsoadminInstances extends cdktf.TerraformDataSource {
 
   // arns - computed: true, optional: false, required: false
   public get arns() {
-    return cdktf.Fn.tolist(this.getListAttribute('arns'));
+    return this.getListAttribute('arns');
   }
 
   // id - computed: true, optional: true, required: false
@@ -83,7 +83,7 @@ export class DataAwsSsoadminInstances extends cdktf.TerraformDataSource {
 
   // identity_store_ids - computed: true, optional: false, required: false
   public get identityStoreIds() {
-    return cdktf.Fn.tolist(this.getListAttribute('identity_store_ids'));
+    return this.getListAttribute('identity_store_ids');
   }
 
   // =========

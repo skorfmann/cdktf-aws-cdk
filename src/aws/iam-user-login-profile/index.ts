@@ -25,7 +25,7 @@ export interface IamUserLoginProfileConfig extends cdktf.TerraformMetaArguments 
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/iam_user_login_profile#pgp_key IamUserLoginProfile#pgp_key}
   */
-  readonly pgpKey: string;
+  readonly pgpKey?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/iam_user_login_profile#user IamUserLoginProfile#user}
   */
@@ -58,8 +58,8 @@ export class IamUserLoginProfile extends cdktf.TerraformResource {
       terraformResourceType: 'aws_iam_user_login_profile',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -106,6 +106,11 @@ export class IamUserLoginProfile extends cdktf.TerraformResource {
     return this.getStringAttribute('key_fingerprint');
   }
 
+  // password - computed: true, optional: false, required: false
+  public get password() {
+    return this.getStringAttribute('password');
+  }
+
   // password_length - computed: false, optional: true, required: false
   private _passwordLength?: number; 
   public get passwordLength() {
@@ -122,7 +127,7 @@ export class IamUserLoginProfile extends cdktf.TerraformResource {
     return this._passwordLength;
   }
 
-  // password_reset_required - computed: false, optional: true, required: false
+  // password_reset_required - computed: true, optional: true, required: false
   private _passwordResetRequired?: boolean | cdktf.IResolvable; 
   public get passwordResetRequired() {
     return this.getBooleanAttribute('password_reset_required');
@@ -138,13 +143,16 @@ export class IamUserLoginProfile extends cdktf.TerraformResource {
     return this._passwordResetRequired;
   }
 
-  // pgp_key - computed: false, optional: false, required: true
+  // pgp_key - computed: false, optional: true, required: false
   private _pgpKey?: string; 
   public get pgpKey() {
     return this.getStringAttribute('pgp_key');
   }
   public set pgpKey(value: string) {
     this._pgpKey = value;
+  }
+  public resetPgpKey() {
+    this._pgpKey = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get pgpKeyInput() {

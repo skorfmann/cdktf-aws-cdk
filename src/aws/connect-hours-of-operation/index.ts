@@ -44,12 +44,6 @@ export interface ConnectHoursOfOperationConfig extends cdktf.TerraformMetaArgume
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/connect_hours_of_operation#config ConnectHoursOfOperation#config}
   */
   readonly config: ConnectHoursOfOperationConfigA[] | cdktf.IResolvable;
-  /**
-  * timeouts block
-  * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/connect_hours_of_operation#timeouts ConnectHoursOfOperation#timeouts}
-  */
-  readonly timeouts?: ConnectHoursOfOperationTimeouts;
 }
 export interface ConnectHoursOfOperationConfigEndTime {
   /**
@@ -369,108 +363,6 @@ export class ConnectHoursOfOperationConfigAList extends cdktf.ComplexList {
     return new ConnectHoursOfOperationConfigAOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
-export interface ConnectHoursOfOperationTimeouts {
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/connect_hours_of_operation#create ConnectHoursOfOperation#create}
-  */
-  readonly create?: string;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/connect_hours_of_operation#delete ConnectHoursOfOperation#delete}
-  */
-  readonly delete?: string;
-}
-
-export function connectHoursOfOperationTimeoutsToTerraform(struct?: ConnectHoursOfOperationTimeoutsOutputReference | ConnectHoursOfOperationTimeouts | cdktf.IResolvable): any {
-  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
-  if (cdktf.isComplexElement(struct)) {
-    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
-  }
-  return {
-    create: cdktf.stringToTerraform(struct!.create),
-    delete: cdktf.stringToTerraform(struct!.delete),
-  }
-}
-
-export class ConnectHoursOfOperationTimeoutsOutputReference extends cdktf.ComplexObject {
-  private isEmptyObject = false;
-  private resolvableValue?: cdktf.IResolvable;
-
-  /**
-  * @param terraformResource The parent resource
-  * @param terraformAttribute The attribute on the parent resource this class is referencing
-  */
-  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute, false, 0);
-  }
-
-  public get internalValue(): ConnectHoursOfOperationTimeouts | cdktf.IResolvable | undefined {
-    if (this.resolvableValue) {
-      return this.resolvableValue;
-    }
-    let hasAnyValues = this.isEmptyObject;
-    const internalValueResult: any = {};
-    if (this._create !== undefined) {
-      hasAnyValues = true;
-      internalValueResult.create = this._create;
-    }
-    if (this._delete !== undefined) {
-      hasAnyValues = true;
-      internalValueResult.delete = this._delete;
-    }
-    return hasAnyValues ? internalValueResult : undefined;
-  }
-
-  public set internalValue(value: ConnectHoursOfOperationTimeouts | cdktf.IResolvable | undefined) {
-    if (value === undefined) {
-      this.isEmptyObject = false;
-      this.resolvableValue = undefined;
-      this._create = undefined;
-      this._delete = undefined;
-    }
-    else if (cdktf.Tokenization.isResolvable(value)) {
-      this.isEmptyObject = false;
-      this.resolvableValue = value;
-    }
-    else {
-      this.isEmptyObject = Object.keys(value).length === 0;
-      this.resolvableValue = undefined;
-      this._create = value.create;
-      this._delete = value.delete;
-    }
-  }
-
-  // create - computed: false, optional: true, required: false
-  private _create?: string; 
-  public get create() {
-    return this.getStringAttribute('create');
-  }
-  public set create(value: string) {
-    this._create = value;
-  }
-  public resetCreate() {
-    this._create = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get createInput() {
-    return this._create;
-  }
-
-  // delete - computed: false, optional: true, required: false
-  private _delete?: string; 
-  public get delete() {
-    return this.getStringAttribute('delete');
-  }
-  public set delete(value: string) {
-    this._delete = value;
-  }
-  public resetDelete() {
-    this._delete = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get deleteInput() {
-    return this._delete;
-  }
-}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/connect_hours_of_operation aws_connect_hours_of_operation}
@@ -498,8 +390,8 @@ export class ConnectHoursOfOperation extends cdktf.TerraformResource {
       terraformResourceType: 'aws_connect_hours_of_operation',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -517,12 +409,16 @@ export class ConnectHoursOfOperation extends cdktf.TerraformResource {
     this._tagsAll = config.tagsAll;
     this._timeZone = config.timeZone;
     this._config.internalValue = config.config;
-    this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
   // ATTRIBUTES
   // ==========
+
+  // arn - computed: true, optional: false, required: false
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
 
   // description - computed: false, optional: true, required: false
   private _description?: string; 
@@ -650,22 +546,6 @@ export class ConnectHoursOfOperation extends cdktf.TerraformResource {
     return this._config.internalValue;
   }
 
-  // timeouts - computed: false, optional: true, required: false
-  private _timeouts = new ConnectHoursOfOperationTimeoutsOutputReference(this, "timeouts");
-  public get timeouts() {
-    return this._timeouts;
-  }
-  public putTimeouts(value: ConnectHoursOfOperationTimeouts) {
-    this._timeouts.internalValue = value;
-  }
-  public resetTimeouts() {
-    this._timeouts.internalValue = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get timeoutsInput() {
-    return this._timeouts.internalValue;
-  }
-
   // =========
   // SYNTHESIS
   // =========
@@ -680,7 +560,6 @@ export class ConnectHoursOfOperation extends cdktf.TerraformResource {
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       time_zone: cdktf.stringToTerraform(this._timeZone),
       config: cdktf.listMapper(connectHoursOfOperationConfigAToTerraform, true)(this._config.internalValue),
-      timeouts: connectHoursOfOperationTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }

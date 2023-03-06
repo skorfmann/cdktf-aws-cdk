@@ -74,8 +74,8 @@ export class IamServerCertificate extends cdktf.TerraformResource {
       terraformResourceType: 'aws_iam_server_certificate',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -171,7 +171,7 @@ export class IamServerCertificate extends cdktf.TerraformResource {
     return this._name;
   }
 
-  // name_prefix - computed: false, optional: true, required: false
+  // name_prefix - computed: true, optional: true, required: false
   private _namePrefix?: string; 
   public get namePrefix() {
     return this.getStringAttribute('name_prefix');

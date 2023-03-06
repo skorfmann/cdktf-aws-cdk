@@ -12,6 +12,10 @@ export interface CloudformationStackSetConfig extends cdktf.TerraformMetaArgumen
   */
   readonly administrationRoleArn?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set#call_as CloudformationStackSet#call_as}
+  */
+  readonly callAs?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set#capabilities CloudformationStackSet#capabilities}
   */
   readonly capabilities?: string[];
@@ -64,6 +68,12 @@ export interface CloudformationStackSetConfig extends cdktf.TerraformMetaArgumen
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set#auto_deployment CloudformationStackSet#auto_deployment}
   */
   readonly autoDeployment?: CloudformationStackSetAutoDeployment;
+  /**
+  * operation_preferences block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set#operation_preferences CloudformationStackSet#operation_preferences}
+  */
+  readonly operationPreferences?: CloudformationStackSetOperationPreferences;
   /**
   * timeouts block
   * 
@@ -161,6 +171,206 @@ export class CloudformationStackSetAutoDeploymentOutputReference extends cdktf.C
   // Temporarily expose input value. Use with caution.
   public get retainStacksOnAccountRemovalInput() {
     return this._retainStacksOnAccountRemoval;
+  }
+}
+export interface CloudformationStackSetOperationPreferences {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set#failure_tolerance_count CloudformationStackSet#failure_tolerance_count}
+  */
+  readonly failureToleranceCount?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set#failure_tolerance_percentage CloudformationStackSet#failure_tolerance_percentage}
+  */
+  readonly failureTolerancePercentage?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set#max_concurrent_count CloudformationStackSet#max_concurrent_count}
+  */
+  readonly maxConcurrentCount?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set#max_concurrent_percentage CloudformationStackSet#max_concurrent_percentage}
+  */
+  readonly maxConcurrentPercentage?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set#region_concurrency_type CloudformationStackSet#region_concurrency_type}
+  */
+  readonly regionConcurrencyType?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set#region_order CloudformationStackSet#region_order}
+  */
+  readonly regionOrder?: string[];
+}
+
+export function cloudformationStackSetOperationPreferencesToTerraform(struct?: CloudformationStackSetOperationPreferencesOutputReference | CloudformationStackSetOperationPreferences): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    failure_tolerance_count: cdktf.numberToTerraform(struct!.failureToleranceCount),
+    failure_tolerance_percentage: cdktf.numberToTerraform(struct!.failureTolerancePercentage),
+    max_concurrent_count: cdktf.numberToTerraform(struct!.maxConcurrentCount),
+    max_concurrent_percentage: cdktf.numberToTerraform(struct!.maxConcurrentPercentage),
+    region_concurrency_type: cdktf.stringToTerraform(struct!.regionConcurrencyType),
+    region_order: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.regionOrder),
+  }
+}
+
+export class CloudformationStackSetOperationPreferencesOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): CloudformationStackSetOperationPreferences | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._failureToleranceCount !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.failureToleranceCount = this._failureToleranceCount;
+    }
+    if (this._failureTolerancePercentage !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.failureTolerancePercentage = this._failureTolerancePercentage;
+    }
+    if (this._maxConcurrentCount !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.maxConcurrentCount = this._maxConcurrentCount;
+    }
+    if (this._maxConcurrentPercentage !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.maxConcurrentPercentage = this._maxConcurrentPercentage;
+    }
+    if (this._regionConcurrencyType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.regionConcurrencyType = this._regionConcurrencyType;
+    }
+    if (this._regionOrder !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.regionOrder = this._regionOrder;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: CloudformationStackSetOperationPreferences | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._failureToleranceCount = undefined;
+      this._failureTolerancePercentage = undefined;
+      this._maxConcurrentCount = undefined;
+      this._maxConcurrentPercentage = undefined;
+      this._regionConcurrencyType = undefined;
+      this._regionOrder = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._failureToleranceCount = value.failureToleranceCount;
+      this._failureTolerancePercentage = value.failureTolerancePercentage;
+      this._maxConcurrentCount = value.maxConcurrentCount;
+      this._maxConcurrentPercentage = value.maxConcurrentPercentage;
+      this._regionConcurrencyType = value.regionConcurrencyType;
+      this._regionOrder = value.regionOrder;
+    }
+  }
+
+  // failure_tolerance_count - computed: false, optional: true, required: false
+  private _failureToleranceCount?: number; 
+  public get failureToleranceCount() {
+    return this.getNumberAttribute('failure_tolerance_count');
+  }
+  public set failureToleranceCount(value: number) {
+    this._failureToleranceCount = value;
+  }
+  public resetFailureToleranceCount() {
+    this._failureToleranceCount = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get failureToleranceCountInput() {
+    return this._failureToleranceCount;
+  }
+
+  // failure_tolerance_percentage - computed: false, optional: true, required: false
+  private _failureTolerancePercentage?: number; 
+  public get failureTolerancePercentage() {
+    return this.getNumberAttribute('failure_tolerance_percentage');
+  }
+  public set failureTolerancePercentage(value: number) {
+    this._failureTolerancePercentage = value;
+  }
+  public resetFailureTolerancePercentage() {
+    this._failureTolerancePercentage = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get failureTolerancePercentageInput() {
+    return this._failureTolerancePercentage;
+  }
+
+  // max_concurrent_count - computed: false, optional: true, required: false
+  private _maxConcurrentCount?: number; 
+  public get maxConcurrentCount() {
+    return this.getNumberAttribute('max_concurrent_count');
+  }
+  public set maxConcurrentCount(value: number) {
+    this._maxConcurrentCount = value;
+  }
+  public resetMaxConcurrentCount() {
+    this._maxConcurrentCount = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get maxConcurrentCountInput() {
+    return this._maxConcurrentCount;
+  }
+
+  // max_concurrent_percentage - computed: false, optional: true, required: false
+  private _maxConcurrentPercentage?: number; 
+  public get maxConcurrentPercentage() {
+    return this.getNumberAttribute('max_concurrent_percentage');
+  }
+  public set maxConcurrentPercentage(value: number) {
+    this._maxConcurrentPercentage = value;
+  }
+  public resetMaxConcurrentPercentage() {
+    this._maxConcurrentPercentage = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get maxConcurrentPercentageInput() {
+    return this._maxConcurrentPercentage;
+  }
+
+  // region_concurrency_type - computed: false, optional: true, required: false
+  private _regionConcurrencyType?: string; 
+  public get regionConcurrencyType() {
+    return this.getStringAttribute('region_concurrency_type');
+  }
+  public set regionConcurrencyType(value: string) {
+    this._regionConcurrencyType = value;
+  }
+  public resetRegionConcurrencyType() {
+    this._regionConcurrencyType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get regionConcurrencyTypeInput() {
+    return this._regionConcurrencyType;
+  }
+
+  // region_order - computed: false, optional: true, required: false
+  private _regionOrder?: string[]; 
+  public get regionOrder() {
+    return this.getListAttribute('region_order');
+  }
+  public set regionOrder(value: string[]) {
+    this._regionOrder = value;
+  }
+  public resetRegionOrder() {
+    this._regionOrder = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get regionOrderInput() {
+    return this._regionOrder;
   }
 }
 export interface CloudformationStackSetTimeouts {
@@ -265,8 +475,8 @@ export class CloudformationStackSet extends cdktf.TerraformResource {
       terraformResourceType: 'aws_cloudformation_stack_set',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -277,6 +487,7 @@ export class CloudformationStackSet extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._administrationRoleArn = config.administrationRoleArn;
+    this._callAs = config.callAs;
     this._capabilities = config.capabilities;
     this._description = config.description;
     this._executionRoleName = config.executionRoleName;
@@ -289,6 +500,7 @@ export class CloudformationStackSet extends cdktf.TerraformResource {
     this._templateBody = config.templateBody;
     this._templateUrl = config.templateUrl;
     this._autoDeployment.internalValue = config.autoDeployment;
+    this._operationPreferences.internalValue = config.operationPreferences;
     this._timeouts.internalValue = config.timeouts;
   }
 
@@ -315,6 +527,22 @@ export class CloudformationStackSet extends cdktf.TerraformResource {
   // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
+  }
+
+  // call_as - computed: false, optional: true, required: false
+  private _callAs?: string; 
+  public get callAs() {
+    return this.getStringAttribute('call_as');
+  }
+  public set callAs(value: string) {
+    this._callAs = value;
+  }
+  public resetCallAs() {
+    this._callAs = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get callAsInput() {
+    return this._callAs;
   }
 
   // capabilities - computed: false, optional: true, required: false
@@ -511,6 +739,22 @@ export class CloudformationStackSet extends cdktf.TerraformResource {
     return this._autoDeployment.internalValue;
   }
 
+  // operation_preferences - computed: false, optional: true, required: false
+  private _operationPreferences = new CloudformationStackSetOperationPreferencesOutputReference(this, "operation_preferences");
+  public get operationPreferences() {
+    return this._operationPreferences;
+  }
+  public putOperationPreferences(value: CloudformationStackSetOperationPreferences) {
+    this._operationPreferences.internalValue = value;
+  }
+  public resetOperationPreferences() {
+    this._operationPreferences.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get operationPreferencesInput() {
+    return this._operationPreferences.internalValue;
+  }
+
   // timeouts - computed: false, optional: true, required: false
   private _timeouts = new CloudformationStackSetTimeoutsOutputReference(this, "timeouts");
   public get timeouts() {
@@ -534,6 +778,7 @@ export class CloudformationStackSet extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       administration_role_arn: cdktf.stringToTerraform(this._administrationRoleArn),
+      call_as: cdktf.stringToTerraform(this._callAs),
       capabilities: cdktf.listMapper(cdktf.stringToTerraform, false)(this._capabilities),
       description: cdktf.stringToTerraform(this._description),
       execution_role_name: cdktf.stringToTerraform(this._executionRoleName),
@@ -546,6 +791,7 @@ export class CloudformationStackSet extends cdktf.TerraformResource {
       template_body: cdktf.stringToTerraform(this._templateBody),
       template_url: cdktf.stringToTerraform(this._templateUrl),
       auto_deployment: cloudformationStackSetAutoDeploymentToTerraform(this._autoDeployment.internalValue),
+      operation_preferences: cloudformationStackSetOperationPreferencesToTerraform(this._operationPreferences.internalValue),
       timeouts: cloudformationStackSetTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }

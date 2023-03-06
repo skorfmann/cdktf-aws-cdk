@@ -46,8 +46,8 @@ export class DataAwsDbSubnetGroup extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_db_subnet_group',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -112,6 +112,11 @@ export class DataAwsDbSubnetGroup extends cdktf.TerraformDataSource {
   // subnet_ids - computed: true, optional: false, required: false
   public get subnetIds() {
     return cdktf.Fn.tolist(this.getListAttribute('subnet_ids'));
+  }
+
+  // supported_network_types - computed: true, optional: false, required: false
+  public get supportedNetworkTypes() {
+    return cdktf.Fn.tolist(this.getListAttribute('supported_network_types'));
   }
 
   // vpc_id - computed: true, optional: false, required: false

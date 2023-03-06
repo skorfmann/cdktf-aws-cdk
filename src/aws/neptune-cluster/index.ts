@@ -8,6 +8,10 @@ import * as cdktf from 'cdktf';
 
 export interface NeptuneClusterConfig extends cdktf.TerraformMetaArguments {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#allow_major_version_upgrade NeptuneCluster#allow_major_version_upgrade}
+  */
+  readonly allowMajorVersionUpgrade?: boolean | cdktf.IResolvable;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#apply_immediately NeptuneCluster#apply_immediately}
   */
   readonly applyImmediately?: boolean | cdktf.IResolvable;
@@ -52,6 +56,10 @@ export interface NeptuneClusterConfig extends cdktf.TerraformMetaArguments {
   */
   readonly finalSnapshotIdentifier?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#global_cluster_identifier NeptuneCluster#global_cluster_identifier}
+  */
+  readonly globalClusterIdentifier?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#iam_database_authentication_enabled NeptuneCluster#iam_database_authentication_enabled}
   */
   readonly iamDatabaseAuthenticationEnabled?: boolean | cdktf.IResolvable;
@@ -74,6 +82,10 @@ export interface NeptuneClusterConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#neptune_cluster_parameter_group_name NeptuneCluster#neptune_cluster_parameter_group_name}
   */
   readonly neptuneClusterParameterGroupName?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#neptune_instance_parameter_group_name NeptuneCluster#neptune_instance_parameter_group_name}
+  */
+  readonly neptuneInstanceParameterGroupName?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#neptune_subnet_group_name NeptuneCluster#neptune_subnet_group_name}
   */
@@ -119,11 +131,109 @@ export interface NeptuneClusterConfig extends cdktf.TerraformMetaArguments {
   */
   readonly vpcSecurityGroupIds?: string[];
   /**
+  * serverless_v2_scaling_configuration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#serverless_v2_scaling_configuration NeptuneCluster#serverless_v2_scaling_configuration}
+  */
+  readonly serverlessV2ScalingConfiguration?: NeptuneClusterServerlessV2ScalingConfiguration;
+  /**
   * timeouts block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#timeouts NeptuneCluster#timeouts}
   */
   readonly timeouts?: NeptuneClusterTimeouts;
+}
+export interface NeptuneClusterServerlessV2ScalingConfiguration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#max_capacity NeptuneCluster#max_capacity}
+  */
+  readonly maxCapacity?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/neptune_cluster#min_capacity NeptuneCluster#min_capacity}
+  */
+  readonly minCapacity?: number;
+}
+
+export function neptuneClusterServerlessV2ScalingConfigurationToTerraform(struct?: NeptuneClusterServerlessV2ScalingConfigurationOutputReference | NeptuneClusterServerlessV2ScalingConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    max_capacity: cdktf.numberToTerraform(struct!.maxCapacity),
+    min_capacity: cdktf.numberToTerraform(struct!.minCapacity),
+  }
+}
+
+export class NeptuneClusterServerlessV2ScalingConfigurationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): NeptuneClusterServerlessV2ScalingConfiguration | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._maxCapacity !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.maxCapacity = this._maxCapacity;
+    }
+    if (this._minCapacity !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.minCapacity = this._minCapacity;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: NeptuneClusterServerlessV2ScalingConfiguration | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._maxCapacity = undefined;
+      this._minCapacity = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._maxCapacity = value.maxCapacity;
+      this._minCapacity = value.minCapacity;
+    }
+  }
+
+  // max_capacity - computed: false, optional: true, required: false
+  private _maxCapacity?: number; 
+  public get maxCapacity() {
+    return this.getNumberAttribute('max_capacity');
+  }
+  public set maxCapacity(value: number) {
+    this._maxCapacity = value;
+  }
+  public resetMaxCapacity() {
+    this._maxCapacity = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get maxCapacityInput() {
+    return this._maxCapacity;
+  }
+
+  // min_capacity - computed: false, optional: true, required: false
+  private _minCapacity?: number; 
+  public get minCapacity() {
+    return this.getNumberAttribute('min_capacity');
+  }
+  public set minCapacity(value: number) {
+    this._minCapacity = value;
+  }
+  public resetMinCapacity() {
+    this._minCapacity = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get minCapacityInput() {
+    return this._minCapacity;
+  }
 }
 export interface NeptuneClusterTimeouts {
   /**
@@ -281,8 +391,8 @@ export class NeptuneCluster extends cdktf.TerraformResource {
       terraformResourceType: 'aws_neptune_cluster',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -292,6 +402,7 @@ export class NeptuneCluster extends cdktf.TerraformResource {
       connection: config.connection,
       forEach: config.forEach
     });
+    this._allowMajorVersionUpgrade = config.allowMajorVersionUpgrade;
     this._applyImmediately = config.applyImmediately;
     this._availabilityZones = config.availabilityZones;
     this._backupRetentionPeriod = config.backupRetentionPeriod;
@@ -303,11 +414,13 @@ export class NeptuneCluster extends cdktf.TerraformResource {
     this._engine = config.engine;
     this._engineVersion = config.engineVersion;
     this._finalSnapshotIdentifier = config.finalSnapshotIdentifier;
+    this._globalClusterIdentifier = config.globalClusterIdentifier;
     this._iamDatabaseAuthenticationEnabled = config.iamDatabaseAuthenticationEnabled;
     this._iamRoles = config.iamRoles;
     this._id = config.id;
     this._kmsKeyArn = config.kmsKeyArn;
     this._neptuneClusterParameterGroupName = config.neptuneClusterParameterGroupName;
+    this._neptuneInstanceParameterGroupName = config.neptuneInstanceParameterGroupName;
     this._neptuneSubnetGroupName = config.neptuneSubnetGroupName;
     this._port = config.port;
     this._preferredBackupWindow = config.preferredBackupWindow;
@@ -319,12 +432,29 @@ export class NeptuneCluster extends cdktf.TerraformResource {
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
     this._vpcSecurityGroupIds = config.vpcSecurityGroupIds;
+    this._serverlessV2ScalingConfiguration.internalValue = config.serverlessV2ScalingConfiguration;
     this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
   // ATTRIBUTES
   // ==========
+
+  // allow_major_version_upgrade - computed: true, optional: true, required: false
+  private _allowMajorVersionUpgrade?: boolean | cdktf.IResolvable; 
+  public get allowMajorVersionUpgrade() {
+    return this.getBooleanAttribute('allow_major_version_upgrade');
+  }
+  public set allowMajorVersionUpgrade(value: boolean | cdktf.IResolvable) {
+    this._allowMajorVersionUpgrade = value;
+  }
+  public resetAllowMajorVersionUpgrade() {
+    this._allowMajorVersionUpgrade = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get allowMajorVersionUpgradeInput() {
+    return this._allowMajorVersionUpgrade;
+  }
 
   // apply_immediately - computed: true, optional: true, required: false
   private _applyImmediately?: boolean | cdktf.IResolvable; 
@@ -522,6 +652,22 @@ export class NeptuneCluster extends cdktf.TerraformResource {
     return this._finalSnapshotIdentifier;
   }
 
+  // global_cluster_identifier - computed: false, optional: true, required: false
+  private _globalClusterIdentifier?: string; 
+  public get globalClusterIdentifier() {
+    return this.getStringAttribute('global_cluster_identifier');
+  }
+  public set globalClusterIdentifier(value: string) {
+    this._globalClusterIdentifier = value;
+  }
+  public resetGlobalClusterIdentifier() {
+    this._globalClusterIdentifier = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get globalClusterIdentifierInput() {
+    return this._globalClusterIdentifier;
+  }
+
   // hosted_zone_id - computed: true, optional: false, required: false
   public get hostedZoneId() {
     return this.getStringAttribute('hosted_zone_id');
@@ -605,6 +751,22 @@ export class NeptuneCluster extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get neptuneClusterParameterGroupNameInput() {
     return this._neptuneClusterParameterGroupName;
+  }
+
+  // neptune_instance_parameter_group_name - computed: false, optional: true, required: false
+  private _neptuneInstanceParameterGroupName?: string; 
+  public get neptuneInstanceParameterGroupName() {
+    return this.getStringAttribute('neptune_instance_parameter_group_name');
+  }
+  public set neptuneInstanceParameterGroupName(value: string) {
+    this._neptuneInstanceParameterGroupName = value;
+  }
+  public resetNeptuneInstanceParameterGroupName() {
+    this._neptuneInstanceParameterGroupName = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get neptuneInstanceParameterGroupNameInput() {
+    return this._neptuneInstanceParameterGroupName;
   }
 
   // neptune_subnet_group_name - computed: true, optional: true, required: false
@@ -788,6 +950,22 @@ export class NeptuneCluster extends cdktf.TerraformResource {
     return this._vpcSecurityGroupIds;
   }
 
+  // serverless_v2_scaling_configuration - computed: false, optional: true, required: false
+  private _serverlessV2ScalingConfiguration = new NeptuneClusterServerlessV2ScalingConfigurationOutputReference(this, "serverless_v2_scaling_configuration");
+  public get serverlessV2ScalingConfiguration() {
+    return this._serverlessV2ScalingConfiguration;
+  }
+  public putServerlessV2ScalingConfiguration(value: NeptuneClusterServerlessV2ScalingConfiguration) {
+    this._serverlessV2ScalingConfiguration.internalValue = value;
+  }
+  public resetServerlessV2ScalingConfiguration() {
+    this._serverlessV2ScalingConfiguration.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get serverlessV2ScalingConfigurationInput() {
+    return this._serverlessV2ScalingConfiguration.internalValue;
+  }
+
   // timeouts - computed: false, optional: true, required: false
   private _timeouts = new NeptuneClusterTimeoutsOutputReference(this, "timeouts");
   public get timeouts() {
@@ -810,6 +988,7 @@ export class NeptuneCluster extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
+      allow_major_version_upgrade: cdktf.booleanToTerraform(this._allowMajorVersionUpgrade),
       apply_immediately: cdktf.booleanToTerraform(this._applyImmediately),
       availability_zones: cdktf.listMapper(cdktf.stringToTerraform, false)(this._availabilityZones),
       backup_retention_period: cdktf.numberToTerraform(this._backupRetentionPeriod),
@@ -821,11 +1000,13 @@ export class NeptuneCluster extends cdktf.TerraformResource {
       engine: cdktf.stringToTerraform(this._engine),
       engine_version: cdktf.stringToTerraform(this._engineVersion),
       final_snapshot_identifier: cdktf.stringToTerraform(this._finalSnapshotIdentifier),
+      global_cluster_identifier: cdktf.stringToTerraform(this._globalClusterIdentifier),
       iam_database_authentication_enabled: cdktf.booleanToTerraform(this._iamDatabaseAuthenticationEnabled),
       iam_roles: cdktf.listMapper(cdktf.stringToTerraform, false)(this._iamRoles),
       id: cdktf.stringToTerraform(this._id),
       kms_key_arn: cdktf.stringToTerraform(this._kmsKeyArn),
       neptune_cluster_parameter_group_name: cdktf.stringToTerraform(this._neptuneClusterParameterGroupName),
+      neptune_instance_parameter_group_name: cdktf.stringToTerraform(this._neptuneInstanceParameterGroupName),
       neptune_subnet_group_name: cdktf.stringToTerraform(this._neptuneSubnetGroupName),
       port: cdktf.numberToTerraform(this._port),
       preferred_backup_window: cdktf.stringToTerraform(this._preferredBackupWindow),
@@ -837,6 +1018,7 @@ export class NeptuneCluster extends cdktf.TerraformResource {
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       vpc_security_group_ids: cdktf.listMapper(cdktf.stringToTerraform, false)(this._vpcSecurityGroupIds),
+      serverless_v2_scaling_configuration: neptuneClusterServerlessV2ScalingConfigurationToTerraform(this._serverlessV2ScalingConfiguration.internalValue),
       timeouts: neptuneClusterTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }

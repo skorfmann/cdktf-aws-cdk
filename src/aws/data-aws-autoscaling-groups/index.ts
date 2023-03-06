@@ -15,6 +15,10 @@ export interface DataAwsAutoscalingGroupsConfig extends cdktf.TerraformMetaArgum
   */
   readonly id?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/autoscaling_groups#names DataAwsAutoscalingGroups#names}
+  */
+  readonly names?: string[];
+  /**
   * filter block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/autoscaling_groups#filter DataAwsAutoscalingGroups#filter}
@@ -166,8 +170,8 @@ export class DataAwsAutoscalingGroups extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_autoscaling_groups',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -178,6 +182,7 @@ export class DataAwsAutoscalingGroups extends cdktf.TerraformDataSource {
       forEach: config.forEach
     });
     this._id = config.id;
+    this._names = config.names;
     this._filter.internalValue = config.filter;
   }
 
@@ -206,9 +211,20 @@ export class DataAwsAutoscalingGroups extends cdktf.TerraformDataSource {
     return this._id;
   }
 
-  // names - computed: true, optional: false, required: false
+  // names - computed: true, optional: true, required: false
+  private _names?: string[]; 
   public get names() {
     return this.getListAttribute('names');
+  }
+  public set names(value: string[]) {
+    this._names = value;
+  }
+  public resetNames() {
+    this._names = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get namesInput() {
+    return this._names;
   }
 
   // filter - computed: false, optional: true, required: false
@@ -234,6 +250,7 @@ export class DataAwsAutoscalingGroups extends cdktf.TerraformDataSource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       id: cdktf.stringToTerraform(this._id),
+      names: cdktf.listMapper(cdktf.stringToTerraform, false)(this._names),
       filter: cdktf.listMapper(dataAwsAutoscalingGroupsFilterToTerraform, true)(this._filter.internalValue),
     };
   }

@@ -19,6 +19,10 @@ export interface VpcEndpointConfig extends cdktf.TerraformMetaArguments {
   */
   readonly id?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpc_endpoint#ip_address_type VpcEndpoint#ip_address_type}
+  */
+  readonly ipAddressType?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpc_endpoint#policy VpcEndpoint#policy}
   */
   readonly policy?: string;
@@ -58,6 +62,12 @@ export interface VpcEndpointConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpc_endpoint#vpc_id VpcEndpoint#vpc_id}
   */
   readonly vpcId: string;
+  /**
+  * dns_options block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpc_endpoint#dns_options VpcEndpoint#dns_options}
+  */
+  readonly dnsOptions?: VpcEndpointDnsOptions;
   /**
   * timeouts block
   * 
@@ -132,6 +142,71 @@ export class VpcEndpointDnsEntryList extends cdktf.ComplexList {
   */
   public get(index: number): VpcEndpointDnsEntryOutputReference {
     return new VpcEndpointDnsEntryOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface VpcEndpointDnsOptions {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpc_endpoint#dns_record_ip_type VpcEndpoint#dns_record_ip_type}
+  */
+  readonly dnsRecordIpType?: string;
+}
+
+export function vpcEndpointDnsOptionsToTerraform(struct?: VpcEndpointDnsOptionsOutputReference | VpcEndpointDnsOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    dns_record_ip_type: cdktf.stringToTerraform(struct!.dnsRecordIpType),
+  }
+}
+
+export class VpcEndpointDnsOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): VpcEndpointDnsOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._dnsRecordIpType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.dnsRecordIpType = this._dnsRecordIpType;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: VpcEndpointDnsOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._dnsRecordIpType = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._dnsRecordIpType = value.dnsRecordIpType;
+    }
+  }
+
+  // dns_record_ip_type - computed: false, optional: true, required: false
+  private _dnsRecordIpType?: string; 
+  public get dnsRecordIpType() {
+    return this.getStringAttribute('dns_record_ip_type');
+  }
+  public set dnsRecordIpType(value: string) {
+    this._dnsRecordIpType = value;
+  }
+  public resetDnsRecordIpType() {
+    this._dnsRecordIpType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dnsRecordIpTypeInput() {
+    return this._dnsRecordIpType;
   }
 }
 export interface VpcEndpointTimeouts {
@@ -290,8 +365,8 @@ export class VpcEndpoint extends cdktf.TerraformResource {
       terraformResourceType: 'aws_vpc_endpoint',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -303,6 +378,7 @@ export class VpcEndpoint extends cdktf.TerraformResource {
     });
     this._autoAccept = config.autoAccept;
     this._id = config.id;
+    this._ipAddressType = config.ipAddressType;
     this._policy = config.policy;
     this._privateDnsEnabled = config.privateDnsEnabled;
     this._routeTableIds = config.routeTableIds;
@@ -313,6 +389,7 @@ export class VpcEndpoint extends cdktf.TerraformResource {
     this._tagsAll = config.tagsAll;
     this._vpcEndpointType = config.vpcEndpointType;
     this._vpcId = config.vpcId;
+    this._dnsOptions.internalValue = config.dnsOptions;
     this._timeouts.internalValue = config.timeouts;
   }
 
@@ -366,6 +443,22 @@ export class VpcEndpoint extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get idInput() {
     return this._id;
+  }
+
+  // ip_address_type - computed: true, optional: true, required: false
+  private _ipAddressType?: string; 
+  public get ipAddressType() {
+    return this.getStringAttribute('ip_address_type');
+  }
+  public set ipAddressType(value: string) {
+    this._ipAddressType = value;
+  }
+  public resetIpAddressType() {
+    this._ipAddressType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ipAddressTypeInput() {
+    return this._ipAddressType;
   }
 
   // network_interface_ids - computed: true, optional: false, required: false
@@ -547,6 +640,22 @@ export class VpcEndpoint extends cdktf.TerraformResource {
     return this._vpcId;
   }
 
+  // dns_options - computed: false, optional: true, required: false
+  private _dnsOptions = new VpcEndpointDnsOptionsOutputReference(this, "dns_options");
+  public get dnsOptions() {
+    return this._dnsOptions;
+  }
+  public putDnsOptions(value: VpcEndpointDnsOptions) {
+    this._dnsOptions.internalValue = value;
+  }
+  public resetDnsOptions() {
+    this._dnsOptions.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dnsOptionsInput() {
+    return this._dnsOptions.internalValue;
+  }
+
   // timeouts - computed: false, optional: true, required: false
   private _timeouts = new VpcEndpointTimeoutsOutputReference(this, "timeouts");
   public get timeouts() {
@@ -571,6 +680,7 @@ export class VpcEndpoint extends cdktf.TerraformResource {
     return {
       auto_accept: cdktf.booleanToTerraform(this._autoAccept),
       id: cdktf.stringToTerraform(this._id),
+      ip_address_type: cdktf.stringToTerraform(this._ipAddressType),
       policy: cdktf.stringToTerraform(this._policy),
       private_dns_enabled: cdktf.booleanToTerraform(this._privateDnsEnabled),
       route_table_ids: cdktf.listMapper(cdktf.stringToTerraform, false)(this._routeTableIds),
@@ -581,6 +691,7 @@ export class VpcEndpoint extends cdktf.TerraformResource {
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       vpc_endpoint_type: cdktf.stringToTerraform(this._vpcEndpointType),
       vpc_id: cdktf.stringToTerraform(this._vpcId),
+      dns_options: vpcEndpointDnsOptionsToTerraform(this._dnsOptions.internalValue),
       timeouts: vpcEndpointTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }

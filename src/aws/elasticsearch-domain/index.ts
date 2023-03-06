@@ -696,6 +696,71 @@ export class ElasticsearchDomainAutoTuneOptionsOutputReference extends cdktf.Com
     return this._maintenanceSchedule.internalValue;
   }
 }
+export interface ElasticsearchDomainClusterConfigColdStorageOptions {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain#enabled ElasticsearchDomain#enabled}
+  */
+  readonly enabled?: boolean | cdktf.IResolvable;
+}
+
+export function elasticsearchDomainClusterConfigColdStorageOptionsToTerraform(struct?: ElasticsearchDomainClusterConfigColdStorageOptionsOutputReference | ElasticsearchDomainClusterConfigColdStorageOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    enabled: cdktf.booleanToTerraform(struct!.enabled),
+  }
+}
+
+export class ElasticsearchDomainClusterConfigColdStorageOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): ElasticsearchDomainClusterConfigColdStorageOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._enabled !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.enabled = this._enabled;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ElasticsearchDomainClusterConfigColdStorageOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._enabled = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._enabled = value.enabled;
+    }
+  }
+
+  // enabled - computed: true, optional: true, required: false
+  private _enabled?: boolean | cdktf.IResolvable; 
+  public get enabled() {
+    return this.getBooleanAttribute('enabled');
+  }
+  public set enabled(value: boolean | cdktf.IResolvable) {
+    this._enabled = value;
+  }
+  public resetEnabled() {
+    this._enabled = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get enabledInput() {
+    return this._enabled;
+  }
+}
 export interface ElasticsearchDomainClusterConfigZoneAwarenessConfig {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain#availability_zone_count ElasticsearchDomain#availability_zone_count}
@@ -799,6 +864,12 @@ export interface ElasticsearchDomainClusterConfig {
   */
   readonly zoneAwarenessEnabled?: boolean | cdktf.IResolvable;
   /**
+  * cold_storage_options block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain#cold_storage_options ElasticsearchDomain#cold_storage_options}
+  */
+  readonly coldStorageOptions?: ElasticsearchDomainClusterConfigColdStorageOptions;
+  /**
   * zone_awareness_config block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain#zone_awareness_config ElasticsearchDomain#zone_awareness_config}
@@ -821,6 +892,7 @@ export function elasticsearchDomainClusterConfigToTerraform(struct?: Elasticsear
     warm_enabled: cdktf.booleanToTerraform(struct!.warmEnabled),
     warm_type: cdktf.stringToTerraform(struct!.warmType),
     zone_awareness_enabled: cdktf.booleanToTerraform(struct!.zoneAwarenessEnabled),
+    cold_storage_options: elasticsearchDomainClusterConfigColdStorageOptionsToTerraform(struct!.coldStorageOptions),
     zone_awareness_config: elasticsearchDomainClusterConfigZoneAwarenessConfigToTerraform(struct!.zoneAwarenessConfig),
   }
 }
@@ -875,6 +947,10 @@ export class ElasticsearchDomainClusterConfigOutputReference extends cdktf.Compl
       hasAnyValues = true;
       internalValueResult.zoneAwarenessEnabled = this._zoneAwarenessEnabled;
     }
+    if (this._coldStorageOptions?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.coldStorageOptions = this._coldStorageOptions?.internalValue;
+    }
     if (this._zoneAwarenessConfig?.internalValue !== undefined) {
       hasAnyValues = true;
       internalValueResult.zoneAwarenessConfig = this._zoneAwarenessConfig?.internalValue;
@@ -894,6 +970,7 @@ export class ElasticsearchDomainClusterConfigOutputReference extends cdktf.Compl
       this._warmEnabled = undefined;
       this._warmType = undefined;
       this._zoneAwarenessEnabled = undefined;
+      this._coldStorageOptions.internalValue = undefined;
       this._zoneAwarenessConfig.internalValue = undefined;
     }
     else {
@@ -907,6 +984,7 @@ export class ElasticsearchDomainClusterConfigOutputReference extends cdktf.Compl
       this._warmEnabled = value.warmEnabled;
       this._warmType = value.warmType;
       this._zoneAwarenessEnabled = value.zoneAwarenessEnabled;
+      this._coldStorageOptions.internalValue = value.coldStorageOptions;
       this._zoneAwarenessConfig.internalValue = value.zoneAwarenessConfig;
     }
   }
@@ -1053,6 +1131,22 @@ export class ElasticsearchDomainClusterConfigOutputReference extends cdktf.Compl
   // Temporarily expose input value. Use with caution.
   public get zoneAwarenessEnabledInput() {
     return this._zoneAwarenessEnabled;
+  }
+
+  // cold_storage_options - computed: false, optional: true, required: false
+  private _coldStorageOptions = new ElasticsearchDomainClusterConfigColdStorageOptionsOutputReference(this, "cold_storage_options");
+  public get coldStorageOptions() {
+    return this._coldStorageOptions;
+  }
+  public putColdStorageOptions(value: ElasticsearchDomainClusterConfigColdStorageOptions) {
+    this._coldStorageOptions.internalValue = value;
+  }
+  public resetColdStorageOptions() {
+    this._coldStorageOptions.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get coldStorageOptionsInput() {
+    return this._coldStorageOptions.internalValue;
   }
 
   // zone_awareness_config - computed: false, optional: true, required: false
@@ -1391,6 +1485,10 @@ export interface ElasticsearchDomainEbsOptions {
   */
   readonly iops?: number;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain#throughput ElasticsearchDomain#throughput}
+  */
+  readonly throughput?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain#volume_size ElasticsearchDomain#volume_size}
   */
   readonly volumeSize?: number;
@@ -1408,6 +1506,7 @@ export function elasticsearchDomainEbsOptionsToTerraform(struct?: ElasticsearchD
   return {
     ebs_enabled: cdktf.booleanToTerraform(struct!.ebsEnabled),
     iops: cdktf.numberToTerraform(struct!.iops),
+    throughput: cdktf.numberToTerraform(struct!.throughput),
     volume_size: cdktf.numberToTerraform(struct!.volumeSize),
     volume_type: cdktf.stringToTerraform(struct!.volumeType),
   }
@@ -1435,6 +1534,10 @@ export class ElasticsearchDomainEbsOptionsOutputReference extends cdktf.ComplexO
       hasAnyValues = true;
       internalValueResult.iops = this._iops;
     }
+    if (this._throughput !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.throughput = this._throughput;
+    }
     if (this._volumeSize !== undefined) {
       hasAnyValues = true;
       internalValueResult.volumeSize = this._volumeSize;
@@ -1451,6 +1554,7 @@ export class ElasticsearchDomainEbsOptionsOutputReference extends cdktf.ComplexO
       this.isEmptyObject = false;
       this._ebsEnabled = undefined;
       this._iops = undefined;
+      this._throughput = undefined;
       this._volumeSize = undefined;
       this._volumeType = undefined;
     }
@@ -1458,6 +1562,7 @@ export class ElasticsearchDomainEbsOptionsOutputReference extends cdktf.ComplexO
       this.isEmptyObject = Object.keys(value).length === 0;
       this._ebsEnabled = value.ebsEnabled;
       this._iops = value.iops;
+      this._throughput = value.throughput;
       this._volumeSize = value.volumeSize;
       this._volumeType = value.volumeType;
     }
@@ -1476,7 +1581,7 @@ export class ElasticsearchDomainEbsOptionsOutputReference extends cdktf.ComplexO
     return this._ebsEnabled;
   }
 
-  // iops - computed: false, optional: true, required: false
+  // iops - computed: true, optional: true, required: false
   private _iops?: number; 
   public get iops() {
     return this.getNumberAttribute('iops');
@@ -1490,6 +1595,22 @@ export class ElasticsearchDomainEbsOptionsOutputReference extends cdktf.ComplexO
   // Temporarily expose input value. Use with caution.
   public get iopsInput() {
     return this._iops;
+  }
+
+  // throughput - computed: true, optional: true, required: false
+  private _throughput?: number; 
+  public get throughput() {
+    return this.getNumberAttribute('throughput');
+  }
+  public set throughput(value: number) {
+    this._throughput = value;
+  }
+  public resetThroughput() {
+    this._throughput = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get throughputInput() {
+    return this._throughput;
   }
 
   // volume_size - computed: false, optional: true, required: false
@@ -1884,6 +2005,14 @@ export class ElasticsearchDomainSnapshotOptionsOutputReference extends cdktf.Com
 }
 export interface ElasticsearchDomainTimeouts {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain#create ElasticsearchDomain#create}
+  */
+  readonly create?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain#delete ElasticsearchDomain#delete}
+  */
+  readonly delete?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain#update ElasticsearchDomain#update}
   */
   readonly update?: string;
@@ -1895,6 +2024,8 @@ export function elasticsearchDomainTimeoutsToTerraform(struct?: ElasticsearchDom
     throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
+    create: cdktf.stringToTerraform(struct!.create),
+    delete: cdktf.stringToTerraform(struct!.delete),
     update: cdktf.stringToTerraform(struct!.update),
   }
 }
@@ -1917,6 +2048,14 @@ export class ElasticsearchDomainTimeoutsOutputReference extends cdktf.ComplexObj
     }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
+    if (this._create !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.create = this._create;
+    }
+    if (this._delete !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.delete = this._delete;
+    }
     if (this._update !== undefined) {
       hasAnyValues = true;
       internalValueResult.update = this._update;
@@ -1928,6 +2067,8 @@ export class ElasticsearchDomainTimeoutsOutputReference extends cdktf.ComplexObj
     if (value === undefined) {
       this.isEmptyObject = false;
       this.resolvableValue = undefined;
+      this._create = undefined;
+      this._delete = undefined;
       this._update = undefined;
     }
     else if (cdktf.Tokenization.isResolvable(value)) {
@@ -1937,8 +2078,42 @@ export class ElasticsearchDomainTimeoutsOutputReference extends cdktf.ComplexObj
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this.resolvableValue = undefined;
+      this._create = value.create;
+      this._delete = value.delete;
       this._update = value.update;
     }
+  }
+
+  // create - computed: false, optional: true, required: false
+  private _create?: string; 
+  public get create() {
+    return this.getStringAttribute('create');
+  }
+  public set create(value: string) {
+    this._create = value;
+  }
+  public resetCreate() {
+    this._create = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get createInput() {
+    return this._create;
+  }
+
+  // delete - computed: false, optional: true, required: false
+  private _delete?: string; 
+  public get delete() {
+    return this.getStringAttribute('delete');
+  }
+  public set delete(value: string) {
+    this._delete = value;
+  }
+  public resetDelete() {
+    this._delete = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get deleteInput() {
+    return this._delete;
   }
 
   // update - computed: false, optional: true, required: false
@@ -2086,8 +2261,8 @@ export class ElasticsearchDomain extends cdktf.TerraformResource {
       terraformResourceType: 'aws_elasticsearch_domain',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

@@ -22,11 +22,11 @@ export interface NetworkAclRuleConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/network_acl_rule#icmp_code NetworkAclRule#icmp_code}
   */
-  readonly icmpCode?: string;
+  readonly icmpCode?: number;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/network_acl_rule#icmp_type NetworkAclRule#icmp_type}
   */
-  readonly icmpType?: string;
+  readonly icmpType?: number;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/network_acl_rule#id NetworkAclRule#id}
   *
@@ -86,8 +86,8 @@ export class NetworkAclRule extends cdktf.TerraformResource {
       terraformResourceType: 'aws_network_acl_rule',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -164,11 +164,11 @@ export class NetworkAclRule extends cdktf.TerraformResource {
   }
 
   // icmp_code - computed: false, optional: true, required: false
-  private _icmpCode?: string; 
+  private _icmpCode?: number; 
   public get icmpCode() {
-    return this.getStringAttribute('icmp_code');
+    return this.getNumberAttribute('icmp_code');
   }
-  public set icmpCode(value: string) {
+  public set icmpCode(value: number) {
     this._icmpCode = value;
   }
   public resetIcmpCode() {
@@ -180,11 +180,11 @@ export class NetworkAclRule extends cdktf.TerraformResource {
   }
 
   // icmp_type - computed: false, optional: true, required: false
-  private _icmpType?: string; 
+  private _icmpType?: number; 
   public get icmpType() {
-    return this.getStringAttribute('icmp_type');
+    return this.getNumberAttribute('icmp_type');
   }
-  public set icmpType(value: string) {
+  public set icmpType(value: number) {
     this._icmpType = value;
   }
   public resetIcmpType() {
@@ -304,8 +304,8 @@ export class NetworkAclRule extends cdktf.TerraformResource {
       cidr_block: cdktf.stringToTerraform(this._cidrBlock),
       egress: cdktf.booleanToTerraform(this._egress),
       from_port: cdktf.numberToTerraform(this._fromPort),
-      icmp_code: cdktf.stringToTerraform(this._icmpCode),
-      icmp_type: cdktf.stringToTerraform(this._icmpType),
+      icmp_code: cdktf.numberToTerraform(this._icmpCode),
+      icmp_type: cdktf.numberToTerraform(this._icmpType),
       id: cdktf.stringToTerraform(this._id),
       ipv6_cidr_block: cdktf.stringToTerraform(this._ipv6CidrBlock),
       network_acl_id: cdktf.stringToTerraform(this._networkAclId),

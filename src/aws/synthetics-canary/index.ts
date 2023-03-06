@@ -12,6 +12,10 @@ export interface SyntheticsCanaryConfig extends cdktf.TerraformMetaArguments {
   */
   readonly artifactS3Location: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/synthetics_canary#delete_lambda SyntheticsCanary#delete_lambda}
+  */
+  readonly deleteLambda?: boolean | cdktf.IResolvable;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/synthetics_canary#execution_role_arn SyntheticsCanary#execution_role_arn}
   */
   readonly executionRoleArn: string;
@@ -339,6 +343,10 @@ export interface SyntheticsCanaryRunConfig {
   */
   readonly activeTracing?: boolean | cdktf.IResolvable;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/synthetics_canary#environment_variables SyntheticsCanary#environment_variables}
+  */
+  readonly environmentVariables?: { [key: string]: string };
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/synthetics_canary#memory_in_mb SyntheticsCanary#memory_in_mb}
   */
   readonly memoryInMb?: number;
@@ -355,6 +363,7 @@ export function syntheticsCanaryRunConfigToTerraform(struct?: SyntheticsCanaryRu
   }
   return {
     active_tracing: cdktf.booleanToTerraform(struct!.activeTracing),
+    environment_variables: cdktf.hashMapper(cdktf.stringToTerraform)(struct!.environmentVariables),
     memory_in_mb: cdktf.numberToTerraform(struct!.memoryInMb),
     timeout_in_seconds: cdktf.numberToTerraform(struct!.timeoutInSeconds),
   }
@@ -378,6 +387,10 @@ export class SyntheticsCanaryRunConfigOutputReference extends cdktf.ComplexObjec
       hasAnyValues = true;
       internalValueResult.activeTracing = this._activeTracing;
     }
+    if (this._environmentVariables !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.environmentVariables = this._environmentVariables;
+    }
     if (this._memoryInMb !== undefined) {
       hasAnyValues = true;
       internalValueResult.memoryInMb = this._memoryInMb;
@@ -393,12 +406,14 @@ export class SyntheticsCanaryRunConfigOutputReference extends cdktf.ComplexObjec
     if (value === undefined) {
       this.isEmptyObject = false;
       this._activeTracing = undefined;
+      this._environmentVariables = undefined;
       this._memoryInMb = undefined;
       this._timeoutInSeconds = undefined;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this._activeTracing = value.activeTracing;
+      this._environmentVariables = value.environmentVariables;
       this._memoryInMb = value.memoryInMb;
       this._timeoutInSeconds = value.timeoutInSeconds;
     }
@@ -418,6 +433,22 @@ export class SyntheticsCanaryRunConfigOutputReference extends cdktf.ComplexObjec
   // Temporarily expose input value. Use with caution.
   public get activeTracingInput() {
     return this._activeTracing;
+  }
+
+  // environment_variables - computed: false, optional: true, required: false
+  private _environmentVariables?: { [key: string]: string }; 
+  public get environmentVariables() {
+    return this.getStringMapAttribute('environment_variables');
+  }
+  public set environmentVariables(value: { [key: string]: string }) {
+    this._environmentVariables = value;
+  }
+  public resetEnvironmentVariables() {
+    this._environmentVariables = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get environmentVariablesInput() {
+    return this._environmentVariables;
   }
 
   // memory_in_mb - computed: true, optional: true, required: false
@@ -665,8 +696,8 @@ export class SyntheticsCanary extends cdktf.TerraformResource {
       terraformResourceType: 'aws_synthetics_canary',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -677,6 +708,7 @@ export class SyntheticsCanary extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._artifactS3Location = config.artifactS3Location;
+    this._deleteLambda = config.deleteLambda;
     this._executionRoleArn = config.executionRoleArn;
     this._failureRetentionPeriod = config.failureRetentionPeriod;
     this._handler = config.handler;
@@ -717,6 +749,22 @@ export class SyntheticsCanary extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get artifactS3LocationInput() {
     return this._artifactS3Location;
+  }
+
+  // delete_lambda - computed: false, optional: true, required: false
+  private _deleteLambda?: boolean | cdktf.IResolvable; 
+  public get deleteLambda() {
+    return this.getBooleanAttribute('delete_lambda');
+  }
+  public set deleteLambda(value: boolean | cdktf.IResolvable) {
+    this._deleteLambda = value;
+  }
+  public resetDeleteLambda() {
+    this._deleteLambda = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get deleteLambdaInput() {
+    return this._deleteLambda;
   }
 
   // engine_arn - computed: true, optional: false, required: false
@@ -1020,6 +1068,7 @@ export class SyntheticsCanary extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       artifact_s3_location: cdktf.stringToTerraform(this._artifactS3Location),
+      delete_lambda: cdktf.booleanToTerraform(this._deleteLambda),
       execution_role_arn: cdktf.stringToTerraform(this._executionRoleArn),
       failure_retention_period: cdktf.numberToTerraform(this._failureRetentionPeriod),
       handler: cdktf.stringToTerraform(this._handler),

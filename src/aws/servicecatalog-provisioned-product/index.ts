@@ -85,6 +85,80 @@ export interface ServicecatalogProvisionedProductConfig extends cdktf.TerraformM
   */
   readonly timeouts?: ServicecatalogProvisionedProductTimeouts;
 }
+export interface ServicecatalogProvisionedProductOutputs {
+}
+
+export function servicecatalogProvisionedProductOutputsToTerraform(struct?: ServicecatalogProvisionedProductOutputs): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class ServicecatalogProvisionedProductOutputsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): ServicecatalogProvisionedProductOutputs | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ServicecatalogProvisionedProductOutputs | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // description - computed: true, optional: false, required: false
+  public get description() {
+    return this.getStringAttribute('description');
+  }
+
+  // key - computed: true, optional: false, required: false
+  public get key() {
+    return this.getStringAttribute('key');
+  }
+
+  // value - computed: true, optional: false, required: false
+  public get value() {
+    return this.getStringAttribute('value');
+  }
+}
+
+export class ServicecatalogProvisionedProductOutputsList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): ServicecatalogProvisionedProductOutputsOutputReference {
+    return new ServicecatalogProvisionedProductOutputsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface ServicecatalogProvisionedProductProvisioningParameters {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/servicecatalog_provisioned_product#key ServicecatalogProvisionedProduct#key}
@@ -443,6 +517,10 @@ export interface ServicecatalogProvisionedProductTimeouts {
   */
   readonly delete?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/servicecatalog_provisioned_product#read ServicecatalogProvisionedProduct#read}
+  */
+  readonly read?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/servicecatalog_provisioned_product#update ServicecatalogProvisionedProduct#update}
   */
   readonly update?: string;
@@ -456,6 +534,7 @@ export function servicecatalogProvisionedProductTimeoutsToTerraform(struct?: Ser
   return {
     create: cdktf.stringToTerraform(struct!.create),
     delete: cdktf.stringToTerraform(struct!.delete),
+    read: cdktf.stringToTerraform(struct!.read),
     update: cdktf.stringToTerraform(struct!.update),
   }
 }
@@ -486,6 +565,10 @@ export class ServicecatalogProvisionedProductTimeoutsOutputReference extends cdk
       hasAnyValues = true;
       internalValueResult.delete = this._delete;
     }
+    if (this._read !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.read = this._read;
+    }
     if (this._update !== undefined) {
       hasAnyValues = true;
       internalValueResult.update = this._update;
@@ -499,6 +582,7 @@ export class ServicecatalogProvisionedProductTimeoutsOutputReference extends cdk
       this.resolvableValue = undefined;
       this._create = undefined;
       this._delete = undefined;
+      this._read = undefined;
       this._update = undefined;
     }
     else if (cdktf.Tokenization.isResolvable(value)) {
@@ -510,6 +594,7 @@ export class ServicecatalogProvisionedProductTimeoutsOutputReference extends cdk
       this.resolvableValue = undefined;
       this._create = value.create;
       this._delete = value.delete;
+      this._read = value.read;
       this._update = value.update;
     }
   }
@@ -544,6 +629,22 @@ export class ServicecatalogProvisionedProductTimeoutsOutputReference extends cdk
   // Temporarily expose input value. Use with caution.
   public get deleteInput() {
     return this._delete;
+  }
+
+  // read - computed: false, optional: true, required: false
+  private _read?: string; 
+  public get read() {
+    return this.getStringAttribute('read');
+  }
+  public set read(value: string) {
+    this._read = value;
+  }
+  public resetRead() {
+    this._read = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get readInput() {
+    return this._read;
   }
 
   // update - computed: false, optional: true, required: false
@@ -589,8 +690,8 @@ export class ServicecatalogProvisionedProduct extends cdktf.TerraformResource {
       terraformResourceType: 'aws_servicecatalog_provisioned_product',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -733,6 +834,12 @@ export class ServicecatalogProvisionedProduct extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get notificationArnsInput() {
     return this._notificationArns;
+  }
+
+  // outputs - computed: true, optional: false, required: false
+  private _outputs = new ServicecatalogProvisionedProductOutputsList(this, "outputs", true);
+  public get outputs() {
+    return this._outputs;
   }
 
   // path_id - computed: true, optional: true, required: false

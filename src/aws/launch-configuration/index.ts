@@ -419,9 +419,13 @@ export interface LaunchConfigurationEphemeralBlockDevice {
   */
   readonly deviceName: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/launch_configuration#no_device LaunchConfiguration#no_device}
+  */
+  readonly noDevice?: boolean | cdktf.IResolvable;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/launch_configuration#virtual_name LaunchConfiguration#virtual_name}
   */
-  readonly virtualName: string;
+  readonly virtualName?: string;
 }
 
 export function launchConfigurationEphemeralBlockDeviceToTerraform(struct?: LaunchConfigurationEphemeralBlockDevice | cdktf.IResolvable): any {
@@ -431,6 +435,7 @@ export function launchConfigurationEphemeralBlockDeviceToTerraform(struct?: Laun
   }
   return {
     device_name: cdktf.stringToTerraform(struct!.deviceName),
+    no_device: cdktf.booleanToTerraform(struct!.noDevice),
     virtual_name: cdktf.stringToTerraform(struct!.virtualName),
   }
 }
@@ -459,6 +464,10 @@ export class LaunchConfigurationEphemeralBlockDeviceOutputReference extends cdkt
       hasAnyValues = true;
       internalValueResult.deviceName = this._deviceName;
     }
+    if (this._noDevice !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.noDevice = this._noDevice;
+    }
     if (this._virtualName !== undefined) {
       hasAnyValues = true;
       internalValueResult.virtualName = this._virtualName;
@@ -471,6 +480,7 @@ export class LaunchConfigurationEphemeralBlockDeviceOutputReference extends cdkt
       this.isEmptyObject = false;
       this.resolvableValue = undefined;
       this._deviceName = undefined;
+      this._noDevice = undefined;
       this._virtualName = undefined;
     }
     else if (cdktf.Tokenization.isResolvable(value)) {
@@ -481,6 +491,7 @@ export class LaunchConfigurationEphemeralBlockDeviceOutputReference extends cdkt
       this.isEmptyObject = Object.keys(value).length === 0;
       this.resolvableValue = undefined;
       this._deviceName = value.deviceName;
+      this._noDevice = value.noDevice;
       this._virtualName = value.virtualName;
     }
   }
@@ -498,13 +509,32 @@ export class LaunchConfigurationEphemeralBlockDeviceOutputReference extends cdkt
     return this._deviceName;
   }
 
-  // virtual_name - computed: false, optional: false, required: true
+  // no_device - computed: false, optional: true, required: false
+  private _noDevice?: boolean | cdktf.IResolvable; 
+  public get noDevice() {
+    return this.getBooleanAttribute('no_device');
+  }
+  public set noDevice(value: boolean | cdktf.IResolvable) {
+    this._noDevice = value;
+  }
+  public resetNoDevice() {
+    this._noDevice = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get noDeviceInput() {
+    return this._noDevice;
+  }
+
+  // virtual_name - computed: false, optional: true, required: false
   private _virtualName?: string; 
   public get virtualName() {
     return this.getStringAttribute('virtual_name');
   }
   public set virtualName(value: string) {
     this._virtualName = value;
+  }
+  public resetVirtualName() {
+    this._virtualName = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get virtualNameInput() {
@@ -877,8 +907,8 @@ export class LaunchConfiguration extends cdktf.TerraformResource {
       terraformResourceType: 'aws_launch_configuration',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -920,7 +950,7 @@ export class LaunchConfiguration extends cdktf.TerraformResource {
     return this.getStringAttribute('arn');
   }
 
-  // associate_public_ip_address - computed: false, optional: true, required: false
+  // associate_public_ip_address - computed: true, optional: true, required: false
   private _associatePublicIpAddress?: boolean | cdktf.IResolvable; 
   public get associatePublicIpAddress() {
     return this.getBooleanAttribute('associate_public_ip_address');

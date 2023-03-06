@@ -40,6 +40,12 @@ export interface DataAwsInstanceConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/instance#filter DataAwsInstance#filter}
   */
   readonly filter?: DataAwsInstanceFilter[] | cdktf.IResolvable;
+  /**
+  * timeouts block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/instance#timeouts DataAwsInstance#timeouts}
+  */
+  readonly timeouts?: DataAwsInstanceTimeouts;
 }
 export interface DataAwsInstanceCreditSpecification {
 }
@@ -358,6 +364,70 @@ export class DataAwsInstanceEphemeralBlockDeviceList extends cdktf.ComplexList {
     return new DataAwsInstanceEphemeralBlockDeviceOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
+export interface DataAwsInstanceMaintenanceOptions {
+}
+
+export function dataAwsInstanceMaintenanceOptionsToTerraform(struct?: DataAwsInstanceMaintenanceOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class DataAwsInstanceMaintenanceOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): DataAwsInstanceMaintenanceOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsInstanceMaintenanceOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // auto_recovery - computed: true, optional: false, required: false
+  public get autoRecovery() {
+    return this.getStringAttribute('auto_recovery');
+  }
+}
+
+export class DataAwsInstanceMaintenanceOptionsList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): DataAwsInstanceMaintenanceOptionsOutputReference {
+    return new DataAwsInstanceMaintenanceOptionsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
 export interface DataAwsInstanceMetadataOptions {
 }
 
@@ -435,6 +505,80 @@ export class DataAwsInstanceMetadataOptionsList extends cdktf.ComplexList {
   */
   public get(index: number): DataAwsInstanceMetadataOptionsOutputReference {
     return new DataAwsInstanceMetadataOptionsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface DataAwsInstancePrivateDnsNameOptions {
+}
+
+export function dataAwsInstancePrivateDnsNameOptionsToTerraform(struct?: DataAwsInstancePrivateDnsNameOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class DataAwsInstancePrivateDnsNameOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): DataAwsInstancePrivateDnsNameOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsInstancePrivateDnsNameOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // enable_resource_name_dns_a_record - computed: true, optional: false, required: false
+  public get enableResourceNameDnsARecord() {
+    return this.getBooleanAttribute('enable_resource_name_dns_a_record');
+  }
+
+  // enable_resource_name_dns_aaaa_record - computed: true, optional: false, required: false
+  public get enableResourceNameDnsAaaaRecord() {
+    return this.getBooleanAttribute('enable_resource_name_dns_aaaa_record');
+  }
+
+  // hostname_type - computed: true, optional: false, required: false
+  public get hostnameType() {
+    return this.getStringAttribute('hostname_type');
+  }
+}
+
+export class DataAwsInstancePrivateDnsNameOptionsList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): DataAwsInstancePrivateDnsNameOptionsOutputReference {
+    return new DataAwsInstancePrivateDnsNameOptionsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
 export interface DataAwsInstanceRootBlockDevice {
@@ -635,7 +779,7 @@ export class DataAwsInstanceFilterOutputReference extends cdktf.ComplexObject {
   // values - computed: false, optional: false, required: true
   private _values?: string[]; 
   public get values() {
-    return this.getListAttribute('values');
+    return cdktf.Fn.tolist(this.getListAttribute('values'));
   }
   public set values(value: string[]) {
     this._values = value;
@@ -665,6 +809,81 @@ export class DataAwsInstanceFilterList extends cdktf.ComplexList {
     return new DataAwsInstanceFilterOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
+export interface DataAwsInstanceTimeouts {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/instance#read DataAwsInstance#read}
+  */
+  readonly read?: string;
+}
+
+export function dataAwsInstanceTimeoutsToTerraform(struct?: DataAwsInstanceTimeoutsOutputReference | DataAwsInstanceTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    read: cdktf.stringToTerraform(struct!.read),
+  }
+}
+
+export class DataAwsInstanceTimeoutsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): DataAwsInstanceTimeouts | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._read !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.read = this._read;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsInstanceTimeouts | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._read = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._read = value.read;
+    }
+  }
+
+  // read - computed: false, optional: true, required: false
+  private _read?: string; 
+  public get read() {
+    return this.getStringAttribute('read');
+  }
+  public set read(value: string) {
+    this._read = value;
+  }
+  public resetRead() {
+    this._read = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get readInput() {
+    return this._read;
+  }
+}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/d/instance aws_instance}
@@ -692,8 +911,8 @@ export class DataAwsInstance extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_instance',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -710,6 +929,7 @@ export class DataAwsInstance extends cdktf.TerraformDataSource {
     this._instanceTags = config.instanceTags;
     this._tags = config.tags;
     this._filter.internalValue = config.filter;
+    this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
@@ -740,6 +960,11 @@ export class DataAwsInstance extends cdktf.TerraformDataSource {
   private _creditSpecification = new DataAwsInstanceCreditSpecificationList(this, "credit_specification", false);
   public get creditSpecification() {
     return this._creditSpecification;
+  }
+
+  // disable_api_stop - computed: true, optional: false, required: false
+  public get disableApiStop() {
+    return this.getBooleanAttribute('disable_api_stop');
   }
 
   // disable_api_termination - computed: true, optional: false, required: false
@@ -805,6 +1030,11 @@ export class DataAwsInstance extends cdktf.TerraformDataSource {
   // host_id - computed: true, optional: false, required: false
   public get hostId() {
     return this.getStringAttribute('host_id');
+  }
+
+  // host_resource_group_arn - computed: true, optional: false, required: false
+  public get hostResourceGroupArn() {
+    return this.getStringAttribute('host_resource_group_arn');
   }
 
   // iam_instance_profile - computed: true, optional: false, required: false
@@ -880,6 +1110,12 @@ export class DataAwsInstance extends cdktf.TerraformDataSource {
     return this.getStringAttribute('key_name');
   }
 
+  // maintenance_options - computed: true, optional: false, required: false
+  private _maintenanceOptions = new DataAwsInstanceMaintenanceOptionsList(this, "maintenance_options", false);
+  public get maintenanceOptions() {
+    return this._maintenanceOptions;
+  }
+
   // metadata_options - computed: true, optional: false, required: false
   private _metadataOptions = new DataAwsInstanceMetadataOptionsList(this, "metadata_options", false);
   public get metadataOptions() {
@@ -919,6 +1155,12 @@ export class DataAwsInstance extends cdktf.TerraformDataSource {
   // private_dns - computed: true, optional: false, required: false
   public get privateDns() {
     return this.getStringAttribute('private_dns');
+  }
+
+  // private_dns_name_options - computed: true, optional: false, required: false
+  private _privateDnsNameOptions = new DataAwsInstancePrivateDnsNameOptionsList(this, "private_dns_name_options", false);
+  public get privateDnsNameOptions() {
+    return this._privateDnsNameOptions;
   }
 
   // private_ip - computed: true, optional: false, required: false
@@ -1014,6 +1256,22 @@ export class DataAwsInstance extends cdktf.TerraformDataSource {
     return this._filter.internalValue;
   }
 
+  // timeouts - computed: false, optional: true, required: false
+  private _timeouts = new DataAwsInstanceTimeoutsOutputReference(this, "timeouts");
+  public get timeouts() {
+    return this._timeouts;
+  }
+  public putTimeouts(value: DataAwsInstanceTimeouts) {
+    this._timeouts.internalValue = value;
+  }
+  public resetTimeouts() {
+    this._timeouts.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get timeoutsInput() {
+    return this._timeouts.internalValue;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1027,6 +1285,7 @@ export class DataAwsInstance extends cdktf.TerraformDataSource {
       instance_tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._instanceTags),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       filter: cdktf.listMapper(dataAwsInstanceFilterToTerraform, true)(this._filter.internalValue),
+      timeouts: dataAwsInstanceTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }

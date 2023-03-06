@@ -31,6 +31,10 @@ export interface VpnConnectionConfig extends cdktf.TerraformMetaArguments {
   */
   readonly localIpv6NetworkCidr?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#outside_ip_address_type VpnConnection#outside_ip_address_type}
+  */
+  readonly outsideIpAddressType?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#remote_ipv4_network_cidr VpnConnection#remote_ipv4_network_cidr}
   */
   readonly remoteIpv4NetworkCidr?: string;
@@ -54,6 +58,10 @@ export interface VpnConnectionConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#transit_gateway_id VpnConnection#transit_gateway_id}
   */
   readonly transitGatewayId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#transport_transit_gateway_attachment_id VpnConnection#transport_transit_gateway_attachment_id}
+  */
+  readonly transportTransitGatewayAttachmentId?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#tunnel1_dpd_timeout_action VpnConnection#tunnel1_dpd_timeout_action}
   */
@@ -210,6 +218,18 @@ export interface VpnConnectionConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#vpn_gateway_id VpnConnection#vpn_gateway_id}
   */
   readonly vpnGatewayId?: string;
+  /**
+  * tunnel1_log_options block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#tunnel1_log_options VpnConnection#tunnel1_log_options}
+  */
+  readonly tunnel1LogOptions?: VpnConnectionTunnel1LogOptions;
+  /**
+  * tunnel2_log_options block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#tunnel2_log_options VpnConnection#tunnel2_log_options}
+  */
+  readonly tunnel2LogOptions?: VpnConnectionTunnel2LogOptions;
 }
 export interface VpnConnectionRoutes {
 }
@@ -374,6 +394,378 @@ export class VpnConnectionVgwTelemetryList extends cdktf.ComplexList {
     return new VpnConnectionVgwTelemetryOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
+export interface VpnConnectionTunnel1LogOptionsCloudwatchLogOptions {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#log_enabled VpnConnection#log_enabled}
+  */
+  readonly logEnabled?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#log_group_arn VpnConnection#log_group_arn}
+  */
+  readonly logGroupArn?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#log_output_format VpnConnection#log_output_format}
+  */
+  readonly logOutputFormat?: string;
+}
+
+export function vpnConnectionTunnel1LogOptionsCloudwatchLogOptionsToTerraform(struct?: VpnConnectionTunnel1LogOptionsCloudwatchLogOptionsOutputReference | VpnConnectionTunnel1LogOptionsCloudwatchLogOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    log_enabled: cdktf.booleanToTerraform(struct!.logEnabled),
+    log_group_arn: cdktf.stringToTerraform(struct!.logGroupArn),
+    log_output_format: cdktf.stringToTerraform(struct!.logOutputFormat),
+  }
+}
+
+export class VpnConnectionTunnel1LogOptionsCloudwatchLogOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): VpnConnectionTunnel1LogOptionsCloudwatchLogOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._logEnabled !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logEnabled = this._logEnabled;
+    }
+    if (this._logGroupArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logGroupArn = this._logGroupArn;
+    }
+    if (this._logOutputFormat !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logOutputFormat = this._logOutputFormat;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: VpnConnectionTunnel1LogOptionsCloudwatchLogOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._logEnabled = undefined;
+      this._logGroupArn = undefined;
+      this._logOutputFormat = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._logEnabled = value.logEnabled;
+      this._logGroupArn = value.logGroupArn;
+      this._logOutputFormat = value.logOutputFormat;
+    }
+  }
+
+  // log_enabled - computed: false, optional: true, required: false
+  private _logEnabled?: boolean | cdktf.IResolvable; 
+  public get logEnabled() {
+    return this.getBooleanAttribute('log_enabled');
+  }
+  public set logEnabled(value: boolean | cdktf.IResolvable) {
+    this._logEnabled = value;
+  }
+  public resetLogEnabled() {
+    this._logEnabled = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logEnabledInput() {
+    return this._logEnabled;
+  }
+
+  // log_group_arn - computed: false, optional: true, required: false
+  private _logGroupArn?: string; 
+  public get logGroupArn() {
+    return this.getStringAttribute('log_group_arn');
+  }
+  public set logGroupArn(value: string) {
+    this._logGroupArn = value;
+  }
+  public resetLogGroupArn() {
+    this._logGroupArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logGroupArnInput() {
+    return this._logGroupArn;
+  }
+
+  // log_output_format - computed: false, optional: true, required: false
+  private _logOutputFormat?: string; 
+  public get logOutputFormat() {
+    return this.getStringAttribute('log_output_format');
+  }
+  public set logOutputFormat(value: string) {
+    this._logOutputFormat = value;
+  }
+  public resetLogOutputFormat() {
+    this._logOutputFormat = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logOutputFormatInput() {
+    return this._logOutputFormat;
+  }
+}
+export interface VpnConnectionTunnel1LogOptions {
+  /**
+  * cloudwatch_log_options block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#cloudwatch_log_options VpnConnection#cloudwatch_log_options}
+  */
+  readonly cloudwatchLogOptions?: VpnConnectionTunnel1LogOptionsCloudwatchLogOptions;
+}
+
+export function vpnConnectionTunnel1LogOptionsToTerraform(struct?: VpnConnectionTunnel1LogOptionsOutputReference | VpnConnectionTunnel1LogOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    cloudwatch_log_options: vpnConnectionTunnel1LogOptionsCloudwatchLogOptionsToTerraform(struct!.cloudwatchLogOptions),
+  }
+}
+
+export class VpnConnectionTunnel1LogOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): VpnConnectionTunnel1LogOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._cloudwatchLogOptions?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.cloudwatchLogOptions = this._cloudwatchLogOptions?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: VpnConnectionTunnel1LogOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._cloudwatchLogOptions.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._cloudwatchLogOptions.internalValue = value.cloudwatchLogOptions;
+    }
+  }
+
+  // cloudwatch_log_options - computed: false, optional: true, required: false
+  private _cloudwatchLogOptions = new VpnConnectionTunnel1LogOptionsCloudwatchLogOptionsOutputReference(this, "cloudwatch_log_options");
+  public get cloudwatchLogOptions() {
+    return this._cloudwatchLogOptions;
+  }
+  public putCloudwatchLogOptions(value: VpnConnectionTunnel1LogOptionsCloudwatchLogOptions) {
+    this._cloudwatchLogOptions.internalValue = value;
+  }
+  public resetCloudwatchLogOptions() {
+    this._cloudwatchLogOptions.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get cloudwatchLogOptionsInput() {
+    return this._cloudwatchLogOptions.internalValue;
+  }
+}
+export interface VpnConnectionTunnel2LogOptionsCloudwatchLogOptions {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#log_enabled VpnConnection#log_enabled}
+  */
+  readonly logEnabled?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#log_group_arn VpnConnection#log_group_arn}
+  */
+  readonly logGroupArn?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#log_output_format VpnConnection#log_output_format}
+  */
+  readonly logOutputFormat?: string;
+}
+
+export function vpnConnectionTunnel2LogOptionsCloudwatchLogOptionsToTerraform(struct?: VpnConnectionTunnel2LogOptionsCloudwatchLogOptionsOutputReference | VpnConnectionTunnel2LogOptionsCloudwatchLogOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    log_enabled: cdktf.booleanToTerraform(struct!.logEnabled),
+    log_group_arn: cdktf.stringToTerraform(struct!.logGroupArn),
+    log_output_format: cdktf.stringToTerraform(struct!.logOutputFormat),
+  }
+}
+
+export class VpnConnectionTunnel2LogOptionsCloudwatchLogOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): VpnConnectionTunnel2LogOptionsCloudwatchLogOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._logEnabled !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logEnabled = this._logEnabled;
+    }
+    if (this._logGroupArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logGroupArn = this._logGroupArn;
+    }
+    if (this._logOutputFormat !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logOutputFormat = this._logOutputFormat;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: VpnConnectionTunnel2LogOptionsCloudwatchLogOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._logEnabled = undefined;
+      this._logGroupArn = undefined;
+      this._logOutputFormat = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._logEnabled = value.logEnabled;
+      this._logGroupArn = value.logGroupArn;
+      this._logOutputFormat = value.logOutputFormat;
+    }
+  }
+
+  // log_enabled - computed: false, optional: true, required: false
+  private _logEnabled?: boolean | cdktf.IResolvable; 
+  public get logEnabled() {
+    return this.getBooleanAttribute('log_enabled');
+  }
+  public set logEnabled(value: boolean | cdktf.IResolvable) {
+    this._logEnabled = value;
+  }
+  public resetLogEnabled() {
+    this._logEnabled = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logEnabledInput() {
+    return this._logEnabled;
+  }
+
+  // log_group_arn - computed: false, optional: true, required: false
+  private _logGroupArn?: string; 
+  public get logGroupArn() {
+    return this.getStringAttribute('log_group_arn');
+  }
+  public set logGroupArn(value: string) {
+    this._logGroupArn = value;
+  }
+  public resetLogGroupArn() {
+    this._logGroupArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logGroupArnInput() {
+    return this._logGroupArn;
+  }
+
+  // log_output_format - computed: false, optional: true, required: false
+  private _logOutputFormat?: string; 
+  public get logOutputFormat() {
+    return this.getStringAttribute('log_output_format');
+  }
+  public set logOutputFormat(value: string) {
+    this._logOutputFormat = value;
+  }
+  public resetLogOutputFormat() {
+    this._logOutputFormat = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logOutputFormatInput() {
+    return this._logOutputFormat;
+  }
+}
+export interface VpnConnectionTunnel2LogOptions {
+  /**
+  * cloudwatch_log_options block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection#cloudwatch_log_options VpnConnection#cloudwatch_log_options}
+  */
+  readonly cloudwatchLogOptions?: VpnConnectionTunnel2LogOptionsCloudwatchLogOptions;
+}
+
+export function vpnConnectionTunnel2LogOptionsToTerraform(struct?: VpnConnectionTunnel2LogOptionsOutputReference | VpnConnectionTunnel2LogOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    cloudwatch_log_options: vpnConnectionTunnel2LogOptionsCloudwatchLogOptionsToTerraform(struct!.cloudwatchLogOptions),
+  }
+}
+
+export class VpnConnectionTunnel2LogOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): VpnConnectionTunnel2LogOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._cloudwatchLogOptions?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.cloudwatchLogOptions = this._cloudwatchLogOptions?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: VpnConnectionTunnel2LogOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._cloudwatchLogOptions.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._cloudwatchLogOptions.internalValue = value.cloudwatchLogOptions;
+    }
+  }
+
+  // cloudwatch_log_options - computed: false, optional: true, required: false
+  private _cloudwatchLogOptions = new VpnConnectionTunnel2LogOptionsCloudwatchLogOptionsOutputReference(this, "cloudwatch_log_options");
+  public get cloudwatchLogOptions() {
+    return this._cloudwatchLogOptions;
+  }
+  public putCloudwatchLogOptions(value: VpnConnectionTunnel2LogOptionsCloudwatchLogOptions) {
+    this._cloudwatchLogOptions.internalValue = value;
+  }
+  public resetCloudwatchLogOptions() {
+    this._cloudwatchLogOptions.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get cloudwatchLogOptionsInput() {
+    return this._cloudwatchLogOptions.internalValue;
+  }
+}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/r/vpn_connection aws_vpn_connection}
@@ -401,8 +793,8 @@ export class VpnConnection extends cdktf.TerraformResource {
       terraformResourceType: 'aws_vpn_connection',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -417,12 +809,14 @@ export class VpnConnection extends cdktf.TerraformResource {
     this._id = config.id;
     this._localIpv4NetworkCidr = config.localIpv4NetworkCidr;
     this._localIpv6NetworkCidr = config.localIpv6NetworkCidr;
+    this._outsideIpAddressType = config.outsideIpAddressType;
     this._remoteIpv4NetworkCidr = config.remoteIpv4NetworkCidr;
     this._remoteIpv6NetworkCidr = config.remoteIpv6NetworkCidr;
     this._staticRoutesOnly = config.staticRoutesOnly;
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
     this._transitGatewayId = config.transitGatewayId;
+    this._transportTransitGatewayAttachmentId = config.transportTransitGatewayAttachmentId;
     this._tunnel1DpdTimeoutAction = config.tunnel1DpdTimeoutAction;
     this._tunnel1DpdTimeoutSeconds = config.tunnel1DpdTimeoutSeconds;
     this._tunnel1IkeVersions = config.tunnel1IkeVersions;
@@ -462,6 +856,8 @@ export class VpnConnection extends cdktf.TerraformResource {
     this._tunnelInsideIpVersion = config.tunnelInsideIpVersion;
     this._type = config.type;
     this._vpnGatewayId = config.vpnGatewayId;
+    this._tunnel1LogOptions.internalValue = config.tunnel1LogOptions;
+    this._tunnel2LogOptions.internalValue = config.tunnel2LogOptions;
   }
 
   // ==========
@@ -471,6 +867,16 @@ export class VpnConnection extends cdktf.TerraformResource {
   // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
+  }
+
+  // core_network_arn - computed: true, optional: false, required: false
+  public get coreNetworkArn() {
+    return this.getStringAttribute('core_network_arn');
+  }
+
+  // core_network_attachment_arn - computed: true, optional: false, required: false
+  public get coreNetworkAttachmentArn() {
+    return this.getStringAttribute('core_network_attachment_arn');
   }
 
   // customer_gateway_configuration - computed: true, optional: false, required: false
@@ -553,6 +959,22 @@ export class VpnConnection extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get localIpv6NetworkCidrInput() {
     return this._localIpv6NetworkCidr;
+  }
+
+  // outside_ip_address_type - computed: true, optional: true, required: false
+  private _outsideIpAddressType?: string; 
+  public get outsideIpAddressType() {
+    return this.getStringAttribute('outside_ip_address_type');
+  }
+  public set outsideIpAddressType(value: string) {
+    this._outsideIpAddressType = value;
+  }
+  public resetOutsideIpAddressType() {
+    this._outsideIpAddressType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get outsideIpAddressTypeInput() {
+    return this._outsideIpAddressType;
   }
 
   // remote_ipv4_network_cidr - computed: true, optional: true, required: false
@@ -660,6 +1082,22 @@ export class VpnConnection extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get transitGatewayIdInput() {
     return this._transitGatewayId;
+  }
+
+  // transport_transit_gateway_attachment_id - computed: false, optional: true, required: false
+  private _transportTransitGatewayAttachmentId?: string; 
+  public get transportTransitGatewayAttachmentId() {
+    return this.getStringAttribute('transport_transit_gateway_attachment_id');
+  }
+  public set transportTransitGatewayAttachmentId(value: string) {
+    this._transportTransitGatewayAttachmentId = value;
+  }
+  public resetTransportTransitGatewayAttachmentId() {
+    this._transportTransitGatewayAttachmentId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get transportTransitGatewayAttachmentIdInput() {
+    return this._transportTransitGatewayAttachmentId;
   }
 
   // tunnel1_address - computed: true, optional: false, required: false
@@ -1339,6 +1777,38 @@ export class VpnConnection extends cdktf.TerraformResource {
     return this._vpnGatewayId;
   }
 
+  // tunnel1_log_options - computed: false, optional: true, required: false
+  private _tunnel1LogOptions = new VpnConnectionTunnel1LogOptionsOutputReference(this, "tunnel1_log_options");
+  public get tunnel1LogOptions() {
+    return this._tunnel1LogOptions;
+  }
+  public putTunnel1LogOptions(value: VpnConnectionTunnel1LogOptions) {
+    this._tunnel1LogOptions.internalValue = value;
+  }
+  public resetTunnel1LogOptions() {
+    this._tunnel1LogOptions.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tunnel1LogOptionsInput() {
+    return this._tunnel1LogOptions.internalValue;
+  }
+
+  // tunnel2_log_options - computed: false, optional: true, required: false
+  private _tunnel2LogOptions = new VpnConnectionTunnel2LogOptionsOutputReference(this, "tunnel2_log_options");
+  public get tunnel2LogOptions() {
+    return this._tunnel2LogOptions;
+  }
+  public putTunnel2LogOptions(value: VpnConnectionTunnel2LogOptions) {
+    this._tunnel2LogOptions.internalValue = value;
+  }
+  public resetTunnel2LogOptions() {
+    this._tunnel2LogOptions.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tunnel2LogOptionsInput() {
+    return this._tunnel2LogOptions.internalValue;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -1350,12 +1820,14 @@ export class VpnConnection extends cdktf.TerraformResource {
       id: cdktf.stringToTerraform(this._id),
       local_ipv4_network_cidr: cdktf.stringToTerraform(this._localIpv4NetworkCidr),
       local_ipv6_network_cidr: cdktf.stringToTerraform(this._localIpv6NetworkCidr),
+      outside_ip_address_type: cdktf.stringToTerraform(this._outsideIpAddressType),
       remote_ipv4_network_cidr: cdktf.stringToTerraform(this._remoteIpv4NetworkCidr),
       remote_ipv6_network_cidr: cdktf.stringToTerraform(this._remoteIpv6NetworkCidr),
       static_routes_only: cdktf.booleanToTerraform(this._staticRoutesOnly),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       transit_gateway_id: cdktf.stringToTerraform(this._transitGatewayId),
+      transport_transit_gateway_attachment_id: cdktf.stringToTerraform(this._transportTransitGatewayAttachmentId),
       tunnel1_dpd_timeout_action: cdktf.stringToTerraform(this._tunnel1DpdTimeoutAction),
       tunnel1_dpd_timeout_seconds: cdktf.numberToTerraform(this._tunnel1DpdTimeoutSeconds),
       tunnel1_ike_versions: cdktf.listMapper(cdktf.stringToTerraform, false)(this._tunnel1IkeVersions),
@@ -1395,6 +1867,8 @@ export class VpnConnection extends cdktf.TerraformResource {
       tunnel_inside_ip_version: cdktf.stringToTerraform(this._tunnelInsideIpVersion),
       type: cdktf.stringToTerraform(this._type),
       vpn_gateway_id: cdktf.stringToTerraform(this._vpnGatewayId),
+      tunnel1_log_options: vpnConnectionTunnel1LogOptionsToTerraform(this._tunnel1LogOptions.internalValue),
+      tunnel2_log_options: vpnConnectionTunnel2LogOptionsToTerraform(this._tunnel2LogOptions.internalValue),
     };
   }
 }

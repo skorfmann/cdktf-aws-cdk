@@ -46,8 +46,8 @@ export class DataAwsMskconnectWorkerConfiguration extends cdktf.TerraformDataSou
       terraformResourceType: 'aws_mskconnect_worker_configuration',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

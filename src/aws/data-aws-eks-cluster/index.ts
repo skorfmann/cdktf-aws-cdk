@@ -265,6 +265,11 @@ export class DataAwsEksClusterKubernetesNetworkConfigOutputReference extends cdk
   public get serviceIpv4Cidr() {
     return this.getStringAttribute('service_ipv4_cidr');
   }
+
+  // service_ipv6_cidr - computed: true, optional: false, required: false
+  public get serviceIpv6Cidr() {
+    return this.getStringAttribute('service_ipv6_cidr');
+  }
 }
 
 export class DataAwsEksClusterKubernetesNetworkConfigList extends cdktf.ComplexList {
@@ -283,6 +288,145 @@ export class DataAwsEksClusterKubernetesNetworkConfigList extends cdktf.ComplexL
   */
   public get(index: number): DataAwsEksClusterKubernetesNetworkConfigOutputReference {
     return new DataAwsEksClusterKubernetesNetworkConfigOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface DataAwsEksClusterOutpostConfigControlPlanePlacement {
+}
+
+export function dataAwsEksClusterOutpostConfigControlPlanePlacementToTerraform(struct?: DataAwsEksClusterOutpostConfigControlPlanePlacement): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class DataAwsEksClusterOutpostConfigControlPlanePlacementOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): DataAwsEksClusterOutpostConfigControlPlanePlacement | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsEksClusterOutpostConfigControlPlanePlacement | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // group_name - computed: true, optional: false, required: false
+  public get groupName() {
+    return this.getStringAttribute('group_name');
+  }
+}
+
+export class DataAwsEksClusterOutpostConfigControlPlanePlacementList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): DataAwsEksClusterOutpostConfigControlPlanePlacementOutputReference {
+    return new DataAwsEksClusterOutpostConfigControlPlanePlacementOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface DataAwsEksClusterOutpostConfig {
+}
+
+export function dataAwsEksClusterOutpostConfigToTerraform(struct?: DataAwsEksClusterOutpostConfig): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class DataAwsEksClusterOutpostConfigOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): DataAwsEksClusterOutpostConfig | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsEksClusterOutpostConfig | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // control_plane_instance_type - computed: true, optional: false, required: false
+  public get controlPlaneInstanceType() {
+    return this.getStringAttribute('control_plane_instance_type');
+  }
+
+  // control_plane_placement - computed: true, optional: false, required: false
+  private _controlPlanePlacement = new DataAwsEksClusterOutpostConfigControlPlanePlacementList(this, "control_plane_placement", false);
+  public get controlPlanePlacement() {
+    return this._controlPlanePlacement;
+  }
+
+  // outpost_arns - computed: true, optional: false, required: false
+  public get outpostArns() {
+    return cdktf.Fn.tolist(this.getListAttribute('outpost_arns'));
+  }
+}
+
+export class DataAwsEksClusterOutpostConfigList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): DataAwsEksClusterOutpostConfigOutputReference {
+    return new DataAwsEksClusterOutpostConfigOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
 export interface DataAwsEksClusterVpcConfig {
@@ -406,8 +550,8 @@ export class DataAwsEksCluster extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_eks_cluster',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -435,6 +579,11 @@ export class DataAwsEksCluster extends cdktf.TerraformDataSource {
   private _certificateAuthority = new DataAwsEksClusterCertificateAuthorityList(this, "certificate_authority", false);
   public get certificateAuthority() {
     return this._certificateAuthority;
+  }
+
+  // cluster_id - computed: true, optional: false, required: false
+  public get clusterId() {
+    return this.getStringAttribute('cluster_id');
   }
 
   // created_at - computed: true, optional: false, required: false
@@ -491,6 +640,12 @@ export class DataAwsEksCluster extends cdktf.TerraformDataSource {
   // Temporarily expose input value. Use with caution.
   public get nameInput() {
     return this._name;
+  }
+
+  // outpost_config - computed: true, optional: false, required: false
+  private _outpostConfig = new DataAwsEksClusterOutpostConfigList(this, "outpost_config", false);
+  public get outpostConfig() {
+    return this._outpostConfig;
   }
 
   // platform_version - computed: true, optional: false, required: false

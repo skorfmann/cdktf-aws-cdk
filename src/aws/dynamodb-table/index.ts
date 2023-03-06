@@ -724,6 +724,14 @@ export interface DynamodbTableReplica {
   */
   readonly kmsKeyArn?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/dynamodb_table#point_in_time_recovery DynamodbTable#point_in_time_recovery}
+  */
+  readonly pointInTimeRecovery?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/dynamodb_table#propagate_tags DynamodbTable#propagate_tags}
+  */
+  readonly propagateTags?: boolean | cdktf.IResolvable;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/dynamodb_table#region_name DynamodbTable#region_name}
   */
   readonly regionName: string;
@@ -736,6 +744,8 @@ export function dynamodbTableReplicaToTerraform(struct?: DynamodbTableReplica | 
   }
   return {
     kms_key_arn: cdktf.stringToTerraform(struct!.kmsKeyArn),
+    point_in_time_recovery: cdktf.booleanToTerraform(struct!.pointInTimeRecovery),
+    propagate_tags: cdktf.booleanToTerraform(struct!.propagateTags),
     region_name: cdktf.stringToTerraform(struct!.regionName),
   }
 }
@@ -764,6 +774,14 @@ export class DynamodbTableReplicaOutputReference extends cdktf.ComplexObject {
       hasAnyValues = true;
       internalValueResult.kmsKeyArn = this._kmsKeyArn;
     }
+    if (this._pointInTimeRecovery !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.pointInTimeRecovery = this._pointInTimeRecovery;
+    }
+    if (this._propagateTags !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.propagateTags = this._propagateTags;
+    }
     if (this._regionName !== undefined) {
       hasAnyValues = true;
       internalValueResult.regionName = this._regionName;
@@ -776,6 +794,8 @@ export class DynamodbTableReplicaOutputReference extends cdktf.ComplexObject {
       this.isEmptyObject = false;
       this.resolvableValue = undefined;
       this._kmsKeyArn = undefined;
+      this._pointInTimeRecovery = undefined;
+      this._propagateTags = undefined;
       this._regionName = undefined;
     }
     else if (cdktf.Tokenization.isResolvable(value)) {
@@ -786,8 +806,15 @@ export class DynamodbTableReplicaOutputReference extends cdktf.ComplexObject {
       this.isEmptyObject = Object.keys(value).length === 0;
       this.resolvableValue = undefined;
       this._kmsKeyArn = value.kmsKeyArn;
+      this._pointInTimeRecovery = value.pointInTimeRecovery;
+      this._propagateTags = value.propagateTags;
       this._regionName = value.regionName;
     }
+  }
+
+  // arn - computed: true, optional: false, required: false
+  public get arn() {
+    return this.getStringAttribute('arn');
   }
 
   // kms_key_arn - computed: true, optional: true, required: false
@@ -806,6 +833,38 @@ export class DynamodbTableReplicaOutputReference extends cdktf.ComplexObject {
     return this._kmsKeyArn;
   }
 
+  // point_in_time_recovery - computed: false, optional: true, required: false
+  private _pointInTimeRecovery?: boolean | cdktf.IResolvable; 
+  public get pointInTimeRecovery() {
+    return this.getBooleanAttribute('point_in_time_recovery');
+  }
+  public set pointInTimeRecovery(value: boolean | cdktf.IResolvable) {
+    this._pointInTimeRecovery = value;
+  }
+  public resetPointInTimeRecovery() {
+    this._pointInTimeRecovery = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get pointInTimeRecoveryInput() {
+    return this._pointInTimeRecovery;
+  }
+
+  // propagate_tags - computed: false, optional: true, required: false
+  private _propagateTags?: boolean | cdktf.IResolvable; 
+  public get propagateTags() {
+    return this.getBooleanAttribute('propagate_tags');
+  }
+  public set propagateTags(value: boolean | cdktf.IResolvable) {
+    this._propagateTags = value;
+  }
+  public resetPropagateTags() {
+    this._propagateTags = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get propagateTagsInput() {
+    return this._propagateTags;
+  }
+
   // region_name - computed: false, optional: false, required: true
   private _regionName?: string; 
   public get regionName() {
@@ -817,6 +876,16 @@ export class DynamodbTableReplicaOutputReference extends cdktf.ComplexObject {
   // Temporarily expose input value. Use with caution.
   public get regionNameInput() {
     return this._regionName;
+  }
+
+  // stream_arn - computed: true, optional: false, required: false
+  public get streamArn() {
+    return this.getStringAttribute('stream_arn');
+  }
+
+  // stream_label - computed: true, optional: false, required: false
+  public get streamLabel() {
+    return this.getStringAttribute('stream_label');
   }
 }
 
@@ -1173,8 +1242,8 @@ export class DynamodbTable extends cdktf.TerraformResource {
       terraformResourceType: 'aws_dynamodb_table',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

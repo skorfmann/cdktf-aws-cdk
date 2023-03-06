@@ -12,6 +12,10 @@ export interface FmsPolicyConfig extends cdktf.TerraformMetaArguments {
   */
   readonly deleteAllPolicyResources?: boolean | cdktf.IResolvable;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fms_policy#delete_unused_fm_managed_resources FmsPolicy#delete_unused_fm_managed_resources}
+  */
+  readonly deleteUnusedFmManagedResources?: boolean | cdktf.IResolvable;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fms_policy#exclude_resource_tags FmsPolicy#exclude_resource_tags}
   */
   readonly excludeResourceTags: boolean | cdktf.IResolvable;
@@ -42,6 +46,14 @@ export interface FmsPolicyConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fms_policy#resource_type_list FmsPolicy#resource_type_list}
   */
   readonly resourceTypeList?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fms_policy#tags FmsPolicy#tags}
+  */
+  readonly tags?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/fms_policy#tags_all FmsPolicy#tags_all}
+  */
+  readonly tagsAll?: { [key: string]: string };
   /**
   * exclude_map block
   * 
@@ -361,8 +373,8 @@ export class FmsPolicy extends cdktf.TerraformResource {
       terraformResourceType: 'aws_fms_policy',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -373,6 +385,7 @@ export class FmsPolicy extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._deleteAllPolicyResources = config.deleteAllPolicyResources;
+    this._deleteUnusedFmManagedResources = config.deleteUnusedFmManagedResources;
     this._excludeResourceTags = config.excludeResourceTags;
     this._id = config.id;
     this._name = config.name;
@@ -380,6 +393,8 @@ export class FmsPolicy extends cdktf.TerraformResource {
     this._resourceTags = config.resourceTags;
     this._resourceType = config.resourceType;
     this._resourceTypeList = config.resourceTypeList;
+    this._tags = config.tags;
+    this._tagsAll = config.tagsAll;
     this._excludeMap.internalValue = config.excludeMap;
     this._includeMap.internalValue = config.includeMap;
     this._securityServicePolicyData.internalValue = config.securityServicePolicyData;
@@ -408,6 +423,22 @@ export class FmsPolicy extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get deleteAllPolicyResourcesInput() {
     return this._deleteAllPolicyResources;
+  }
+
+  // delete_unused_fm_managed_resources - computed: false, optional: true, required: false
+  private _deleteUnusedFmManagedResources?: boolean | cdktf.IResolvable; 
+  public get deleteUnusedFmManagedResources() {
+    return this.getBooleanAttribute('delete_unused_fm_managed_resources');
+  }
+  public set deleteUnusedFmManagedResources(value: boolean | cdktf.IResolvable) {
+    this._deleteUnusedFmManagedResources = value;
+  }
+  public resetDeleteUnusedFmManagedResources() {
+    this._deleteUnusedFmManagedResources = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get deleteUnusedFmManagedResourcesInput() {
+    return this._deleteUnusedFmManagedResources;
   }
 
   // exclude_resource_tags - computed: false, optional: false, required: true
@@ -521,6 +552,38 @@ export class FmsPolicy extends cdktf.TerraformResource {
     return this._resourceTypeList;
   }
 
+  // tags - computed: false, optional: true, required: false
+  private _tags?: { [key: string]: string }; 
+  public get tags() {
+    return this.getStringMapAttribute('tags');
+  }
+  public set tags(value: { [key: string]: string }) {
+    this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tagsInput() {
+    return this._tags;
+  }
+
+  // tags_all - computed: true, optional: true, required: false
+  private _tagsAll?: { [key: string]: string }; 
+  public get tagsAll() {
+    return this.getStringMapAttribute('tags_all');
+  }
+  public set tagsAll(value: { [key: string]: string }) {
+    this._tagsAll = value;
+  }
+  public resetTagsAll() {
+    this._tagsAll = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tagsAllInput() {
+    return this._tagsAll;
+  }
+
   // exclude_map - computed: false, optional: true, required: false
   private _excludeMap = new FmsPolicyExcludeMapOutputReference(this, "exclude_map");
   public get excludeMap() {
@@ -573,6 +636,7 @@ export class FmsPolicy extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       delete_all_policy_resources: cdktf.booleanToTerraform(this._deleteAllPolicyResources),
+      delete_unused_fm_managed_resources: cdktf.booleanToTerraform(this._deleteUnusedFmManagedResources),
       exclude_resource_tags: cdktf.booleanToTerraform(this._excludeResourceTags),
       id: cdktf.stringToTerraform(this._id),
       name: cdktf.stringToTerraform(this._name),
@@ -580,6 +644,8 @@ export class FmsPolicy extends cdktf.TerraformResource {
       resource_tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._resourceTags),
       resource_type: cdktf.stringToTerraform(this._resourceType),
       resource_type_list: cdktf.listMapper(cdktf.stringToTerraform, false)(this._resourceTypeList),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
+      tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       exclude_map: fmsPolicyExcludeMapToTerraform(this._excludeMap.internalValue),
       include_map: fmsPolicyIncludeMapToTerraform(this._includeMap.internalValue),
       security_service_policy_data: fmsPolicySecurityServicePolicyDataToTerraform(this._securityServicePolicyData.internalValue),

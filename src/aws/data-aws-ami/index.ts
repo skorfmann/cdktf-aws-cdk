@@ -19,6 +19,10 @@ export interface DataAwsAmiConfig extends cdktf.TerraformMetaArguments {
   */
   readonly id?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ami#include_deprecated DataAwsAmi#include_deprecated}
+  */
+  readonly includeDeprecated?: boolean | cdktf.IResolvable;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ami#most_recent DataAwsAmi#most_recent}
   */
   readonly mostRecent?: boolean | cdktf.IResolvable;
@@ -29,7 +33,7 @@ export interface DataAwsAmiConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ami#owners DataAwsAmi#owners}
   */
-  readonly owners: string[];
+  readonly owners?: string[];
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ami#tags DataAwsAmi#tags}
   */
@@ -40,6 +44,12 @@ export interface DataAwsAmiConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ami#filter DataAwsAmi#filter}
   */
   readonly filter?: DataAwsAmiFilter[] | cdktf.IResolvable;
+  /**
+  * timeouts block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ami#timeouts DataAwsAmi#timeouts}
+  */
+  readonly timeouts?: DataAwsAmiTimeouts;
 }
 export interface DataAwsAmiBlockDeviceMappings {
 }
@@ -308,6 +318,81 @@ export class DataAwsAmiFilterList extends cdktf.ComplexList {
     return new DataAwsAmiFilterOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
+export interface DataAwsAmiTimeouts {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/ami#read DataAwsAmi#read}
+  */
+  readonly read?: string;
+}
+
+export function dataAwsAmiTimeoutsToTerraform(struct?: DataAwsAmiTimeoutsOutputReference | DataAwsAmiTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    read: cdktf.stringToTerraform(struct!.read),
+  }
+}
+
+export class DataAwsAmiTimeoutsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): DataAwsAmiTimeouts | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._read !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.read = this._read;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsAmiTimeouts | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._read = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._read = value.read;
+    }
+  }
+
+  // read - computed: false, optional: true, required: false
+  private _read?: string; 
+  public get read() {
+    return this.getStringAttribute('read');
+  }
+  public set read(value: string) {
+    this._read = value;
+  }
+  public resetRead() {
+    this._read = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get readInput() {
+    return this._read;
+  }
+}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/d/ami aws_ami}
@@ -328,15 +413,15 @@ export class DataAwsAmi extends cdktf.TerraformDataSource {
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
-  * @param options DataAwsAmiConfig
+  * @param options DataAwsAmiConfig = {}
   */
-  public constructor(scope: Construct, id: string, config: DataAwsAmiConfig) {
+  public constructor(scope: Construct, id: string, config: DataAwsAmiConfig = {}) {
     super(scope, id, {
       terraformResourceType: 'aws_ami',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -348,11 +433,13 @@ export class DataAwsAmi extends cdktf.TerraformDataSource {
     });
     this._executableUsers = config.executableUsers;
     this._id = config.id;
+    this._includeDeprecated = config.includeDeprecated;
     this._mostRecent = config.mostRecent;
     this._nameRegex = config.nameRegex;
     this._owners = config.owners;
     this._tags = config.tags;
     this._filter.internalValue = config.filter;
+    this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
@@ -375,9 +462,19 @@ export class DataAwsAmi extends cdktf.TerraformDataSource {
     return this._blockDeviceMappings;
   }
 
+  // boot_mode - computed: true, optional: false, required: false
+  public get bootMode() {
+    return this.getStringAttribute('boot_mode');
+  }
+
   // creation_date - computed: true, optional: false, required: false
   public get creationDate() {
     return this.getStringAttribute('creation_date');
+  }
+
+  // deprecation_time - computed: true, optional: false, required: false
+  public get deprecationTime() {
+    return this.getStringAttribute('deprecation_time');
   }
 
   // description - computed: true, optional: false, required: false
@@ -447,6 +544,27 @@ export class DataAwsAmi extends cdktf.TerraformDataSource {
     return this.getStringAttribute('image_type');
   }
 
+  // imds_support - computed: true, optional: false, required: false
+  public get imdsSupport() {
+    return this.getStringAttribute('imds_support');
+  }
+
+  // include_deprecated - computed: false, optional: true, required: false
+  private _includeDeprecated?: boolean | cdktf.IResolvable; 
+  public get includeDeprecated() {
+    return this.getBooleanAttribute('include_deprecated');
+  }
+  public set includeDeprecated(value: boolean | cdktf.IResolvable) {
+    this._includeDeprecated = value;
+  }
+  public resetIncludeDeprecated() {
+    this._includeDeprecated = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get includeDeprecatedInput() {
+    return this._includeDeprecated;
+  }
+
   // kernel_id - computed: true, optional: false, required: false
   public get kernelId() {
     return this.getStringAttribute('kernel_id');
@@ -494,13 +612,16 @@ export class DataAwsAmi extends cdktf.TerraformDataSource {
     return this.getStringAttribute('owner_id');
   }
 
-  // owners - computed: false, optional: false, required: true
+  // owners - computed: false, optional: true, required: false
   private _owners?: string[]; 
   public get owners() {
     return this.getListAttribute('owners');
   }
   public set owners(value: string[]) {
     this._owners = value;
+  }
+  public resetOwners() {
+    this._owners = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get ownersInput() {
@@ -580,6 +701,11 @@ export class DataAwsAmi extends cdktf.TerraformDataSource {
     return this._tags;
   }
 
+  // tpm_support - computed: true, optional: false, required: false
+  public get tpmSupport() {
+    return this.getStringAttribute('tpm_support');
+  }
+
   // usage_operation - computed: true, optional: false, required: false
   public get usageOperation() {
     return this.getStringAttribute('usage_operation');
@@ -606,6 +732,22 @@ export class DataAwsAmi extends cdktf.TerraformDataSource {
     return this._filter.internalValue;
   }
 
+  // timeouts - computed: false, optional: true, required: false
+  private _timeouts = new DataAwsAmiTimeoutsOutputReference(this, "timeouts");
+  public get timeouts() {
+    return this._timeouts;
+  }
+  public putTimeouts(value: DataAwsAmiTimeouts) {
+    this._timeouts.internalValue = value;
+  }
+  public resetTimeouts() {
+    this._timeouts.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get timeoutsInput() {
+    return this._timeouts.internalValue;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -614,11 +756,13 @@ export class DataAwsAmi extends cdktf.TerraformDataSource {
     return {
       executable_users: cdktf.listMapper(cdktf.stringToTerraform, false)(this._executableUsers),
       id: cdktf.stringToTerraform(this._id),
+      include_deprecated: cdktf.booleanToTerraform(this._includeDeprecated),
       most_recent: cdktf.booleanToTerraform(this._mostRecent),
       name_regex: cdktf.stringToTerraform(this._nameRegex),
       owners: cdktf.listMapper(cdktf.stringToTerraform, false)(this._owners),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       filter: cdktf.listMapper(dataAwsAmiFilterToTerraform, true)(this._filter.internalValue),
+      timeouts: dataAwsAmiTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }

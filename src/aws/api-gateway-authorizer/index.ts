@@ -78,8 +78,8 @@ export class ApiGatewayAuthorizer extends cdktf.TerraformResource {
       terraformResourceType: 'aws_api_gateway_authorizer',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -104,6 +104,11 @@ export class ApiGatewayAuthorizer extends cdktf.TerraformResource {
   // ==========
   // ATTRIBUTES
   // ==========
+
+  // arn - computed: true, optional: false, required: false
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
 
   // authorizer_credentials - computed: false, optional: true, required: false
   private _authorizerCredentials?: string; 

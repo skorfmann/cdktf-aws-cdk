@@ -113,7 +113,7 @@ export class DataAwsRegionsFilterOutputReference extends cdktf.ComplexObject {
   // values - computed: false, optional: false, required: true
   private _values?: string[]; 
   public get values() {
-    return this.getListAttribute('values');
+    return cdktf.Fn.tolist(this.getListAttribute('values'));
   }
   public set values(value: string[]) {
     this._values = value;
@@ -170,8 +170,8 @@ export class DataAwsRegions extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_regions',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

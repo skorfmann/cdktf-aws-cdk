@@ -63,6 +63,14 @@ export interface LambdaFunctionConfig extends cdktf.TerraformMetaArguments {
   */
   readonly publish?: boolean | cdktf.IResolvable;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#replace_security_groups_on_destroy LambdaFunction#replace_security_groups_on_destroy}
+  */
+  readonly replaceSecurityGroupsOnDestroy?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#replacement_security_group_ids LambdaFunction#replacement_security_group_ids}
+  */
+  readonly replacementSecurityGroupIds?: string[];
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#reserved_concurrent_executions LambdaFunction#reserved_concurrent_executions}
   */
   readonly reservedConcurrentExecutions?: number;
@@ -86,6 +94,10 @@ export interface LambdaFunctionConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#s3_object_version LambdaFunction#s3_object_version}
   */
   readonly s3ObjectVersion?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#skip_destroy LambdaFunction#skip_destroy}
+  */
+  readonly skipDestroy?: boolean | cdktf.IResolvable;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#source_code_hash LambdaFunction#source_code_hash}
   */
@@ -115,6 +127,12 @@ export interface LambdaFunctionConfig extends cdktf.TerraformMetaArguments {
   */
   readonly environment?: LambdaFunctionEnvironment;
   /**
+  * ephemeral_storage block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#ephemeral_storage LambdaFunction#ephemeral_storage}
+  */
+  readonly ephemeralStorage?: LambdaFunctionEphemeralStorage;
+  /**
   * file_system_config block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#file_system_config LambdaFunction#file_system_config}
@@ -126,6 +144,12 @@ export interface LambdaFunctionConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#image_config LambdaFunction#image_config}
   */
   readonly imageConfig?: LambdaFunctionImageConfig;
+  /**
+  * snap_start block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#snap_start LambdaFunction#snap_start}
+  */
+  readonly snapStart?: LambdaFunctionSnapStart;
   /**
   * timeouts block
   * 
@@ -270,6 +294,71 @@ export class LambdaFunctionEnvironmentOutputReference extends cdktf.ComplexObjec
   // Temporarily expose input value. Use with caution.
   public get variablesInput() {
     return this._variables;
+  }
+}
+export interface LambdaFunctionEphemeralStorage {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#size LambdaFunction#size}
+  */
+  readonly size?: number;
+}
+
+export function lambdaFunctionEphemeralStorageToTerraform(struct?: LambdaFunctionEphemeralStorageOutputReference | LambdaFunctionEphemeralStorage): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    size: cdktf.numberToTerraform(struct!.size),
+  }
+}
+
+export class LambdaFunctionEphemeralStorageOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): LambdaFunctionEphemeralStorage | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._size !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.size = this._size;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: LambdaFunctionEphemeralStorage | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._size = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._size = value.size;
+    }
+  }
+
+  // size - computed: true, optional: true, required: false
+  private _size?: number; 
+  public get size() {
+    return this.getNumberAttribute('size');
+  }
+  public set size(value: number) {
+    this._size = value;
+  }
+  public resetSize() {
+    this._size = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get sizeInput() {
+    return this._size;
   }
 }
 export interface LambdaFunctionFileSystemConfig {
@@ -477,11 +566,86 @@ export class LambdaFunctionImageConfigOutputReference extends cdktf.ComplexObjec
     return this._workingDirectory;
   }
 }
+export interface LambdaFunctionSnapStart {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#apply_on LambdaFunction#apply_on}
+  */
+  readonly applyOn: string;
+}
+
+export function lambdaFunctionSnapStartToTerraform(struct?: LambdaFunctionSnapStartOutputReference | LambdaFunctionSnapStart): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    apply_on: cdktf.stringToTerraform(struct!.applyOn),
+  }
+}
+
+export class LambdaFunctionSnapStartOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): LambdaFunctionSnapStart | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._applyOn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.applyOn = this._applyOn;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: LambdaFunctionSnapStart | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._applyOn = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._applyOn = value.applyOn;
+    }
+  }
+
+  // apply_on - computed: false, optional: false, required: true
+  private _applyOn?: string; 
+  public get applyOn() {
+    return this.getStringAttribute('apply_on');
+  }
+  public set applyOn(value: string) {
+    this._applyOn = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get applyOnInput() {
+    return this._applyOn;
+  }
+
+  // optimization_status - computed: true, optional: false, required: false
+  public get optimizationStatus() {
+    return this.getStringAttribute('optimization_status');
+  }
+}
 export interface LambdaFunctionTimeouts {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#create LambdaFunction#create}
   */
   readonly create?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#delete LambdaFunction#delete}
+  */
+  readonly delete?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_function#update LambdaFunction#update}
+  */
+  readonly update?: string;
 }
 
 export function lambdaFunctionTimeoutsToTerraform(struct?: LambdaFunctionTimeoutsOutputReference | LambdaFunctionTimeouts | cdktf.IResolvable): any {
@@ -491,6 +655,8 @@ export function lambdaFunctionTimeoutsToTerraform(struct?: LambdaFunctionTimeout
   }
   return {
     create: cdktf.stringToTerraform(struct!.create),
+    delete: cdktf.stringToTerraform(struct!.delete),
+    update: cdktf.stringToTerraform(struct!.update),
   }
 }
 
@@ -516,6 +682,14 @@ export class LambdaFunctionTimeoutsOutputReference extends cdktf.ComplexObject {
       hasAnyValues = true;
       internalValueResult.create = this._create;
     }
+    if (this._delete !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.delete = this._delete;
+    }
+    if (this._update !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.update = this._update;
+    }
     return hasAnyValues ? internalValueResult : undefined;
   }
 
@@ -524,6 +698,8 @@ export class LambdaFunctionTimeoutsOutputReference extends cdktf.ComplexObject {
       this.isEmptyObject = false;
       this.resolvableValue = undefined;
       this._create = undefined;
+      this._delete = undefined;
+      this._update = undefined;
     }
     else if (cdktf.Tokenization.isResolvable(value)) {
       this.isEmptyObject = false;
@@ -533,6 +709,8 @@ export class LambdaFunctionTimeoutsOutputReference extends cdktf.ComplexObject {
       this.isEmptyObject = Object.keys(value).length === 0;
       this.resolvableValue = undefined;
       this._create = value.create;
+      this._delete = value.delete;
+      this._update = value.update;
     }
   }
 
@@ -550,6 +728,38 @@ export class LambdaFunctionTimeoutsOutputReference extends cdktf.ComplexObject {
   // Temporarily expose input value. Use with caution.
   public get createInput() {
     return this._create;
+  }
+
+  // delete - computed: false, optional: true, required: false
+  private _delete?: string; 
+  public get delete() {
+    return this.getStringAttribute('delete');
+  }
+  public set delete(value: string) {
+    this._delete = value;
+  }
+  public resetDelete() {
+    this._delete = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get deleteInput() {
+    return this._delete;
+  }
+
+  // update - computed: false, optional: true, required: false
+  private _update?: string; 
+  public get update() {
+    return this.getStringAttribute('update');
+  }
+  public set update(value: string) {
+    this._update = value;
+  }
+  public resetUpdate() {
+    this._update = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get updateInput() {
+    return this._update;
   }
 }
 export interface LambdaFunctionTracingConfig {
@@ -732,8 +942,8 @@ export class LambdaFunction extends cdktf.TerraformResource {
       terraformResourceType: 'aws_lambda_function',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -756,20 +966,25 @@ export class LambdaFunction extends cdktf.TerraformResource {
     this._memorySize = config.memorySize;
     this._packageType = config.packageType;
     this._publish = config.publish;
+    this._replaceSecurityGroupsOnDestroy = config.replaceSecurityGroupsOnDestroy;
+    this._replacementSecurityGroupIds = config.replacementSecurityGroupIds;
     this._reservedConcurrentExecutions = config.reservedConcurrentExecutions;
     this._role = config.role;
     this._runtime = config.runtime;
     this._s3Bucket = config.s3Bucket;
     this._s3Key = config.s3Key;
     this._s3ObjectVersion = config.s3ObjectVersion;
+    this._skipDestroy = config.skipDestroy;
     this._sourceCodeHash = config.sourceCodeHash;
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
     this._timeout = config.timeout;
     this._deadLetterConfig.internalValue = config.deadLetterConfig;
     this._environment.internalValue = config.environment;
+    this._ephemeralStorage.internalValue = config.ephemeralStorage;
     this._fileSystemConfig.internalValue = config.fileSystemConfig;
     this._imageConfig.internalValue = config.imageConfig;
+    this._snapStart.internalValue = config.snapStart;
     this._timeouts.internalValue = config.timeouts;
     this._tracingConfig.internalValue = config.tracingConfig;
     this._vpcConfig.internalValue = config.vpcConfig;
@@ -1004,6 +1219,43 @@ export class LambdaFunction extends cdktf.TerraformResource {
     return this.getStringAttribute('qualified_arn');
   }
 
+  // qualified_invoke_arn - computed: true, optional: false, required: false
+  public get qualifiedInvokeArn() {
+    return this.getStringAttribute('qualified_invoke_arn');
+  }
+
+  // replace_security_groups_on_destroy - computed: false, optional: true, required: false
+  private _replaceSecurityGroupsOnDestroy?: boolean | cdktf.IResolvable; 
+  public get replaceSecurityGroupsOnDestroy() {
+    return this.getBooleanAttribute('replace_security_groups_on_destroy');
+  }
+  public set replaceSecurityGroupsOnDestroy(value: boolean | cdktf.IResolvable) {
+    this._replaceSecurityGroupsOnDestroy = value;
+  }
+  public resetReplaceSecurityGroupsOnDestroy() {
+    this._replaceSecurityGroupsOnDestroy = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get replaceSecurityGroupsOnDestroyInput() {
+    return this._replaceSecurityGroupsOnDestroy;
+  }
+
+  // replacement_security_group_ids - computed: false, optional: true, required: false
+  private _replacementSecurityGroupIds?: string[]; 
+  public get replacementSecurityGroupIds() {
+    return cdktf.Fn.tolist(this.getListAttribute('replacement_security_group_ids'));
+  }
+  public set replacementSecurityGroupIds(value: string[]) {
+    this._replacementSecurityGroupIds = value;
+  }
+  public resetReplacementSecurityGroupIds() {
+    this._replacementSecurityGroupIds = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get replacementSecurityGroupIdsInput() {
+    return this._replacementSecurityGroupIds;
+  }
+
   // reserved_concurrent_executions - computed: false, optional: true, required: false
   private _reservedConcurrentExecutions?: number; 
   public get reservedConcurrentExecutions() {
@@ -1105,6 +1357,22 @@ export class LambdaFunction extends cdktf.TerraformResource {
   // signing_profile_version_arn - computed: true, optional: false, required: false
   public get signingProfileVersionArn() {
     return this.getStringAttribute('signing_profile_version_arn');
+  }
+
+  // skip_destroy - computed: false, optional: true, required: false
+  private _skipDestroy?: boolean | cdktf.IResolvable; 
+  public get skipDestroy() {
+    return this.getBooleanAttribute('skip_destroy');
+  }
+  public set skipDestroy(value: boolean | cdktf.IResolvable) {
+    this._skipDestroy = value;
+  }
+  public resetSkipDestroy() {
+    this._skipDestroy = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get skipDestroyInput() {
+    return this._skipDestroy;
   }
 
   // source_code_hash - computed: true, optional: true, required: false
@@ -1213,6 +1481,22 @@ export class LambdaFunction extends cdktf.TerraformResource {
     return this._environment.internalValue;
   }
 
+  // ephemeral_storage - computed: false, optional: true, required: false
+  private _ephemeralStorage = new LambdaFunctionEphemeralStorageOutputReference(this, "ephemeral_storage");
+  public get ephemeralStorage() {
+    return this._ephemeralStorage;
+  }
+  public putEphemeralStorage(value: LambdaFunctionEphemeralStorage) {
+    this._ephemeralStorage.internalValue = value;
+  }
+  public resetEphemeralStorage() {
+    this._ephemeralStorage.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ephemeralStorageInput() {
+    return this._ephemeralStorage.internalValue;
+  }
+
   // file_system_config - computed: false, optional: true, required: false
   private _fileSystemConfig = new LambdaFunctionFileSystemConfigOutputReference(this, "file_system_config");
   public get fileSystemConfig() {
@@ -1243,6 +1527,22 @@ export class LambdaFunction extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get imageConfigInput() {
     return this._imageConfig.internalValue;
+  }
+
+  // snap_start - computed: false, optional: true, required: false
+  private _snapStart = new LambdaFunctionSnapStartOutputReference(this, "snap_start");
+  public get snapStart() {
+    return this._snapStart;
+  }
+  public putSnapStart(value: LambdaFunctionSnapStart) {
+    this._snapStart.internalValue = value;
+  }
+  public resetSnapStart() {
+    this._snapStart.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get snapStartInput() {
+    return this._snapStart.internalValue;
   }
 
   // timeouts - computed: false, optional: true, required: false
@@ -1312,20 +1612,25 @@ export class LambdaFunction extends cdktf.TerraformResource {
       memory_size: cdktf.numberToTerraform(this._memorySize),
       package_type: cdktf.stringToTerraform(this._packageType),
       publish: cdktf.booleanToTerraform(this._publish),
+      replace_security_groups_on_destroy: cdktf.booleanToTerraform(this._replaceSecurityGroupsOnDestroy),
+      replacement_security_group_ids: cdktf.listMapper(cdktf.stringToTerraform, false)(this._replacementSecurityGroupIds),
       reserved_concurrent_executions: cdktf.numberToTerraform(this._reservedConcurrentExecutions),
       role: cdktf.stringToTerraform(this._role),
       runtime: cdktf.stringToTerraform(this._runtime),
       s3_bucket: cdktf.stringToTerraform(this._s3Bucket),
       s3_key: cdktf.stringToTerraform(this._s3Key),
       s3_object_version: cdktf.stringToTerraform(this._s3ObjectVersion),
+      skip_destroy: cdktf.booleanToTerraform(this._skipDestroy),
       source_code_hash: cdktf.stringToTerraform(this._sourceCodeHash),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       timeout: cdktf.numberToTerraform(this._timeout),
       dead_letter_config: lambdaFunctionDeadLetterConfigToTerraform(this._deadLetterConfig.internalValue),
       environment: lambdaFunctionEnvironmentToTerraform(this._environment.internalValue),
+      ephemeral_storage: lambdaFunctionEphemeralStorageToTerraform(this._ephemeralStorage.internalValue),
       file_system_config: lambdaFunctionFileSystemConfigToTerraform(this._fileSystemConfig.internalValue),
       image_config: lambdaFunctionImageConfigToTerraform(this._imageConfig.internalValue),
+      snap_start: lambdaFunctionSnapStartToTerraform(this._snapStart.internalValue),
       timeouts: lambdaFunctionTimeoutsToTerraform(this._timeouts.internalValue),
       tracing_config: lambdaFunctionTracingConfigToTerraform(this._tracingConfig.internalValue),
       vpc_config: lambdaFunctionVpcConfigToTerraform(this._vpcConfig.internalValue),

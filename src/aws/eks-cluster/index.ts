@@ -51,6 +51,12 @@ export interface EksClusterConfig extends cdktf.TerraformMetaArguments {
   */
   readonly kubernetesNetworkConfig?: EksClusterKubernetesNetworkConfig;
   /**
+  * outpost_config block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_cluster#outpost_config EksCluster#outpost_config}
+  */
+  readonly outpostConfig?: EksClusterOutpostConfig;
+  /**
   * timeouts block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_cluster#timeouts EksCluster#timeouts}
@@ -497,6 +503,188 @@ export class EksClusterKubernetesNetworkConfigOutputReference extends cdktf.Comp
   public get serviceIpv4CidrInput() {
     return this._serviceIpv4Cidr;
   }
+
+  // service_ipv6_cidr - computed: true, optional: false, required: false
+  public get serviceIpv6Cidr() {
+    return this.getStringAttribute('service_ipv6_cidr');
+  }
+}
+export interface EksClusterOutpostConfigControlPlanePlacement {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_cluster#group_name EksCluster#group_name}
+  */
+  readonly groupName: string;
+}
+
+export function eksClusterOutpostConfigControlPlanePlacementToTerraform(struct?: EksClusterOutpostConfigControlPlanePlacementOutputReference | EksClusterOutpostConfigControlPlanePlacement): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    group_name: cdktf.stringToTerraform(struct!.groupName),
+  }
+}
+
+export class EksClusterOutpostConfigControlPlanePlacementOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): EksClusterOutpostConfigControlPlanePlacement | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._groupName !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.groupName = this._groupName;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: EksClusterOutpostConfigControlPlanePlacement | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._groupName = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._groupName = value.groupName;
+    }
+  }
+
+  // group_name - computed: false, optional: false, required: true
+  private _groupName?: string; 
+  public get groupName() {
+    return this.getStringAttribute('group_name');
+  }
+  public set groupName(value: string) {
+    this._groupName = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get groupNameInput() {
+    return this._groupName;
+  }
+}
+export interface EksClusterOutpostConfig {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_cluster#control_plane_instance_type EksCluster#control_plane_instance_type}
+  */
+  readonly controlPlaneInstanceType: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_cluster#outpost_arns EksCluster#outpost_arns}
+  */
+  readonly outpostArns: string[];
+  /**
+  * control_plane_placement block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/eks_cluster#control_plane_placement EksCluster#control_plane_placement}
+  */
+  readonly controlPlanePlacement?: EksClusterOutpostConfigControlPlanePlacement;
+}
+
+export function eksClusterOutpostConfigToTerraform(struct?: EksClusterOutpostConfigOutputReference | EksClusterOutpostConfig): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    control_plane_instance_type: cdktf.stringToTerraform(struct!.controlPlaneInstanceType),
+    outpost_arns: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.outpostArns),
+    control_plane_placement: eksClusterOutpostConfigControlPlanePlacementToTerraform(struct!.controlPlanePlacement),
+  }
+}
+
+export class EksClusterOutpostConfigOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): EksClusterOutpostConfig | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._controlPlaneInstanceType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.controlPlaneInstanceType = this._controlPlaneInstanceType;
+    }
+    if (this._outpostArns !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.outpostArns = this._outpostArns;
+    }
+    if (this._controlPlanePlacement?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.controlPlanePlacement = this._controlPlanePlacement?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: EksClusterOutpostConfig | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._controlPlaneInstanceType = undefined;
+      this._outpostArns = undefined;
+      this._controlPlanePlacement.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._controlPlaneInstanceType = value.controlPlaneInstanceType;
+      this._outpostArns = value.outpostArns;
+      this._controlPlanePlacement.internalValue = value.controlPlanePlacement;
+    }
+  }
+
+  // control_plane_instance_type - computed: false, optional: false, required: true
+  private _controlPlaneInstanceType?: string; 
+  public get controlPlaneInstanceType() {
+    return this.getStringAttribute('control_plane_instance_type');
+  }
+  public set controlPlaneInstanceType(value: string) {
+    this._controlPlaneInstanceType = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get controlPlaneInstanceTypeInput() {
+    return this._controlPlaneInstanceType;
+  }
+
+  // outpost_arns - computed: false, optional: false, required: true
+  private _outpostArns?: string[]; 
+  public get outpostArns() {
+    return cdktf.Fn.tolist(this.getListAttribute('outpost_arns'));
+  }
+  public set outpostArns(value: string[]) {
+    this._outpostArns = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get outpostArnsInput() {
+    return this._outpostArns;
+  }
+
+  // control_plane_placement - computed: false, optional: true, required: false
+  private _controlPlanePlacement = new EksClusterOutpostConfigControlPlanePlacementOutputReference(this, "control_plane_placement");
+  public get controlPlanePlacement() {
+    return this._controlPlanePlacement;
+  }
+  public putControlPlanePlacement(value: EksClusterOutpostConfigControlPlanePlacement) {
+    this._controlPlanePlacement.internalValue = value;
+  }
+  public resetControlPlanePlacement() {
+    this._controlPlanePlacement.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get controlPlanePlacementInput() {
+    return this._controlPlanePlacement.internalValue;
+  }
 }
 export interface EksClusterTimeouts {
   /**
@@ -834,8 +1022,8 @@ export class EksCluster extends cdktf.TerraformResource {
       terraformResourceType: 'aws_eks_cluster',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -854,6 +1042,7 @@ export class EksCluster extends cdktf.TerraformResource {
     this._version = config.version;
     this._encryptionConfig.internalValue = config.encryptionConfig;
     this._kubernetesNetworkConfig.internalValue = config.kubernetesNetworkConfig;
+    this._outpostConfig.internalValue = config.outpostConfig;
     this._timeouts.internalValue = config.timeouts;
     this._vpcConfig.internalValue = config.vpcConfig;
   }
@@ -871,6 +1060,11 @@ export class EksCluster extends cdktf.TerraformResource {
   private _certificateAuthority = new EksClusterCertificateAuthorityList(this, "certificate_authority", false);
   public get certificateAuthority() {
     return this._certificateAuthority;
+  }
+
+  // cluster_id - computed: true, optional: false, required: false
+  public get clusterId() {
+    return this.getStringAttribute('cluster_id');
   }
 
   // created_at - computed: true, optional: false, required: false
@@ -1037,6 +1231,22 @@ export class EksCluster extends cdktf.TerraformResource {
     return this._kubernetesNetworkConfig.internalValue;
   }
 
+  // outpost_config - computed: false, optional: true, required: false
+  private _outpostConfig = new EksClusterOutpostConfigOutputReference(this, "outpost_config");
+  public get outpostConfig() {
+    return this._outpostConfig;
+  }
+  public putOutpostConfig(value: EksClusterOutpostConfig) {
+    this._outpostConfig.internalValue = value;
+  }
+  public resetOutpostConfig() {
+    this._outpostConfig.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get outpostConfigInput() {
+    return this._outpostConfig.internalValue;
+  }
+
   // timeouts - computed: false, optional: true, required: false
   private _timeouts = new EksClusterTimeoutsOutputReference(this, "timeouts");
   public get timeouts() {
@@ -1081,6 +1291,7 @@ export class EksCluster extends cdktf.TerraformResource {
       version: cdktf.stringToTerraform(this._version),
       encryption_config: eksClusterEncryptionConfigToTerraform(this._encryptionConfig.internalValue),
       kubernetes_network_config: eksClusterKubernetesNetworkConfigToTerraform(this._kubernetesNetworkConfig.internalValue),
+      outpost_config: eksClusterOutpostConfigToTerraform(this._outpostConfig.internalValue),
       timeouts: eksClusterTimeoutsToTerraform(this._timeouts.internalValue),
       vpc_config: eksClusterVpcConfigToTerraform(this._vpcConfig.internalValue),
     };

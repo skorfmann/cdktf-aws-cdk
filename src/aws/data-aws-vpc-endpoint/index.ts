@@ -36,6 +36,12 @@ export interface DataAwsVpcEndpointConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/vpc_endpoint#filter DataAwsVpcEndpoint#filter}
   */
   readonly filter?: DataAwsVpcEndpointFilter[] | cdktf.IResolvable;
+  /**
+  * timeouts block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/vpc_endpoint#timeouts DataAwsVpcEndpoint#timeouts}
+  */
+  readonly timeouts?: DataAwsVpcEndpointTimeouts;
 }
 export interface DataAwsVpcEndpointDnsEntry {
 }
@@ -104,6 +110,70 @@ export class DataAwsVpcEndpointDnsEntryList extends cdktf.ComplexList {
   */
   public get(index: number): DataAwsVpcEndpointDnsEntryOutputReference {
     return new DataAwsVpcEndpointDnsEntryOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface DataAwsVpcEndpointDnsOptions {
+}
+
+export function dataAwsVpcEndpointDnsOptionsToTerraform(struct?: DataAwsVpcEndpointDnsOptions): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class DataAwsVpcEndpointDnsOptionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): DataAwsVpcEndpointDnsOptions | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsVpcEndpointDnsOptions | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // dns_record_ip_type - computed: true, optional: false, required: false
+  public get dnsRecordIpType() {
+    return this.getStringAttribute('dns_record_ip_type');
+  }
+}
+
+export class DataAwsVpcEndpointDnsOptionsList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): DataAwsVpcEndpointDnsOptionsOutputReference {
+    return new DataAwsVpcEndpointDnsOptionsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
 export interface DataAwsVpcEndpointFilter {
@@ -224,6 +294,81 @@ export class DataAwsVpcEndpointFilterList extends cdktf.ComplexList {
     return new DataAwsVpcEndpointFilterOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
+export interface DataAwsVpcEndpointTimeouts {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/d/vpc_endpoint#read DataAwsVpcEndpoint#read}
+  */
+  readonly read?: string;
+}
+
+export function dataAwsVpcEndpointTimeoutsToTerraform(struct?: DataAwsVpcEndpointTimeoutsOutputReference | DataAwsVpcEndpointTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    read: cdktf.stringToTerraform(struct!.read),
+  }
+}
+
+export class DataAwsVpcEndpointTimeoutsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): DataAwsVpcEndpointTimeouts | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._read !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.read = this._read;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAwsVpcEndpointTimeouts | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._read = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._read = value.read;
+    }
+  }
+
+  // read - computed: false, optional: true, required: false
+  private _read?: string; 
+  public get read() {
+    return this.getStringAttribute('read');
+  }
+  public set read(value: string) {
+    this._read = value;
+  }
+  public resetRead() {
+    this._read = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get readInput() {
+    return this._read;
+  }
+}
 
 /**
 * Represents a {@link https://www.terraform.io/docs/providers/aws/d/vpc_endpoint aws_vpc_endpoint}
@@ -251,8 +396,8 @@ export class DataAwsVpcEndpoint extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_vpc_endpoint',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -268,6 +413,7 @@ export class DataAwsVpcEndpoint extends cdktf.TerraformDataSource {
     this._tags = config.tags;
     this._vpcId = config.vpcId;
     this._filter.internalValue = config.filter;
+    this._timeouts.internalValue = config.timeouts;
   }
 
   // ==========
@@ -290,6 +436,12 @@ export class DataAwsVpcEndpoint extends cdktf.TerraformDataSource {
     return this._dnsEntry;
   }
 
+  // dns_options - computed: true, optional: false, required: false
+  private _dnsOptions = new DataAwsVpcEndpointDnsOptionsList(this, "dns_options", false);
+  public get dnsOptions() {
+    return this._dnsOptions;
+  }
+
   // id - computed: true, optional: true, required: false
   private _id?: string; 
   public get id() {
@@ -304,6 +456,11 @@ export class DataAwsVpcEndpoint extends cdktf.TerraformDataSource {
   // Temporarily expose input value. Use with caution.
   public get idInput() {
     return this._id;
+  }
+
+  // ip_address_type - computed: true, optional: false, required: false
+  public get ipAddressType() {
+    return this.getStringAttribute('ip_address_type');
   }
 
   // network_interface_ids - computed: true, optional: false, required: false
@@ -436,6 +593,22 @@ export class DataAwsVpcEndpoint extends cdktf.TerraformDataSource {
     return this._filter.internalValue;
   }
 
+  // timeouts - computed: false, optional: true, required: false
+  private _timeouts = new DataAwsVpcEndpointTimeoutsOutputReference(this, "timeouts");
+  public get timeouts() {
+    return this._timeouts;
+  }
+  public putTimeouts(value: DataAwsVpcEndpointTimeouts) {
+    this._timeouts.internalValue = value;
+  }
+  public resetTimeouts() {
+    this._timeouts.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get timeoutsInput() {
+    return this._timeouts.internalValue;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -448,6 +621,7 @@ export class DataAwsVpcEndpoint extends cdktf.TerraformDataSource {
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       vpc_id: cdktf.stringToTerraform(this._vpcId),
       filter: cdktf.listMapper(dataAwsVpcEndpointFilterToTerraform, true)(this._filter.internalValue),
+      timeouts: dataAwsVpcEndpointTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }
 }

@@ -110,8 +110,8 @@ export class DataAwsRdsOrderableDbInstance extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_rds_orderable_db_instance',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -339,6 +339,11 @@ export class DataAwsRdsOrderableDbInstance extends cdktf.TerraformDataSource {
   // supported_engine_modes - computed: true, optional: false, required: false
   public get supportedEngineModes() {
     return this.getListAttribute('supported_engine_modes');
+  }
+
+  // supported_network_types - computed: true, optional: false, required: false
+  public get supportedNetworkTypes() {
+    return this.getListAttribute('supported_network_types');
   }
 
   // supports_enhanced_monitoring - computed: true, optional: true, required: false

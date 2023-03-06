@@ -12,6 +12,14 @@ export interface RedshiftClusterConfig extends cdktf.TerraformMetaArguments {
   */
   readonly allowVersionUpgrade?: boolean | cdktf.IResolvable;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#apply_immediately RedshiftCluster#apply_immediately}
+  */
+  readonly applyImmediately?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#aqua_configuration_status RedshiftCluster#aqua_configuration_status}
+  */
+  readonly aquaConfigurationStatus?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#automated_snapshot_retention_period RedshiftCluster#automated_snapshot_retention_period}
   */
   readonly automatedSnapshotRetentionPeriod?: number;
@@ -19,6 +27,10 @@ export interface RedshiftClusterConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#availability_zone RedshiftCluster#availability_zone}
   */
   readonly availabilityZone?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#availability_zone_relocation_enabled RedshiftCluster#availability_zone_relocation_enabled}
+  */
+  readonly availabilityZoneRelocationEnabled?: boolean | cdktf.IResolvable;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#cluster_identifier RedshiftCluster#cluster_identifier}
   */
@@ -56,6 +68,10 @@ export interface RedshiftClusterConfig extends cdktf.TerraformMetaArguments {
   */
   readonly databaseName?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#default_iam_role_arn RedshiftCluster#default_iam_role_arn}
+  */
+  readonly defaultIamRoleArn?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#elastic_ip RedshiftCluster#elastic_ip}
   */
   readonly elasticIp?: string;
@@ -90,6 +106,14 @@ export interface RedshiftClusterConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#kms_key_id RedshiftCluster#kms_key_id}
   */
   readonly kmsKeyId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#maintenance_track_name RedshiftCluster#maintenance_track_name}
+  */
+  readonly maintenanceTrackName?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#manual_snapshot_retention_period RedshiftCluster#manual_snapshot_retention_period}
+  */
+  readonly manualSnapshotRetentionPeriod?: number;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#master_password RedshiftCluster#master_password}
   */
@@ -249,6 +273,14 @@ export interface RedshiftClusterLogging {
   */
   readonly enable: boolean | cdktf.IResolvable;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#log_destination_type RedshiftCluster#log_destination_type}
+  */
+  readonly logDestinationType?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#log_exports RedshiftCluster#log_exports}
+  */
+  readonly logExports?: string[];
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/redshift_cluster#s3_key_prefix RedshiftCluster#s3_key_prefix}
   */
   readonly s3KeyPrefix?: string;
@@ -262,6 +294,8 @@ export function redshiftClusterLoggingToTerraform(struct?: RedshiftClusterLoggin
   return {
     bucket_name: cdktf.stringToTerraform(struct!.bucketName),
     enable: cdktf.booleanToTerraform(struct!.enable),
+    log_destination_type: cdktf.stringToTerraform(struct!.logDestinationType),
+    log_exports: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.logExports),
     s3_key_prefix: cdktf.stringToTerraform(struct!.s3KeyPrefix),
   }
 }
@@ -288,6 +322,14 @@ export class RedshiftClusterLoggingOutputReference extends cdktf.ComplexObject {
       hasAnyValues = true;
       internalValueResult.enable = this._enable;
     }
+    if (this._logDestinationType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logDestinationType = this._logDestinationType;
+    }
+    if (this._logExports !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logExports = this._logExports;
+    }
     if (this._s3KeyPrefix !== undefined) {
       hasAnyValues = true;
       internalValueResult.s3KeyPrefix = this._s3KeyPrefix;
@@ -300,12 +342,16 @@ export class RedshiftClusterLoggingOutputReference extends cdktf.ComplexObject {
       this.isEmptyObject = false;
       this._bucketName = undefined;
       this._enable = undefined;
+      this._logDestinationType = undefined;
+      this._logExports = undefined;
       this._s3KeyPrefix = undefined;
     }
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this._bucketName = value.bucketName;
       this._enable = value.enable;
+      this._logDestinationType = value.logDestinationType;
+      this._logExports = value.logExports;
       this._s3KeyPrefix = value.s3KeyPrefix;
     }
   }
@@ -337,6 +383,38 @@ export class RedshiftClusterLoggingOutputReference extends cdktf.ComplexObject {
   // Temporarily expose input value. Use with caution.
   public get enableInput() {
     return this._enable;
+  }
+
+  // log_destination_type - computed: false, optional: true, required: false
+  private _logDestinationType?: string; 
+  public get logDestinationType() {
+    return this.getStringAttribute('log_destination_type');
+  }
+  public set logDestinationType(value: string) {
+    this._logDestinationType = value;
+  }
+  public resetLogDestinationType() {
+    this._logDestinationType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logDestinationTypeInput() {
+    return this._logDestinationType;
+  }
+
+  // log_exports - computed: false, optional: true, required: false
+  private _logExports?: string[]; 
+  public get logExports() {
+    return cdktf.Fn.tolist(this.getListAttribute('log_exports'));
+  }
+  public set logExports(value: string[]) {
+    this._logExports = value;
+  }
+  public resetLogExports() {
+    this._logExports = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logExportsInput() {
+    return this._logExports;
   }
 
   // s3_key_prefix - computed: true, optional: true, required: false
@@ -627,8 +705,8 @@ export class RedshiftCluster extends cdktf.TerraformResource {
       terraformResourceType: 'aws_redshift_cluster',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -639,8 +717,11 @@ export class RedshiftCluster extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._allowVersionUpgrade = config.allowVersionUpgrade;
+    this._applyImmediately = config.applyImmediately;
+    this._aquaConfigurationStatus = config.aquaConfigurationStatus;
     this._automatedSnapshotRetentionPeriod = config.automatedSnapshotRetentionPeriod;
     this._availabilityZone = config.availabilityZone;
+    this._availabilityZoneRelocationEnabled = config.availabilityZoneRelocationEnabled;
     this._clusterIdentifier = config.clusterIdentifier;
     this._clusterParameterGroupName = config.clusterParameterGroupName;
     this._clusterPublicKey = config.clusterPublicKey;
@@ -650,6 +731,7 @@ export class RedshiftCluster extends cdktf.TerraformResource {
     this._clusterType = config.clusterType;
     this._clusterVersion = config.clusterVersion;
     this._databaseName = config.databaseName;
+    this._defaultIamRoleArn = config.defaultIamRoleArn;
     this._elasticIp = config.elasticIp;
     this._encrypted = config.encrypted;
     this._endpoint = config.endpoint;
@@ -658,6 +740,8 @@ export class RedshiftCluster extends cdktf.TerraformResource {
     this._iamRoles = config.iamRoles;
     this._id = config.id;
     this._kmsKeyId = config.kmsKeyId;
+    this._maintenanceTrackName = config.maintenanceTrackName;
+    this._manualSnapshotRetentionPeriod = config.manualSnapshotRetentionPeriod;
     this._masterPassword = config.masterPassword;
     this._masterUsername = config.masterUsername;
     this._nodeType = config.nodeType;
@@ -697,6 +781,38 @@ export class RedshiftCluster extends cdktf.TerraformResource {
     return this._allowVersionUpgrade;
   }
 
+  // apply_immediately - computed: false, optional: true, required: false
+  private _applyImmediately?: boolean | cdktf.IResolvable; 
+  public get applyImmediately() {
+    return this.getBooleanAttribute('apply_immediately');
+  }
+  public set applyImmediately(value: boolean | cdktf.IResolvable) {
+    this._applyImmediately = value;
+  }
+  public resetApplyImmediately() {
+    this._applyImmediately = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get applyImmediatelyInput() {
+    return this._applyImmediately;
+  }
+
+  // aqua_configuration_status - computed: true, optional: true, required: false
+  private _aquaConfigurationStatus?: string; 
+  public get aquaConfigurationStatus() {
+    return this.getStringAttribute('aqua_configuration_status');
+  }
+  public set aquaConfigurationStatus(value: string) {
+    this._aquaConfigurationStatus = value;
+  }
+  public resetAquaConfigurationStatus() {
+    this._aquaConfigurationStatus = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get aquaConfigurationStatusInput() {
+    return this._aquaConfigurationStatus;
+  }
+
   // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
@@ -732,6 +848,22 @@ export class RedshiftCluster extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get availabilityZoneInput() {
     return this._availabilityZone;
+  }
+
+  // availability_zone_relocation_enabled - computed: false, optional: true, required: false
+  private _availabilityZoneRelocationEnabled?: boolean | cdktf.IResolvable; 
+  public get availabilityZoneRelocationEnabled() {
+    return this.getBooleanAttribute('availability_zone_relocation_enabled');
+  }
+  public set availabilityZoneRelocationEnabled(value: boolean | cdktf.IResolvable) {
+    this._availabilityZoneRelocationEnabled = value;
+  }
+  public resetAvailabilityZoneRelocationEnabled() {
+    this._availabilityZoneRelocationEnabled = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get availabilityZoneRelocationEnabledInput() {
+    return this._availabilityZoneRelocationEnabled;
   }
 
   // cluster_identifier - computed: false, optional: false, required: true
@@ -881,6 +1013,22 @@ export class RedshiftCluster extends cdktf.TerraformResource {
     return this._databaseName;
   }
 
+  // default_iam_role_arn - computed: true, optional: true, required: false
+  private _defaultIamRoleArn?: string; 
+  public get defaultIamRoleArn() {
+    return this.getStringAttribute('default_iam_role_arn');
+  }
+  public set defaultIamRoleArn(value: string) {
+    this._defaultIamRoleArn = value;
+  }
+  public resetDefaultIamRoleArn() {
+    this._defaultIamRoleArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get defaultIamRoleArnInput() {
+    return this._defaultIamRoleArn;
+  }
+
   // dns_name - computed: true, optional: false, required: false
   public get dnsName() {
     return this.getStringAttribute('dns_name');
@@ -1012,6 +1160,38 @@ export class RedshiftCluster extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get kmsKeyIdInput() {
     return this._kmsKeyId;
+  }
+
+  // maintenance_track_name - computed: false, optional: true, required: false
+  private _maintenanceTrackName?: string; 
+  public get maintenanceTrackName() {
+    return this.getStringAttribute('maintenance_track_name');
+  }
+  public set maintenanceTrackName(value: string) {
+    this._maintenanceTrackName = value;
+  }
+  public resetMaintenanceTrackName() {
+    this._maintenanceTrackName = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get maintenanceTrackNameInput() {
+    return this._maintenanceTrackName;
+  }
+
+  // manual_snapshot_retention_period - computed: false, optional: true, required: false
+  private _manualSnapshotRetentionPeriod?: number; 
+  public get manualSnapshotRetentionPeriod() {
+    return this.getNumberAttribute('manual_snapshot_retention_period');
+  }
+  public set manualSnapshotRetentionPeriod(value: number) {
+    this._manualSnapshotRetentionPeriod = value;
+  }
+  public resetManualSnapshotRetentionPeriod() {
+    this._manualSnapshotRetentionPeriod = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get manualSnapshotRetentionPeriodInput() {
+    return this._manualSnapshotRetentionPeriod;
   }
 
   // master_password - computed: false, optional: true, required: false
@@ -1290,8 +1470,11 @@ export class RedshiftCluster extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       allow_version_upgrade: cdktf.booleanToTerraform(this._allowVersionUpgrade),
+      apply_immediately: cdktf.booleanToTerraform(this._applyImmediately),
+      aqua_configuration_status: cdktf.stringToTerraform(this._aquaConfigurationStatus),
       automated_snapshot_retention_period: cdktf.numberToTerraform(this._automatedSnapshotRetentionPeriod),
       availability_zone: cdktf.stringToTerraform(this._availabilityZone),
+      availability_zone_relocation_enabled: cdktf.booleanToTerraform(this._availabilityZoneRelocationEnabled),
       cluster_identifier: cdktf.stringToTerraform(this._clusterIdentifier),
       cluster_parameter_group_name: cdktf.stringToTerraform(this._clusterParameterGroupName),
       cluster_public_key: cdktf.stringToTerraform(this._clusterPublicKey),
@@ -1301,6 +1484,7 @@ export class RedshiftCluster extends cdktf.TerraformResource {
       cluster_type: cdktf.stringToTerraform(this._clusterType),
       cluster_version: cdktf.stringToTerraform(this._clusterVersion),
       database_name: cdktf.stringToTerraform(this._databaseName),
+      default_iam_role_arn: cdktf.stringToTerraform(this._defaultIamRoleArn),
       elastic_ip: cdktf.stringToTerraform(this._elasticIp),
       encrypted: cdktf.booleanToTerraform(this._encrypted),
       endpoint: cdktf.stringToTerraform(this._endpoint),
@@ -1309,6 +1493,8 @@ export class RedshiftCluster extends cdktf.TerraformResource {
       iam_roles: cdktf.listMapper(cdktf.stringToTerraform, false)(this._iamRoles),
       id: cdktf.stringToTerraform(this._id),
       kms_key_id: cdktf.stringToTerraform(this._kmsKeyId),
+      maintenance_track_name: cdktf.stringToTerraform(this._maintenanceTrackName),
+      manual_snapshot_retention_period: cdktf.numberToTerraform(this._manualSnapshotRetentionPeriod),
       master_password: cdktf.stringToTerraform(this._masterPassword),
       master_username: cdktf.stringToTerraform(this._masterUsername),
       node_type: cdktf.stringToTerraform(this._nodeType),

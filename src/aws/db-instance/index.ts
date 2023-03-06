@@ -48,9 +48,17 @@ export interface DbInstanceConfig extends cdktf.TerraformMetaArguments {
   */
   readonly copyTagsToSnapshot?: boolean | cdktf.IResolvable;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#custom_iam_instance_profile DbInstance#custom_iam_instance_profile}
+  */
+  readonly customIamInstanceProfile?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#customer_owned_ip_enabled DbInstance#customer_owned_ip_enabled}
   */
   readonly customerOwnedIpEnabled?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#db_name DbInstance#db_name}
+  */
+  readonly dbName?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#db_subnet_group_name DbInstance#db_subnet_group_name}
   */
@@ -151,6 +159,10 @@ export interface DbInstanceConfig extends cdktf.TerraformMetaArguments {
   */
   readonly ncharCharacterSetName?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#network_type DbInstance#network_type}
+  */
+  readonly networkType?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#option_group_name DbInstance#option_group_name}
   */
   readonly optionGroupName?: string;
@@ -207,6 +219,10 @@ export interface DbInstanceConfig extends cdktf.TerraformMetaArguments {
   */
   readonly storageEncrypted?: boolean | cdktf.IResolvable;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#storage_throughput DbInstance#storage_throughput}
+  */
+  readonly storageThroughput?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#storage_type DbInstance#storage_type}
   */
   readonly storageType?: string;
@@ -231,6 +247,12 @@ export interface DbInstanceConfig extends cdktf.TerraformMetaArguments {
   */
   readonly vpcSecurityGroupIds?: string[];
   /**
+  * blue_green_update block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#blue_green_update DbInstance#blue_green_update}
+  */
+  readonly blueGreenUpdate?: DbInstanceBlueGreenUpdate;
+  /**
   * restore_to_point_in_time block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#restore_to_point_in_time DbInstance#restore_to_point_in_time}
@@ -249,11 +271,80 @@ export interface DbInstanceConfig extends cdktf.TerraformMetaArguments {
   */
   readonly timeouts?: DbInstanceTimeouts;
 }
+export interface DbInstanceBlueGreenUpdate {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#enabled DbInstance#enabled}
+  */
+  readonly enabled?: boolean | cdktf.IResolvable;
+}
+
+export function dbInstanceBlueGreenUpdateToTerraform(struct?: DbInstanceBlueGreenUpdateOutputReference | DbInstanceBlueGreenUpdate): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    enabled: cdktf.booleanToTerraform(struct!.enabled),
+  }
+}
+
+export class DbInstanceBlueGreenUpdateOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): DbInstanceBlueGreenUpdate | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._enabled !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.enabled = this._enabled;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DbInstanceBlueGreenUpdate | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._enabled = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._enabled = value.enabled;
+    }
+  }
+
+  // enabled - computed: false, optional: true, required: false
+  private _enabled?: boolean | cdktf.IResolvable; 
+  public get enabled() {
+    return this.getBooleanAttribute('enabled');
+  }
+  public set enabled(value: boolean | cdktf.IResolvable) {
+    this._enabled = value;
+  }
+  public resetEnabled() {
+    this._enabled = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get enabledInput() {
+    return this._enabled;
+  }
+}
 export interface DbInstanceRestoreToPointInTime {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#restore_time DbInstance#restore_time}
   */
   readonly restoreTime?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#source_db_instance_automated_backups_arn DbInstance#source_db_instance_automated_backups_arn}
+  */
+  readonly sourceDbInstanceAutomatedBackupsArn?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/db_instance#source_db_instance_identifier DbInstance#source_db_instance_identifier}
   */
@@ -275,6 +366,7 @@ export function dbInstanceRestoreToPointInTimeToTerraform(struct?: DbInstanceRes
   }
   return {
     restore_time: cdktf.stringToTerraform(struct!.restoreTime),
+    source_db_instance_automated_backups_arn: cdktf.stringToTerraform(struct!.sourceDbInstanceAutomatedBackupsArn),
     source_db_instance_identifier: cdktf.stringToTerraform(struct!.sourceDbInstanceIdentifier),
     source_dbi_resource_id: cdktf.stringToTerraform(struct!.sourceDbiResourceId),
     use_latest_restorable_time: cdktf.booleanToTerraform(struct!.useLatestRestorableTime),
@@ -299,6 +391,10 @@ export class DbInstanceRestoreToPointInTimeOutputReference extends cdktf.Complex
       hasAnyValues = true;
       internalValueResult.restoreTime = this._restoreTime;
     }
+    if (this._sourceDbInstanceAutomatedBackupsArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.sourceDbInstanceAutomatedBackupsArn = this._sourceDbInstanceAutomatedBackupsArn;
+    }
     if (this._sourceDbInstanceIdentifier !== undefined) {
       hasAnyValues = true;
       internalValueResult.sourceDbInstanceIdentifier = this._sourceDbInstanceIdentifier;
@@ -318,6 +414,7 @@ export class DbInstanceRestoreToPointInTimeOutputReference extends cdktf.Complex
     if (value === undefined) {
       this.isEmptyObject = false;
       this._restoreTime = undefined;
+      this._sourceDbInstanceAutomatedBackupsArn = undefined;
       this._sourceDbInstanceIdentifier = undefined;
       this._sourceDbiResourceId = undefined;
       this._useLatestRestorableTime = undefined;
@@ -325,6 +422,7 @@ export class DbInstanceRestoreToPointInTimeOutputReference extends cdktf.Complex
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this._restoreTime = value.restoreTime;
+      this._sourceDbInstanceAutomatedBackupsArn = value.sourceDbInstanceAutomatedBackupsArn;
       this._sourceDbInstanceIdentifier = value.sourceDbInstanceIdentifier;
       this._sourceDbiResourceId = value.sourceDbiResourceId;
       this._useLatestRestorableTime = value.useLatestRestorableTime;
@@ -345,6 +443,22 @@ export class DbInstanceRestoreToPointInTimeOutputReference extends cdktf.Complex
   // Temporarily expose input value. Use with caution.
   public get restoreTimeInput() {
     return this._restoreTime;
+  }
+
+  // source_db_instance_automated_backups_arn - computed: false, optional: true, required: false
+  private _sourceDbInstanceAutomatedBackupsArn?: string; 
+  public get sourceDbInstanceAutomatedBackupsArn() {
+    return this.getStringAttribute('source_db_instance_automated_backups_arn');
+  }
+  public set sourceDbInstanceAutomatedBackupsArn(value: string) {
+    this._sourceDbInstanceAutomatedBackupsArn = value;
+  }
+  public resetSourceDbInstanceAutomatedBackupsArn() {
+    this._sourceDbInstanceAutomatedBackupsArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get sourceDbInstanceAutomatedBackupsArnInput() {
+    return this._sourceDbInstanceAutomatedBackupsArn;
   }
 
   // source_db_instance_identifier - computed: false, optional: true, required: false
@@ -712,8 +826,8 @@ export class DbInstance extends cdktf.TerraformResource {
       terraformResourceType: 'aws_db_instance',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -733,7 +847,9 @@ export class DbInstance extends cdktf.TerraformResource {
     this._caCertIdentifier = config.caCertIdentifier;
     this._characterSetName = config.characterSetName;
     this._copyTagsToSnapshot = config.copyTagsToSnapshot;
+    this._customIamInstanceProfile = config.customIamInstanceProfile;
     this._customerOwnedIpEnabled = config.customerOwnedIpEnabled;
+    this._dbName = config.dbName;
     this._dbSubnetGroupName = config.dbSubnetGroupName;
     this._deleteAutomatedBackups = config.deleteAutomatedBackups;
     this._deletionProtection = config.deletionProtection;
@@ -758,6 +874,7 @@ export class DbInstance extends cdktf.TerraformResource {
     this._multiAz = config.multiAz;
     this._name = config.name;
     this._ncharCharacterSetName = config.ncharCharacterSetName;
+    this._networkType = config.networkType;
     this._optionGroupName = config.optionGroupName;
     this._parameterGroupName = config.parameterGroupName;
     this._password = config.password;
@@ -772,12 +889,14 @@ export class DbInstance extends cdktf.TerraformResource {
     this._skipFinalSnapshot = config.skipFinalSnapshot;
     this._snapshotIdentifier = config.snapshotIdentifier;
     this._storageEncrypted = config.storageEncrypted;
+    this._storageThroughput = config.storageThroughput;
     this._storageType = config.storageType;
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
     this._timezone = config.timezone;
     this._username = config.username;
     this._vpcSecurityGroupIds = config.vpcSecurityGroupIds;
+    this._blueGreenUpdate.internalValue = config.blueGreenUpdate;
     this._restoreToPointInTime.internalValue = config.restoreToPointInTime;
     this._s3Import.internalValue = config.s3Import;
     this._timeouts.internalValue = config.timeouts;
@@ -957,6 +1076,22 @@ export class DbInstance extends cdktf.TerraformResource {
     return this._copyTagsToSnapshot;
   }
 
+  // custom_iam_instance_profile - computed: false, optional: true, required: false
+  private _customIamInstanceProfile?: string; 
+  public get customIamInstanceProfile() {
+    return this.getStringAttribute('custom_iam_instance_profile');
+  }
+  public set customIamInstanceProfile(value: string) {
+    this._customIamInstanceProfile = value;
+  }
+  public resetCustomIamInstanceProfile() {
+    this._customIamInstanceProfile = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get customIamInstanceProfileInput() {
+    return this._customIamInstanceProfile;
+  }
+
   // customer_owned_ip_enabled - computed: false, optional: true, required: false
   private _customerOwnedIpEnabled?: boolean | cdktf.IResolvable; 
   public get customerOwnedIpEnabled() {
@@ -971,6 +1106,22 @@ export class DbInstance extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get customerOwnedIpEnabledInput() {
     return this._customerOwnedIpEnabled;
+  }
+
+  // db_name - computed: true, optional: true, required: false
+  private _dbName?: string; 
+  public get dbName() {
+    return this.getStringAttribute('db_name');
+  }
+  public set dbName(value: string) {
+    this._dbName = value;
+  }
+  public resetDbName() {
+    this._dbName = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dbNameInput() {
+    return this._dbName;
   }
 
   // db_subnet_group_name - computed: true, optional: true, required: false
@@ -1209,7 +1360,7 @@ export class DbInstance extends cdktf.TerraformResource {
     return this._instanceClass;
   }
 
-  // iops - computed: false, optional: true, required: false
+  // iops - computed: true, optional: true, required: false
   private _iops?: number; 
   public get iops() {
     return this.getNumberAttribute('iops');
@@ -1374,6 +1525,22 @@ export class DbInstance extends cdktf.TerraformResource {
     return this._ncharCharacterSetName;
   }
 
+  // network_type - computed: true, optional: true, required: false
+  private _networkType?: string; 
+  public get networkType() {
+    return this.getStringAttribute('network_type');
+  }
+  public set networkType(value: string) {
+    this._networkType = value;
+  }
+  public resetNetworkType() {
+    this._networkType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get networkTypeInput() {
+    return this._networkType;
+  }
+
   // option_group_name - computed: true, optional: true, required: false
   private _optionGroupName?: string; 
   public get optionGroupName() {
@@ -1502,7 +1669,7 @@ export class DbInstance extends cdktf.TerraformResource {
     return this._publiclyAccessible;
   }
 
-  // replica_mode - computed: false, optional: true, required: false
+  // replica_mode - computed: true, optional: true, required: false
   private _replicaMode?: string; 
   public get replicaMode() {
     return this.getStringAttribute('replica_mode');
@@ -1613,6 +1780,22 @@ export class DbInstance extends cdktf.TerraformResource {
     return this._storageEncrypted;
   }
 
+  // storage_throughput - computed: true, optional: true, required: false
+  private _storageThroughput?: number; 
+  public get storageThroughput() {
+    return this.getNumberAttribute('storage_throughput');
+  }
+  public set storageThroughput(value: number) {
+    this._storageThroughput = value;
+  }
+  public resetStorageThroughput() {
+    this._storageThroughput = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get storageThroughputInput() {
+    return this._storageThroughput;
+  }
+
   // storage_type - computed: true, optional: true, required: false
   private _storageType?: string; 
   public get storageType() {
@@ -1709,6 +1892,22 @@ export class DbInstance extends cdktf.TerraformResource {
     return this._vpcSecurityGroupIds;
   }
 
+  // blue_green_update - computed: false, optional: true, required: false
+  private _blueGreenUpdate = new DbInstanceBlueGreenUpdateOutputReference(this, "blue_green_update");
+  public get blueGreenUpdate() {
+    return this._blueGreenUpdate;
+  }
+  public putBlueGreenUpdate(value: DbInstanceBlueGreenUpdate) {
+    this._blueGreenUpdate.internalValue = value;
+  }
+  public resetBlueGreenUpdate() {
+    this._blueGreenUpdate.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get blueGreenUpdateInput() {
+    return this._blueGreenUpdate.internalValue;
+  }
+
   // restore_to_point_in_time - computed: false, optional: true, required: false
   private _restoreToPointInTime = new DbInstanceRestoreToPointInTimeOutputReference(this, "restore_to_point_in_time");
   public get restoreToPointInTime() {
@@ -1773,7 +1972,9 @@ export class DbInstance extends cdktf.TerraformResource {
       ca_cert_identifier: cdktf.stringToTerraform(this._caCertIdentifier),
       character_set_name: cdktf.stringToTerraform(this._characterSetName),
       copy_tags_to_snapshot: cdktf.booleanToTerraform(this._copyTagsToSnapshot),
+      custom_iam_instance_profile: cdktf.stringToTerraform(this._customIamInstanceProfile),
       customer_owned_ip_enabled: cdktf.booleanToTerraform(this._customerOwnedIpEnabled),
+      db_name: cdktf.stringToTerraform(this._dbName),
       db_subnet_group_name: cdktf.stringToTerraform(this._dbSubnetGroupName),
       delete_automated_backups: cdktf.booleanToTerraform(this._deleteAutomatedBackups),
       deletion_protection: cdktf.booleanToTerraform(this._deletionProtection),
@@ -1798,6 +1999,7 @@ export class DbInstance extends cdktf.TerraformResource {
       multi_az: cdktf.booleanToTerraform(this._multiAz),
       name: cdktf.stringToTerraform(this._name),
       nchar_character_set_name: cdktf.stringToTerraform(this._ncharCharacterSetName),
+      network_type: cdktf.stringToTerraform(this._networkType),
       option_group_name: cdktf.stringToTerraform(this._optionGroupName),
       parameter_group_name: cdktf.stringToTerraform(this._parameterGroupName),
       password: cdktf.stringToTerraform(this._password),
@@ -1812,12 +2014,14 @@ export class DbInstance extends cdktf.TerraformResource {
       skip_final_snapshot: cdktf.booleanToTerraform(this._skipFinalSnapshot),
       snapshot_identifier: cdktf.stringToTerraform(this._snapshotIdentifier),
       storage_encrypted: cdktf.booleanToTerraform(this._storageEncrypted),
+      storage_throughput: cdktf.numberToTerraform(this._storageThroughput),
       storage_type: cdktf.stringToTerraform(this._storageType),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       timezone: cdktf.stringToTerraform(this._timezone),
       username: cdktf.stringToTerraform(this._username),
       vpc_security_group_ids: cdktf.listMapper(cdktf.stringToTerraform, false)(this._vpcSecurityGroupIds),
+      blue_green_update: dbInstanceBlueGreenUpdateToTerraform(this._blueGreenUpdate.internalValue),
       restore_to_point_in_time: dbInstanceRestoreToPointInTimeToTerraform(this._restoreToPointInTime.internalValue),
       s3_import: dbInstanceS3ImportToTerraform(this._s3Import.internalValue),
       timeouts: dbInstanceTimeoutsToTerraform(this._timeouts.internalValue),

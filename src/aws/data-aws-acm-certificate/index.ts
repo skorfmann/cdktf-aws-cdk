@@ -66,8 +66,8 @@ export class DataAwsAcmCertificate extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_acm_certificate',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -93,6 +93,16 @@ export class DataAwsAcmCertificate extends cdktf.TerraformDataSource {
   // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
+  }
+
+  // certificate - computed: true, optional: false, required: false
+  public get certificate() {
+    return this.getStringAttribute('certificate');
+  }
+
+  // certificate_chain - computed: true, optional: false, required: false
+  public get certificateChain() {
+    return this.getStringAttribute('certificate_chain');
   }
 
   // domain - computed: false, optional: false, required: true

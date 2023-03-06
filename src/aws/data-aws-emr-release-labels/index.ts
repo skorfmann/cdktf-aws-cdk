@@ -140,8 +140,8 @@ export class DataAwsEmrReleaseLabels extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_emr_release_labels',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -177,7 +177,7 @@ export class DataAwsEmrReleaseLabels extends cdktf.TerraformDataSource {
 
   // release_labels - computed: true, optional: false, required: false
   public get releaseLabels() {
-    return cdktf.Fn.tolist(this.getListAttribute('release_labels'));
+    return this.getListAttribute('release_labels');
   }
 
   // filters - computed: false, optional: true, required: false

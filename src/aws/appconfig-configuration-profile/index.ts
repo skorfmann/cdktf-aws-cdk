@@ -43,6 +43,10 @@ export interface AppconfigConfigurationProfileConfig extends cdktf.TerraformMeta
   */
   readonly tagsAll?: { [key: string]: string };
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/appconfig_configuration_profile#type AppconfigConfigurationProfile#type}
+  */
+  readonly type?: string;
+  /**
   * validator block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/appconfig_configuration_profile#validator AppconfigConfigurationProfile#validator}
@@ -197,8 +201,8 @@ export class AppconfigConfigurationProfile extends cdktf.TerraformResource {
       terraformResourceType: 'aws_appconfig_configuration_profile',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -216,6 +220,7 @@ export class AppconfigConfigurationProfile extends cdktf.TerraformResource {
     this._retrievalRoleArn = config.retrievalRoleArn;
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
+    this._type = config.type;
     this._validator.internalValue = config.validator;
   }
 
@@ -352,6 +357,22 @@ export class AppconfigConfigurationProfile extends cdktf.TerraformResource {
     return this._tagsAll;
   }
 
+  // type - computed: false, optional: true, required: false
+  private _type?: string; 
+  public get type() {
+    return this.getStringAttribute('type');
+  }
+  public set type(value: string) {
+    this._type = value;
+  }
+  public resetType() {
+    this._type = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get typeInput() {
+    return this._type;
+  }
+
   // validator - computed: false, optional: true, required: false
   private _validator = new AppconfigConfigurationProfileValidatorList(this, "validator", true);
   public get validator() {
@@ -382,6 +403,7 @@ export class AppconfigConfigurationProfile extends cdktf.TerraformResource {
       retrieval_role_arn: cdktf.stringToTerraform(this._retrievalRoleArn),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
+      type: cdktf.stringToTerraform(this._type),
       validator: cdktf.listMapper(appconfigConfigurationProfileValidatorToTerraform, true)(this._validator.internalValue),
     };
   }

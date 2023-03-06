@@ -12,6 +12,10 @@ export interface StoragegatewayNfsFileShareConfig extends cdktf.TerraformMetaArg
   */
   readonly auditDestinationArn?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/storagegateway_nfs_file_share#bucket_region StoragegatewayNfsFileShare#bucket_region}
+  */
+  readonly bucketRegion?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/storagegateway_nfs_file_share#client_list StoragegatewayNfsFileShare#client_list}
   */
   readonly clientList: string[];
@@ -82,6 +86,10 @@ export interface StoragegatewayNfsFileShareConfig extends cdktf.TerraformMetaArg
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/storagegateway_nfs_file_share#tags_all StoragegatewayNfsFileShare#tags_all}
   */
   readonly tagsAll?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/storagegateway_nfs_file_share#vpc_endpoint_dns_name StoragegatewayNfsFileShare#vpc_endpoint_dns_name}
+  */
+  readonly vpcEndpointDnsName?: string;
   /**
   * cache_attributes block
   * 
@@ -468,8 +476,8 @@ export class StoragegatewayNfsFileShare extends cdktf.TerraformResource {
       terraformResourceType: 'aws_storagegateway_nfs_file_share',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -480,6 +488,7 @@ export class StoragegatewayNfsFileShare extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._auditDestinationArn = config.auditDestinationArn;
+    this._bucketRegion = config.bucketRegion;
     this._clientList = config.clientList;
     this._defaultStorageClass = config.defaultStorageClass;
     this._fileShareName = config.fileShareName;
@@ -497,6 +506,7 @@ export class StoragegatewayNfsFileShare extends cdktf.TerraformResource {
     this._squash = config.squash;
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
+    this._vpcEndpointDnsName = config.vpcEndpointDnsName;
     this._cacheAttributes.internalValue = config.cacheAttributes;
     this._nfsFileShareDefaults.internalValue = config.nfsFileShareDefaults;
     this._timeouts.internalValue = config.timeouts;
@@ -525,6 +535,22 @@ export class StoragegatewayNfsFileShare extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get auditDestinationArnInput() {
     return this._auditDestinationArn;
+  }
+
+  // bucket_region - computed: false, optional: true, required: false
+  private _bucketRegion?: string; 
+  public get bucketRegion() {
+    return this.getStringAttribute('bucket_region');
+  }
+  public set bucketRegion(value: string) {
+    this._bucketRegion = value;
+  }
+  public resetBucketRegion() {
+    this._bucketRegion = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get bucketRegionInput() {
+    return this._bucketRegion;
   }
 
   // client_list - computed: false, optional: false, required: true
@@ -797,6 +823,22 @@ export class StoragegatewayNfsFileShare extends cdktf.TerraformResource {
     return this._tagsAll;
   }
 
+  // vpc_endpoint_dns_name - computed: false, optional: true, required: false
+  private _vpcEndpointDnsName?: string; 
+  public get vpcEndpointDnsName() {
+    return this.getStringAttribute('vpc_endpoint_dns_name');
+  }
+  public set vpcEndpointDnsName(value: string) {
+    this._vpcEndpointDnsName = value;
+  }
+  public resetVpcEndpointDnsName() {
+    this._vpcEndpointDnsName = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get vpcEndpointDnsNameInput() {
+    return this._vpcEndpointDnsName;
+  }
+
   // cache_attributes - computed: false, optional: true, required: false
   private _cacheAttributes = new StoragegatewayNfsFileShareCacheAttributesOutputReference(this, "cache_attributes");
   public get cacheAttributes() {
@@ -852,6 +894,7 @@ export class StoragegatewayNfsFileShare extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       audit_destination_arn: cdktf.stringToTerraform(this._auditDestinationArn),
+      bucket_region: cdktf.stringToTerraform(this._bucketRegion),
       client_list: cdktf.listMapper(cdktf.stringToTerraform, false)(this._clientList),
       default_storage_class: cdktf.stringToTerraform(this._defaultStorageClass),
       file_share_name: cdktf.stringToTerraform(this._fileShareName),
@@ -869,6 +912,7 @@ export class StoragegatewayNfsFileShare extends cdktf.TerraformResource {
       squash: cdktf.stringToTerraform(this._squash),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
+      vpc_endpoint_dns_name: cdktf.stringToTerraform(this._vpcEndpointDnsName),
       cache_attributes: storagegatewayNfsFileShareCacheAttributesToTerraform(this._cacheAttributes.internalValue),
       nfs_file_share_defaults: storagegatewayNfsFileShareNfsFileShareDefaultsToTerraform(this._nfsFileShareDefaults.internalValue),
       timeouts: storagegatewayNfsFileShareTimeoutsToTerraform(this._timeouts.internalValue),

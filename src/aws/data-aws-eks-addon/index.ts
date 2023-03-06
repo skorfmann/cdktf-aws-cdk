@@ -54,8 +54,8 @@ export class DataAwsEksAddon extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_eks_addon',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -109,6 +109,11 @@ export class DataAwsEksAddon extends cdktf.TerraformDataSource {
   // Temporarily expose input value. Use with caution.
   public get clusterNameInput() {
     return this._clusterName;
+  }
+
+  // configuration_values - computed: true, optional: false, required: false
+  public get configurationValues() {
+    return this.getStringAttribute('configuration_values');
   }
 
   // created_at - computed: true, optional: false, required: false

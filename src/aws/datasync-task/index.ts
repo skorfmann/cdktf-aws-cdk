@@ -45,6 +45,12 @@ export interface DatasyncTaskConfig extends cdktf.TerraformMetaArguments {
   */
   readonly excludes?: DatasyncTaskExcludes;
   /**
+  * includes block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/datasync_task#includes DatasyncTask#includes}
+  */
+  readonly includes?: DatasyncTaskIncludes;
+  /**
   * options block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/datasync_task#options DatasyncTask#options}
@@ -155,6 +161,98 @@ export class DatasyncTaskExcludesOutputReference extends cdktf.ComplexObject {
     return this._value;
   }
 }
+export interface DatasyncTaskIncludes {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/datasync_task#filter_type DatasyncTask#filter_type}
+  */
+  readonly filterType?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/datasync_task#value DatasyncTask#value}
+  */
+  readonly value?: string;
+}
+
+export function datasyncTaskIncludesToTerraform(struct?: DatasyncTaskIncludesOutputReference | DatasyncTaskIncludes): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    filter_type: cdktf.stringToTerraform(struct!.filterType),
+    value: cdktf.stringToTerraform(struct!.value),
+  }
+}
+
+export class DatasyncTaskIncludesOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): DatasyncTaskIncludes | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._filterType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.filterType = this._filterType;
+    }
+    if (this._value !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.value = this._value;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DatasyncTaskIncludes | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._filterType = undefined;
+      this._value = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._filterType = value.filterType;
+      this._value = value.value;
+    }
+  }
+
+  // filter_type - computed: false, optional: true, required: false
+  private _filterType?: string; 
+  public get filterType() {
+    return this.getStringAttribute('filter_type');
+  }
+  public set filterType(value: string) {
+    this._filterType = value;
+  }
+  public resetFilterType() {
+    this._filterType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get filterTypeInput() {
+    return this._filterType;
+  }
+
+  // value - computed: false, optional: true, required: false
+  private _value?: string; 
+  public get value() {
+    return this.getStringAttribute('value');
+  }
+  public set value(value: string) {
+    this._value = value;
+  }
+  public resetValue() {
+    this._value = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get valueInput() {
+    return this._value;
+  }
+}
 export interface DatasyncTaskOptions {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/datasync_task#atime DatasyncTask#atime}
@@ -193,6 +291,10 @@ export interface DatasyncTaskOptions {
   */
   readonly preserveDevices?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/datasync_task#security_descriptor_copy_flags DatasyncTask#security_descriptor_copy_flags}
+  */
+  readonly securityDescriptorCopyFlags?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/datasync_task#task_queueing DatasyncTask#task_queueing}
   */
   readonly taskQueueing?: string;
@@ -225,6 +327,7 @@ export function datasyncTaskOptionsToTerraform(struct?: DatasyncTaskOptionsOutpu
     posix_permissions: cdktf.stringToTerraform(struct!.posixPermissions),
     preserve_deleted_files: cdktf.stringToTerraform(struct!.preserveDeletedFiles),
     preserve_devices: cdktf.stringToTerraform(struct!.preserveDevices),
+    security_descriptor_copy_flags: cdktf.stringToTerraform(struct!.securityDescriptorCopyFlags),
     task_queueing: cdktf.stringToTerraform(struct!.taskQueueing),
     transfer_mode: cdktf.stringToTerraform(struct!.transferMode),
     uid: cdktf.stringToTerraform(struct!.uid),
@@ -282,6 +385,10 @@ export class DatasyncTaskOptionsOutputReference extends cdktf.ComplexObject {
       hasAnyValues = true;
       internalValueResult.preserveDevices = this._preserveDevices;
     }
+    if (this._securityDescriptorCopyFlags !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.securityDescriptorCopyFlags = this._securityDescriptorCopyFlags;
+    }
     if (this._taskQueueing !== undefined) {
       hasAnyValues = true;
       internalValueResult.taskQueueing = this._taskQueueing;
@@ -313,6 +420,7 @@ export class DatasyncTaskOptionsOutputReference extends cdktf.ComplexObject {
       this._posixPermissions = undefined;
       this._preserveDeletedFiles = undefined;
       this._preserveDevices = undefined;
+      this._securityDescriptorCopyFlags = undefined;
       this._taskQueueing = undefined;
       this._transferMode = undefined;
       this._uid = undefined;
@@ -329,6 +437,7 @@ export class DatasyncTaskOptionsOutputReference extends cdktf.ComplexObject {
       this._posixPermissions = value.posixPermissions;
       this._preserveDeletedFiles = value.preserveDeletedFiles;
       this._preserveDevices = value.preserveDevices;
+      this._securityDescriptorCopyFlags = value.securityDescriptorCopyFlags;
       this._taskQueueing = value.taskQueueing;
       this._transferMode = value.transferMode;
       this._uid = value.uid;
@@ -478,6 +587,22 @@ export class DatasyncTaskOptionsOutputReference extends cdktf.ComplexObject {
   // Temporarily expose input value. Use with caution.
   public get preserveDevicesInput() {
     return this._preserveDevices;
+  }
+
+  // security_descriptor_copy_flags - computed: true, optional: true, required: false
+  private _securityDescriptorCopyFlags?: string; 
+  public get securityDescriptorCopyFlags() {
+    return this.getStringAttribute('security_descriptor_copy_flags');
+  }
+  public set securityDescriptorCopyFlags(value: string) {
+    this._securityDescriptorCopyFlags = value;
+  }
+  public resetSecurityDescriptorCopyFlags() {
+    this._securityDescriptorCopyFlags = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get securityDescriptorCopyFlagsInput() {
+    return this._securityDescriptorCopyFlags;
   }
 
   // task_queueing - computed: false, optional: true, required: false
@@ -708,8 +833,8 @@ export class DatasyncTask extends cdktf.TerraformResource {
       terraformResourceType: 'aws_datasync_task',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -727,6 +852,7 @@ export class DatasyncTask extends cdktf.TerraformResource {
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
     this._excludes.internalValue = config.excludes;
+    this._includes.internalValue = config.includes;
     this._options.internalValue = config.options;
     this._schedule.internalValue = config.schedule;
     this._timeouts.internalValue = config.timeouts;
@@ -863,6 +989,22 @@ export class DatasyncTask extends cdktf.TerraformResource {
     return this._excludes.internalValue;
   }
 
+  // includes - computed: false, optional: true, required: false
+  private _includes = new DatasyncTaskIncludesOutputReference(this, "includes");
+  public get includes() {
+    return this._includes;
+  }
+  public putIncludes(value: DatasyncTaskIncludes) {
+    this._includes.internalValue = value;
+  }
+  public resetIncludes() {
+    this._includes.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get includesInput() {
+    return this._includes.internalValue;
+  }
+
   // options - computed: false, optional: true, required: false
   private _options = new DatasyncTaskOptionsOutputReference(this, "options");
   public get options() {
@@ -925,6 +1067,7 @@ export class DatasyncTask extends cdktf.TerraformResource {
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       excludes: datasyncTaskExcludesToTerraform(this._excludes.internalValue),
+      includes: datasyncTaskIncludesToTerraform(this._includes.internalValue),
       options: datasyncTaskOptionsToTerraform(this._options.internalValue),
       schedule: datasyncTaskScheduleToTerraform(this._schedule.internalValue),
       timeouts: datasyncTaskTimeoutsToTerraform(this._timeouts.internalValue),

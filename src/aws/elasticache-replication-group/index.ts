@@ -22,7 +22,7 @@ export interface ElasticacheReplicationGroupConfig extends cdktf.TerraformMetaAr
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#auto_minor_version_upgrade ElasticacheReplicationGroup#auto_minor_version_upgrade}
   */
-  readonly autoMinorVersionUpgrade?: boolean | cdktf.IResolvable;
+  readonly autoMinorVersionUpgrade?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#automatic_failover_enabled ElasticacheReplicationGroup#automatic_failover_enabled}
   */
@@ -35,6 +35,10 @@ export interface ElasticacheReplicationGroupConfig extends cdktf.TerraformMetaAr
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#data_tiering_enabled ElasticacheReplicationGroup#data_tiering_enabled}
   */
   readonly dataTieringEnabled?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#description ElasticacheReplicationGroup#description}
+  */
+  readonly description?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#engine ElasticacheReplicationGroup#engine}
   */
@@ -79,6 +83,14 @@ export interface ElasticacheReplicationGroupConfig extends cdktf.TerraformMetaAr
   */
   readonly notificationTopicArn?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#num_cache_clusters ElasticacheReplicationGroup#num_cache_clusters}
+  */
+  readonly numCacheClusters?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#num_node_groups ElasticacheReplicationGroup#num_node_groups}
+  */
+  readonly numNodeGroups?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#number_cache_clusters ElasticacheReplicationGroup#number_cache_clusters}
   */
   readonly numberCacheClusters?: number;
@@ -91,9 +103,17 @@ export interface ElasticacheReplicationGroupConfig extends cdktf.TerraformMetaAr
   */
   readonly port?: number;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#preferred_cache_cluster_azs ElasticacheReplicationGroup#preferred_cache_cluster_azs}
+  */
+  readonly preferredCacheClusterAzs?: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#replicas_per_node_group ElasticacheReplicationGroup#replicas_per_node_group}
+  */
+  readonly replicasPerNodeGroup?: number;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#replication_group_description ElasticacheReplicationGroup#replication_group_description}
   */
-  readonly replicationGroupDescription: string;
+  readonly replicationGroupDescription?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#replication_group_id ElasticacheReplicationGroup#replication_group_id}
   */
@@ -149,6 +169,12 @@ export interface ElasticacheReplicationGroupConfig extends cdktf.TerraformMetaAr
   */
   readonly clusterMode?: ElasticacheReplicationGroupClusterMode;
   /**
+  * log_delivery_configuration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#log_delivery_configuration ElasticacheReplicationGroup#log_delivery_configuration}
+  */
+  readonly logDeliveryConfiguration?: ElasticacheReplicationGroupLogDeliveryConfiguration[] | cdktf.IResolvable;
+  /**
   * timeouts block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#timeouts ElasticacheReplicationGroup#timeouts}
@@ -163,7 +189,7 @@ export interface ElasticacheReplicationGroupClusterMode {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#replicas_per_node_group ElasticacheReplicationGroup#replicas_per_node_group}
   */
-  readonly replicasPerNodeGroup: number;
+  readonly replicasPerNodeGroup?: number;
 }
 
 export function elasticacheReplicationGroupClusterModeToTerraform(struct?: ElasticacheReplicationGroupClusterModeOutputReference | ElasticacheReplicationGroupClusterMode): any {
@@ -231,7 +257,7 @@ export class ElasticacheReplicationGroupClusterModeOutputReference extends cdktf
     return this._numNodeGroups;
   }
 
-  // replicas_per_node_group - computed: false, optional: false, required: true
+  // replicas_per_node_group - computed: true, optional: true, required: false
   private _replicasPerNodeGroup?: number; 
   public get replicasPerNodeGroup() {
     return this.getNumberAttribute('replicas_per_node_group');
@@ -239,9 +265,178 @@ export class ElasticacheReplicationGroupClusterModeOutputReference extends cdktf
   public set replicasPerNodeGroup(value: number) {
     this._replicasPerNodeGroup = value;
   }
+  public resetReplicasPerNodeGroup() {
+    this._replicasPerNodeGroup = undefined;
+  }
   // Temporarily expose input value. Use with caution.
   public get replicasPerNodeGroupInput() {
     return this._replicasPerNodeGroup;
+  }
+}
+export interface ElasticacheReplicationGroupLogDeliveryConfiguration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#destination ElasticacheReplicationGroup#destination}
+  */
+  readonly destination: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#destination_type ElasticacheReplicationGroup#destination_type}
+  */
+  readonly destinationType: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#log_format ElasticacheReplicationGroup#log_format}
+  */
+  readonly logFormat: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group#log_type ElasticacheReplicationGroup#log_type}
+  */
+  readonly logType: string;
+}
+
+export function elasticacheReplicationGroupLogDeliveryConfigurationToTerraform(struct?: ElasticacheReplicationGroupLogDeliveryConfiguration | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    destination: cdktf.stringToTerraform(struct!.destination),
+    destination_type: cdktf.stringToTerraform(struct!.destinationType),
+    log_format: cdktf.stringToTerraform(struct!.logFormat),
+    log_type: cdktf.stringToTerraform(struct!.logType),
+  }
+}
+
+export class ElasticacheReplicationGroupLogDeliveryConfigurationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): ElasticacheReplicationGroupLogDeliveryConfiguration | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._destination !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.destination = this._destination;
+    }
+    if (this._destinationType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.destinationType = this._destinationType;
+    }
+    if (this._logFormat !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logFormat = this._logFormat;
+    }
+    if (this._logType !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logType = this._logType;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: ElasticacheReplicationGroupLogDeliveryConfiguration | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._destination = undefined;
+      this._destinationType = undefined;
+      this._logFormat = undefined;
+      this._logType = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._destination = value.destination;
+      this._destinationType = value.destinationType;
+      this._logFormat = value.logFormat;
+      this._logType = value.logType;
+    }
+  }
+
+  // destination - computed: false, optional: false, required: true
+  private _destination?: string; 
+  public get destination() {
+    return this.getStringAttribute('destination');
+  }
+  public set destination(value: string) {
+    this._destination = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get destinationInput() {
+    return this._destination;
+  }
+
+  // destination_type - computed: false, optional: false, required: true
+  private _destinationType?: string; 
+  public get destinationType() {
+    return this.getStringAttribute('destination_type');
+  }
+  public set destinationType(value: string) {
+    this._destinationType = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get destinationTypeInput() {
+    return this._destinationType;
+  }
+
+  // log_format - computed: false, optional: false, required: true
+  private _logFormat?: string; 
+  public get logFormat() {
+    return this.getStringAttribute('log_format');
+  }
+  public set logFormat(value: string) {
+    this._logFormat = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logFormatInput() {
+    return this._logFormat;
+  }
+
+  // log_type - computed: false, optional: false, required: true
+  private _logType?: string; 
+  public get logType() {
+    return this.getStringAttribute('log_type');
+  }
+  public set logType(value: string) {
+    this._logType = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logTypeInput() {
+    return this._logType;
+  }
+}
+
+export class ElasticacheReplicationGroupLogDeliveryConfigurationList extends cdktf.ComplexList {
+  public internalValue? : ElasticacheReplicationGroupLogDeliveryConfiguration[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): ElasticacheReplicationGroupLogDeliveryConfigurationOutputReference {
+    return new ElasticacheReplicationGroupLogDeliveryConfigurationOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
 export interface ElasticacheReplicationGroupTimeouts {
@@ -400,8 +595,8 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
       terraformResourceType: 'aws_elasticache_replication_group',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -418,6 +613,7 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
     this._automaticFailoverEnabled = config.automaticFailoverEnabled;
     this._availabilityZones = config.availabilityZones;
     this._dataTieringEnabled = config.dataTieringEnabled;
+    this._description = config.description;
     this._engine = config.engine;
     this._engineVersion = config.engineVersion;
     this._finalSnapshotIdentifier = config.finalSnapshotIdentifier;
@@ -428,9 +624,13 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
     this._multiAzEnabled = config.multiAzEnabled;
     this._nodeType = config.nodeType;
     this._notificationTopicArn = config.notificationTopicArn;
+    this._numCacheClusters = config.numCacheClusters;
+    this._numNodeGroups = config.numNodeGroups;
     this._numberCacheClusters = config.numberCacheClusters;
     this._parameterGroupName = config.parameterGroupName;
     this._port = config.port;
+    this._preferredCacheClusterAzs = config.preferredCacheClusterAzs;
+    this._replicasPerNodeGroup = config.replicasPerNodeGroup;
     this._replicationGroupDescription = config.replicationGroupDescription;
     this._replicationGroupId = config.replicationGroupId;
     this._securityGroupIds = config.securityGroupIds;
@@ -445,6 +645,7 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
     this._transitEncryptionEnabled = config.transitEncryptionEnabled;
     this._userGroupIds = config.userGroupIds;
     this._clusterMode.internalValue = config.clusterMode;
+    this._logDeliveryConfiguration.internalValue = config.logDeliveryConfiguration;
     this._timeouts.internalValue = config.timeouts;
   }
 
@@ -505,12 +706,12 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
     return this._authToken;
   }
 
-  // auto_minor_version_upgrade - computed: false, optional: true, required: false
-  private _autoMinorVersionUpgrade?: boolean | cdktf.IResolvable; 
+  // auto_minor_version_upgrade - computed: true, optional: true, required: false
+  private _autoMinorVersionUpgrade?: string; 
   public get autoMinorVersionUpgrade() {
-    return this.getBooleanAttribute('auto_minor_version_upgrade');
+    return this.getStringAttribute('auto_minor_version_upgrade');
   }
-  public set autoMinorVersionUpgrade(value: boolean | cdktf.IResolvable) {
+  public set autoMinorVersionUpgrade(value: string) {
     this._autoMinorVersionUpgrade = value;
   }
   public resetAutoMinorVersionUpgrade() {
@@ -577,6 +778,22 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get dataTieringEnabledInput() {
     return this._dataTieringEnabled;
+  }
+
+  // description - computed: true, optional: true, required: false
+  private _description?: string; 
+  public get description() {
+    return this.getStringAttribute('description');
+  }
+  public set description(value: string) {
+    this._description = value;
+  }
+  public resetDescription() {
+    this._description = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get descriptionInput() {
+    return this._description;
   }
 
   // engine - computed: false, optional: true, required: false
@@ -749,6 +966,38 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
     return this._notificationTopicArn;
   }
 
+  // num_cache_clusters - computed: true, optional: true, required: false
+  private _numCacheClusters?: number; 
+  public get numCacheClusters() {
+    return this.getNumberAttribute('num_cache_clusters');
+  }
+  public set numCacheClusters(value: number) {
+    this._numCacheClusters = value;
+  }
+  public resetNumCacheClusters() {
+    this._numCacheClusters = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get numCacheClustersInput() {
+    return this._numCacheClusters;
+  }
+
+  // num_node_groups - computed: true, optional: true, required: false
+  private _numNodeGroups?: number; 
+  public get numNodeGroups() {
+    return this.getNumberAttribute('num_node_groups');
+  }
+  public set numNodeGroups(value: number) {
+    this._numNodeGroups = value;
+  }
+  public resetNumNodeGroups() {
+    this._numNodeGroups = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get numNodeGroupsInput() {
+    return this._numNodeGroups;
+  }
+
   // number_cache_clusters - computed: true, optional: true, required: false
   private _numberCacheClusters?: number; 
   public get numberCacheClusters() {
@@ -797,6 +1046,22 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
     return this._port;
   }
 
+  // preferred_cache_cluster_azs - computed: false, optional: true, required: false
+  private _preferredCacheClusterAzs?: string[]; 
+  public get preferredCacheClusterAzs() {
+    return this.getListAttribute('preferred_cache_cluster_azs');
+  }
+  public set preferredCacheClusterAzs(value: string[]) {
+    this._preferredCacheClusterAzs = value;
+  }
+  public resetPreferredCacheClusterAzs() {
+    this._preferredCacheClusterAzs = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get preferredCacheClusterAzsInput() {
+    return this._preferredCacheClusterAzs;
+  }
+
   // primary_endpoint_address - computed: true, optional: false, required: false
   public get primaryEndpointAddress() {
     return this.getStringAttribute('primary_endpoint_address');
@@ -807,13 +1072,32 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
     return this.getStringAttribute('reader_endpoint_address');
   }
 
-  // replication_group_description - computed: false, optional: false, required: true
+  // replicas_per_node_group - computed: true, optional: true, required: false
+  private _replicasPerNodeGroup?: number; 
+  public get replicasPerNodeGroup() {
+    return this.getNumberAttribute('replicas_per_node_group');
+  }
+  public set replicasPerNodeGroup(value: number) {
+    this._replicasPerNodeGroup = value;
+  }
+  public resetReplicasPerNodeGroup() {
+    this._replicasPerNodeGroup = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get replicasPerNodeGroupInput() {
+    return this._replicasPerNodeGroup;
+  }
+
+  // replication_group_description - computed: true, optional: true, required: false
   private _replicationGroupDescription?: string; 
   public get replicationGroupDescription() {
     return this.getStringAttribute('replication_group_description');
   }
   public set replicationGroupDescription(value: string) {
     this._replicationGroupDescription = value;
+  }
+  public resetReplicationGroupDescription() {
+    this._replicationGroupDescription = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get replicationGroupDescriptionInput() {
@@ -1025,6 +1309,22 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
     return this._clusterMode.internalValue;
   }
 
+  // log_delivery_configuration - computed: false, optional: true, required: false
+  private _logDeliveryConfiguration = new ElasticacheReplicationGroupLogDeliveryConfigurationList(this, "log_delivery_configuration", true);
+  public get logDeliveryConfiguration() {
+    return this._logDeliveryConfiguration;
+  }
+  public putLogDeliveryConfiguration(value: ElasticacheReplicationGroupLogDeliveryConfiguration[] | cdktf.IResolvable) {
+    this._logDeliveryConfiguration.internalValue = value;
+  }
+  public resetLogDeliveryConfiguration() {
+    this._logDeliveryConfiguration.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logDeliveryConfigurationInput() {
+    return this._logDeliveryConfiguration.internalValue;
+  }
+
   // timeouts - computed: false, optional: true, required: false
   private _timeouts = new ElasticacheReplicationGroupTimeoutsOutputReference(this, "timeouts");
   public get timeouts() {
@@ -1050,10 +1350,11 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
       apply_immediately: cdktf.booleanToTerraform(this._applyImmediately),
       at_rest_encryption_enabled: cdktf.booleanToTerraform(this._atRestEncryptionEnabled),
       auth_token: cdktf.stringToTerraform(this._authToken),
-      auto_minor_version_upgrade: cdktf.booleanToTerraform(this._autoMinorVersionUpgrade),
+      auto_minor_version_upgrade: cdktf.stringToTerraform(this._autoMinorVersionUpgrade),
       automatic_failover_enabled: cdktf.booleanToTerraform(this._automaticFailoverEnabled),
       availability_zones: cdktf.listMapper(cdktf.stringToTerraform, false)(this._availabilityZones),
       data_tiering_enabled: cdktf.booleanToTerraform(this._dataTieringEnabled),
+      description: cdktf.stringToTerraform(this._description),
       engine: cdktf.stringToTerraform(this._engine),
       engine_version: cdktf.stringToTerraform(this._engineVersion),
       final_snapshot_identifier: cdktf.stringToTerraform(this._finalSnapshotIdentifier),
@@ -1064,9 +1365,13 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
       multi_az_enabled: cdktf.booleanToTerraform(this._multiAzEnabled),
       node_type: cdktf.stringToTerraform(this._nodeType),
       notification_topic_arn: cdktf.stringToTerraform(this._notificationTopicArn),
+      num_cache_clusters: cdktf.numberToTerraform(this._numCacheClusters),
+      num_node_groups: cdktf.numberToTerraform(this._numNodeGroups),
       number_cache_clusters: cdktf.numberToTerraform(this._numberCacheClusters),
       parameter_group_name: cdktf.stringToTerraform(this._parameterGroupName),
       port: cdktf.numberToTerraform(this._port),
+      preferred_cache_cluster_azs: cdktf.listMapper(cdktf.stringToTerraform, false)(this._preferredCacheClusterAzs),
+      replicas_per_node_group: cdktf.numberToTerraform(this._replicasPerNodeGroup),
       replication_group_description: cdktf.stringToTerraform(this._replicationGroupDescription),
       replication_group_id: cdktf.stringToTerraform(this._replicationGroupId),
       security_group_ids: cdktf.listMapper(cdktf.stringToTerraform, false)(this._securityGroupIds),
@@ -1081,6 +1386,7 @@ export class ElasticacheReplicationGroup extends cdktf.TerraformResource {
       transit_encryption_enabled: cdktf.booleanToTerraform(this._transitEncryptionEnabled),
       user_group_ids: cdktf.listMapper(cdktf.stringToTerraform, false)(this._userGroupIds),
       cluster_mode: elasticacheReplicationGroupClusterModeToTerraform(this._clusterMode.internalValue),
+      log_delivery_configuration: cdktf.listMapper(elasticacheReplicationGroupLogDeliveryConfigurationToTerraform, true)(this._logDeliveryConfiguration.internalValue),
       timeouts: elasticacheReplicationGroupTimeoutsToTerraform(this._timeouts.internalValue),
     };
   }

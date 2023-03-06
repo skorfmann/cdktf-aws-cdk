@@ -12,6 +12,14 @@ export interface AmiConfig extends cdktf.TerraformMetaArguments {
   */
   readonly architecture?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#boot_mode Ami#boot_mode}
+  */
+  readonly bootMode?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#deprecation_time Ami#deprecation_time}
+  */
+  readonly deprecationTime?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#description Ami#description}
   */
   readonly description?: string;
@@ -30,6 +38,10 @@ export interface AmiConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#image_location Ami#image_location}
   */
   readonly imageLocation?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#imds_support Ami#imds_support}
+  */
+  readonly imdsSupport?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#kernel_id Ami#kernel_id}
   */
@@ -58,6 +70,10 @@ export interface AmiConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#tags_all Ami#tags_all}
   */
   readonly tagsAll?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#tpm_support Ami#tpm_support}
+  */
+  readonly tpmSupport?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#virtualization_type Ami#virtualization_type}
   */
@@ -99,6 +115,10 @@ export interface AmiEbsBlockDevice {
   */
   readonly iops?: number;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#outpost_arn Ami#outpost_arn}
+  */
+  readonly outpostArn?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ami#snapshot_id Ami#snapshot_id}
   */
   readonly snapshotId?: string;
@@ -126,6 +146,7 @@ export function amiEbsBlockDeviceToTerraform(struct?: AmiEbsBlockDevice | cdktf.
     device_name: cdktf.stringToTerraform(struct!.deviceName),
     encrypted: cdktf.booleanToTerraform(struct!.encrypted),
     iops: cdktf.numberToTerraform(struct!.iops),
+    outpost_arn: cdktf.stringToTerraform(struct!.outpostArn),
     snapshot_id: cdktf.stringToTerraform(struct!.snapshotId),
     throughput: cdktf.numberToTerraform(struct!.throughput),
     volume_size: cdktf.numberToTerraform(struct!.volumeSize),
@@ -169,6 +190,10 @@ export class AmiEbsBlockDeviceOutputReference extends cdktf.ComplexObject {
       hasAnyValues = true;
       internalValueResult.iops = this._iops;
     }
+    if (this._outpostArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.outpostArn = this._outpostArn;
+    }
     if (this._snapshotId !== undefined) {
       hasAnyValues = true;
       internalValueResult.snapshotId = this._snapshotId;
@@ -196,6 +221,7 @@ export class AmiEbsBlockDeviceOutputReference extends cdktf.ComplexObject {
       this._deviceName = undefined;
       this._encrypted = undefined;
       this._iops = undefined;
+      this._outpostArn = undefined;
       this._snapshotId = undefined;
       this._throughput = undefined;
       this._volumeSize = undefined;
@@ -212,6 +238,7 @@ export class AmiEbsBlockDeviceOutputReference extends cdktf.ComplexObject {
       this._deviceName = value.deviceName;
       this._encrypted = value.encrypted;
       this._iops = value.iops;
+      this._outpostArn = value.outpostArn;
       this._snapshotId = value.snapshotId;
       this._throughput = value.throughput;
       this._volumeSize = value.volumeSize;
@@ -278,6 +305,22 @@ export class AmiEbsBlockDeviceOutputReference extends cdktf.ComplexObject {
   // Temporarily expose input value. Use with caution.
   public get iopsInput() {
     return this._iops;
+  }
+
+  // outpost_arn - computed: false, optional: true, required: false
+  private _outpostArn?: string; 
+  public get outpostArn() {
+    return this.getStringAttribute('outpost_arn');
+  }
+  public set outpostArn(value: string) {
+    this._outpostArn = value;
+  }
+  public resetOutpostArn() {
+    this._outpostArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get outpostArnInput() {
+    return this._outpostArn;
   }
 
   // snapshot_id - computed: false, optional: true, required: false
@@ -638,8 +681,8 @@ export class Ami extends cdktf.TerraformResource {
       terraformResourceType: 'aws_ami',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -650,10 +693,13 @@ export class Ami extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._architecture = config.architecture;
+    this._bootMode = config.bootMode;
+    this._deprecationTime = config.deprecationTime;
     this._description = config.description;
     this._enaSupport = config.enaSupport;
     this._id = config.id;
     this._imageLocation = config.imageLocation;
+    this._imdsSupport = config.imdsSupport;
     this._kernelId = config.kernelId;
     this._name = config.name;
     this._ramdiskId = config.ramdiskId;
@@ -661,6 +707,7 @@ export class Ami extends cdktf.TerraformResource {
     this._sriovNetSupport = config.sriovNetSupport;
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
+    this._tpmSupport = config.tpmSupport;
     this._virtualizationType = config.virtualizationType;
     this._ebsBlockDevice.internalValue = config.ebsBlockDevice;
     this._ephemeralBlockDevice.internalValue = config.ephemeralBlockDevice;
@@ -690,6 +737,38 @@ export class Ami extends cdktf.TerraformResource {
   // arn - computed: true, optional: false, required: false
   public get arn() {
     return this.getStringAttribute('arn');
+  }
+
+  // boot_mode - computed: false, optional: true, required: false
+  private _bootMode?: string; 
+  public get bootMode() {
+    return this.getStringAttribute('boot_mode');
+  }
+  public set bootMode(value: string) {
+    this._bootMode = value;
+  }
+  public resetBootMode() {
+    this._bootMode = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get bootModeInput() {
+    return this._bootMode;
+  }
+
+  // deprecation_time - computed: false, optional: true, required: false
+  private _deprecationTime?: string; 
+  public get deprecationTime() {
+    return this.getStringAttribute('deprecation_time');
+  }
+  public set deprecationTime(value: string) {
+    this._deprecationTime = value;
+  }
+  public resetDeprecationTime() {
+    this._deprecationTime = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get deprecationTimeInput() {
+    return this._deprecationTime;
   }
 
   // description - computed: false, optional: true, required: false
@@ -769,6 +848,22 @@ export class Ami extends cdktf.TerraformResource {
   // image_type - computed: true, optional: false, required: false
   public get imageType() {
     return this.getStringAttribute('image_type');
+  }
+
+  // imds_support - computed: false, optional: true, required: false
+  private _imdsSupport?: string; 
+  public get imdsSupport() {
+    return this.getStringAttribute('imds_support');
+  }
+  public set imdsSupport(value: string) {
+    this._imdsSupport = value;
+  }
+  public resetImdsSupport() {
+    this._imdsSupport = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get imdsSupportInput() {
+    return this._imdsSupport;
   }
 
   // kernel_id - computed: false, optional: true, required: false
@@ -910,6 +1005,22 @@ export class Ami extends cdktf.TerraformResource {
     return this._tagsAll;
   }
 
+  // tpm_support - computed: false, optional: true, required: false
+  private _tpmSupport?: string; 
+  public get tpmSupport() {
+    return this.getStringAttribute('tpm_support');
+  }
+  public set tpmSupport(value: string) {
+    this._tpmSupport = value;
+  }
+  public resetTpmSupport() {
+    this._tpmSupport = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tpmSupportInput() {
+    return this._tpmSupport;
+  }
+
   // usage_operation - computed: true, optional: false, required: false
   public get usageOperation() {
     return this.getStringAttribute('usage_operation');
@@ -986,10 +1097,13 @@ export class Ami extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       architecture: cdktf.stringToTerraform(this._architecture),
+      boot_mode: cdktf.stringToTerraform(this._bootMode),
+      deprecation_time: cdktf.stringToTerraform(this._deprecationTime),
       description: cdktf.stringToTerraform(this._description),
       ena_support: cdktf.booleanToTerraform(this._enaSupport),
       id: cdktf.stringToTerraform(this._id),
       image_location: cdktf.stringToTerraform(this._imageLocation),
+      imds_support: cdktf.stringToTerraform(this._imdsSupport),
       kernel_id: cdktf.stringToTerraform(this._kernelId),
       name: cdktf.stringToTerraform(this._name),
       ramdisk_id: cdktf.stringToTerraform(this._ramdiskId),
@@ -997,6 +1111,7 @@ export class Ami extends cdktf.TerraformResource {
       sriov_net_support: cdktf.stringToTerraform(this._sriovNetSupport),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
+      tpm_support: cdktf.stringToTerraform(this._tpmSupport),
       virtualization_type: cdktf.stringToTerraform(this._virtualizationType),
       ebs_block_device: cdktf.listMapper(amiEbsBlockDeviceToTerraform, true)(this._ebsBlockDevice.internalValue),
       ephemeral_block_device: cdktf.listMapper(amiEphemeralBlockDeviceToTerraform, true)(this._ephemeralBlockDevice.internalValue),

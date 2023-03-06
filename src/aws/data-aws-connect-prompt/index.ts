@@ -50,8 +50,8 @@ export class DataAwsConnectPrompt extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_connect_prompt',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,

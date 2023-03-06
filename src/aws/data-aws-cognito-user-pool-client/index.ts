@@ -208,8 +208,8 @@ export class DataAwsCognitoUserPoolClient extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_cognito_user_pool_client',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -280,6 +280,11 @@ export class DataAwsCognitoUserPoolClient extends cdktf.TerraformDataSource {
   // default_redirect_uri - computed: true, optional: false, required: false
   public get defaultRedirectUri() {
     return this.getStringAttribute('default_redirect_uri');
+  }
+
+  // enable_propagate_additional_user_context_data - computed: true, optional: false, required: false
+  public get enablePropagateAdditionalUserContextData() {
+    return this.getBooleanAttribute('enable_propagate_additional_user_context_data');
   }
 
   // enable_token_revocation - computed: true, optional: false, required: false

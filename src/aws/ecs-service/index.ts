@@ -83,9 +83,19 @@ export interface EcsServiceConfig extends cdktf.TerraformMetaArguments {
   */
   readonly taskDefinition?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#triggers EcsService#triggers}
+  */
+  readonly triggers?: { [key: string]: string };
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#wait_for_steady_state EcsService#wait_for_steady_state}
   */
   readonly waitForSteadyState?: boolean | cdktf.IResolvable;
+  /**
+  * alarms block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#alarms EcsService#alarms}
+  */
+  readonly alarms?: EcsServiceAlarms;
   /**
   * capacity_provider_strategy block
   * 
@@ -129,6 +139,12 @@ export interface EcsServiceConfig extends cdktf.TerraformMetaArguments {
   */
   readonly placementConstraints?: EcsServicePlacementConstraints[] | cdktf.IResolvable;
   /**
+  * service_connect_configuration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#service_connect_configuration EcsService#service_connect_configuration}
+  */
+  readonly serviceConnectConfiguration?: EcsServiceServiceConnectConfiguration;
+  /**
   * service_registries block
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#service_registries EcsService#service_registries}
@@ -140,6 +156,116 @@ export interface EcsServiceConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#timeouts EcsService#timeouts}
   */
   readonly timeouts?: EcsServiceTimeouts;
+}
+export interface EcsServiceAlarms {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#alarm_names EcsService#alarm_names}
+  */
+  readonly alarmNames: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#enable EcsService#enable}
+  */
+  readonly enable: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#rollback EcsService#rollback}
+  */
+  readonly rollback: boolean | cdktf.IResolvable;
+}
+
+export function ecsServiceAlarmsToTerraform(struct?: EcsServiceAlarmsOutputReference | EcsServiceAlarms): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    alarm_names: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.alarmNames),
+    enable: cdktf.booleanToTerraform(struct!.enable),
+    rollback: cdktf.booleanToTerraform(struct!.rollback),
+  }
+}
+
+export class EcsServiceAlarmsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): EcsServiceAlarms | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._alarmNames !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.alarmNames = this._alarmNames;
+    }
+    if (this._enable !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.enable = this._enable;
+    }
+    if (this._rollback !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.rollback = this._rollback;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: EcsServiceAlarms | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._alarmNames = undefined;
+      this._enable = undefined;
+      this._rollback = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._alarmNames = value.alarmNames;
+      this._enable = value.enable;
+      this._rollback = value.rollback;
+    }
+  }
+
+  // alarm_names - computed: false, optional: false, required: true
+  private _alarmNames?: string[]; 
+  public get alarmNames() {
+    return cdktf.Fn.tolist(this.getListAttribute('alarm_names'));
+  }
+  public set alarmNames(value: string[]) {
+    this._alarmNames = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get alarmNamesInput() {
+    return this._alarmNames;
+  }
+
+  // enable - computed: false, optional: false, required: true
+  private _enable?: boolean | cdktf.IResolvable; 
+  public get enable() {
+    return this.getBooleanAttribute('enable');
+  }
+  public set enable(value: boolean | cdktf.IResolvable) {
+    this._enable = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get enableInput() {
+    return this._enable;
+  }
+
+  // rollback - computed: false, optional: false, required: true
+  private _rollback?: boolean | cdktf.IResolvable; 
+  public get rollback() {
+    return this.getBooleanAttribute('rollback');
+  }
+  public set rollback(value: boolean | cdktf.IResolvable) {
+    this._rollback = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get rollbackInput() {
+    return this._rollback;
+  }
 }
 export interface EcsServiceCapacityProviderStrategy {
   /**
@@ -970,6 +1096,655 @@ export class EcsServicePlacementConstraintsList extends cdktf.ComplexList {
     return new EcsServicePlacementConstraintsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
+export interface EcsServiceServiceConnectConfigurationLogConfigurationSecretOption {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#name EcsService#name}
+  */
+  readonly name: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#value_from EcsService#value_from}
+  */
+  readonly valueFrom: string;
+}
+
+export function ecsServiceServiceConnectConfigurationLogConfigurationSecretOptionToTerraform(struct?: EcsServiceServiceConnectConfigurationLogConfigurationSecretOption | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    name: cdktf.stringToTerraform(struct!.name),
+    value_from: cdktf.stringToTerraform(struct!.valueFrom),
+  }
+}
+
+export class EcsServiceServiceConnectConfigurationLogConfigurationSecretOptionOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): EcsServiceServiceConnectConfigurationLogConfigurationSecretOption | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._name !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.name = this._name;
+    }
+    if (this._valueFrom !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.valueFrom = this._valueFrom;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: EcsServiceServiceConnectConfigurationLogConfigurationSecretOption | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._name = undefined;
+      this._valueFrom = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._name = value.name;
+      this._valueFrom = value.valueFrom;
+    }
+  }
+
+  // name - computed: false, optional: false, required: true
+  private _name?: string; 
+  public get name() {
+    return this.getStringAttribute('name');
+  }
+  public set name(value: string) {
+    this._name = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get nameInput() {
+    return this._name;
+  }
+
+  // value_from - computed: false, optional: false, required: true
+  private _valueFrom?: string; 
+  public get valueFrom() {
+    return this.getStringAttribute('value_from');
+  }
+  public set valueFrom(value: string) {
+    this._valueFrom = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get valueFromInput() {
+    return this._valueFrom;
+  }
+}
+
+export class EcsServiceServiceConnectConfigurationLogConfigurationSecretOptionList extends cdktf.ComplexList {
+  public internalValue? : EcsServiceServiceConnectConfigurationLogConfigurationSecretOption[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): EcsServiceServiceConnectConfigurationLogConfigurationSecretOptionOutputReference {
+    return new EcsServiceServiceConnectConfigurationLogConfigurationSecretOptionOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface EcsServiceServiceConnectConfigurationLogConfiguration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#log_driver EcsService#log_driver}
+  */
+  readonly logDriver: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#options EcsService#options}
+  */
+  readonly options?: { [key: string]: string };
+  /**
+  * secret_option block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#secret_option EcsService#secret_option}
+  */
+  readonly secretOption?: EcsServiceServiceConnectConfigurationLogConfigurationSecretOption[] | cdktf.IResolvable;
+}
+
+export function ecsServiceServiceConnectConfigurationLogConfigurationToTerraform(struct?: EcsServiceServiceConnectConfigurationLogConfigurationOutputReference | EcsServiceServiceConnectConfigurationLogConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    log_driver: cdktf.stringToTerraform(struct!.logDriver),
+    options: cdktf.hashMapper(cdktf.stringToTerraform)(struct!.options),
+    secret_option: cdktf.listMapper(ecsServiceServiceConnectConfigurationLogConfigurationSecretOptionToTerraform, true)(struct!.secretOption),
+  }
+}
+
+export class EcsServiceServiceConnectConfigurationLogConfigurationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): EcsServiceServiceConnectConfigurationLogConfiguration | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._logDriver !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logDriver = this._logDriver;
+    }
+    if (this._options !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.options = this._options;
+    }
+    if (this._secretOption?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.secretOption = this._secretOption?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: EcsServiceServiceConnectConfigurationLogConfiguration | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._logDriver = undefined;
+      this._options = undefined;
+      this._secretOption.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._logDriver = value.logDriver;
+      this._options = value.options;
+      this._secretOption.internalValue = value.secretOption;
+    }
+  }
+
+  // log_driver - computed: false, optional: false, required: true
+  private _logDriver?: string; 
+  public get logDriver() {
+    return this.getStringAttribute('log_driver');
+  }
+  public set logDriver(value: string) {
+    this._logDriver = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logDriverInput() {
+    return this._logDriver;
+  }
+
+  // options - computed: true, optional: true, required: false
+  private _options?: { [key: string]: string }; 
+  public get options() {
+    return this.getStringMapAttribute('options');
+  }
+  public set options(value: { [key: string]: string }) {
+    this._options = value;
+  }
+  public resetOptions() {
+    this._options = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optionsInput() {
+    return this._options;
+  }
+
+  // secret_option - computed: false, optional: true, required: false
+  private _secretOption = new EcsServiceServiceConnectConfigurationLogConfigurationSecretOptionList(this, "secret_option", false);
+  public get secretOption() {
+    return this._secretOption;
+  }
+  public putSecretOption(value: EcsServiceServiceConnectConfigurationLogConfigurationSecretOption[] | cdktf.IResolvable) {
+    this._secretOption.internalValue = value;
+  }
+  public resetSecretOption() {
+    this._secretOption.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get secretOptionInput() {
+    return this._secretOption.internalValue;
+  }
+}
+export interface EcsServiceServiceConnectConfigurationServiceClientAlias {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#dns_name EcsService#dns_name}
+  */
+  readonly dnsName?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#port EcsService#port}
+  */
+  readonly port: number;
+}
+
+export function ecsServiceServiceConnectConfigurationServiceClientAliasToTerraform(struct?: EcsServiceServiceConnectConfigurationServiceClientAliasOutputReference | EcsServiceServiceConnectConfigurationServiceClientAlias): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    dns_name: cdktf.stringToTerraform(struct!.dnsName),
+    port: cdktf.numberToTerraform(struct!.port),
+  }
+}
+
+export class EcsServiceServiceConnectConfigurationServiceClientAliasOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): EcsServiceServiceConnectConfigurationServiceClientAlias | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._dnsName !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.dnsName = this._dnsName;
+    }
+    if (this._port !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.port = this._port;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: EcsServiceServiceConnectConfigurationServiceClientAlias | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._dnsName = undefined;
+      this._port = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._dnsName = value.dnsName;
+      this._port = value.port;
+    }
+  }
+
+  // dns_name - computed: false, optional: true, required: false
+  private _dnsName?: string; 
+  public get dnsName() {
+    return this.getStringAttribute('dns_name');
+  }
+  public set dnsName(value: string) {
+    this._dnsName = value;
+  }
+  public resetDnsName() {
+    this._dnsName = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dnsNameInput() {
+    return this._dnsName;
+  }
+
+  // port - computed: false, optional: false, required: true
+  private _port?: number; 
+  public get port() {
+    return this.getNumberAttribute('port');
+  }
+  public set port(value: number) {
+    this._port = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get portInput() {
+    return this._port;
+  }
+}
+export interface EcsServiceServiceConnectConfigurationService {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#discovery_name EcsService#discovery_name}
+  */
+  readonly discoveryName?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#ingress_port_override EcsService#ingress_port_override}
+  */
+  readonly ingressPortOverride?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#port_name EcsService#port_name}
+  */
+  readonly portName: string;
+  /**
+  * client_alias block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#client_alias EcsService#client_alias}
+  */
+  readonly clientAlias?: EcsServiceServiceConnectConfigurationServiceClientAlias;
+}
+
+export function ecsServiceServiceConnectConfigurationServiceToTerraform(struct?: EcsServiceServiceConnectConfigurationService | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    discovery_name: cdktf.stringToTerraform(struct!.discoveryName),
+    ingress_port_override: cdktf.numberToTerraform(struct!.ingressPortOverride),
+    port_name: cdktf.stringToTerraform(struct!.portName),
+    client_alias: ecsServiceServiceConnectConfigurationServiceClientAliasToTerraform(struct!.clientAlias),
+  }
+}
+
+export class EcsServiceServiceConnectConfigurationServiceOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): EcsServiceServiceConnectConfigurationService | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._discoveryName !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.discoveryName = this._discoveryName;
+    }
+    if (this._ingressPortOverride !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.ingressPortOverride = this._ingressPortOverride;
+    }
+    if (this._portName !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.portName = this._portName;
+    }
+    if (this._clientAlias?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.clientAlias = this._clientAlias?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: EcsServiceServiceConnectConfigurationService | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._discoveryName = undefined;
+      this._ingressPortOverride = undefined;
+      this._portName = undefined;
+      this._clientAlias.internalValue = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._discoveryName = value.discoveryName;
+      this._ingressPortOverride = value.ingressPortOverride;
+      this._portName = value.portName;
+      this._clientAlias.internalValue = value.clientAlias;
+    }
+  }
+
+  // discovery_name - computed: false, optional: true, required: false
+  private _discoveryName?: string; 
+  public get discoveryName() {
+    return this.getStringAttribute('discovery_name');
+  }
+  public set discoveryName(value: string) {
+    this._discoveryName = value;
+  }
+  public resetDiscoveryName() {
+    this._discoveryName = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get discoveryNameInput() {
+    return this._discoveryName;
+  }
+
+  // ingress_port_override - computed: false, optional: true, required: false
+  private _ingressPortOverride?: number; 
+  public get ingressPortOverride() {
+    return this.getNumberAttribute('ingress_port_override');
+  }
+  public set ingressPortOverride(value: number) {
+    this._ingressPortOverride = value;
+  }
+  public resetIngressPortOverride() {
+    this._ingressPortOverride = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get ingressPortOverrideInput() {
+    return this._ingressPortOverride;
+  }
+
+  // port_name - computed: false, optional: false, required: true
+  private _portName?: string; 
+  public get portName() {
+    return this.getStringAttribute('port_name');
+  }
+  public set portName(value: string) {
+    this._portName = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get portNameInput() {
+    return this._portName;
+  }
+
+  // client_alias - computed: false, optional: true, required: false
+  private _clientAlias = new EcsServiceServiceConnectConfigurationServiceClientAliasOutputReference(this, "client_alias");
+  public get clientAlias() {
+    return this._clientAlias;
+  }
+  public putClientAlias(value: EcsServiceServiceConnectConfigurationServiceClientAlias) {
+    this._clientAlias.internalValue = value;
+  }
+  public resetClientAlias() {
+    this._clientAlias.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get clientAliasInput() {
+    return this._clientAlias.internalValue;
+  }
+}
+
+export class EcsServiceServiceConnectConfigurationServiceList extends cdktf.ComplexList {
+  public internalValue? : EcsServiceServiceConnectConfigurationService[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): EcsServiceServiceConnectConfigurationServiceOutputReference {
+    return new EcsServiceServiceConnectConfigurationServiceOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface EcsServiceServiceConnectConfiguration {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#enabled EcsService#enabled}
+  */
+  readonly enabled: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#namespace EcsService#namespace}
+  */
+  readonly namespace?: string;
+  /**
+  * log_configuration block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#log_configuration EcsService#log_configuration}
+  */
+  readonly logConfiguration?: EcsServiceServiceConnectConfigurationLogConfiguration;
+  /**
+  * service block
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#service EcsService#service}
+  */
+  readonly service?: EcsServiceServiceConnectConfigurationService[] | cdktf.IResolvable;
+}
+
+export function ecsServiceServiceConnectConfigurationToTerraform(struct?: EcsServiceServiceConnectConfigurationOutputReference | EcsServiceServiceConnectConfiguration): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    enabled: cdktf.booleanToTerraform(struct!.enabled),
+    namespace: cdktf.stringToTerraform(struct!.namespace),
+    log_configuration: ecsServiceServiceConnectConfigurationLogConfigurationToTerraform(struct!.logConfiguration),
+    service: cdktf.listMapper(ecsServiceServiceConnectConfigurationServiceToTerraform, true)(struct!.service),
+  }
+}
+
+export class EcsServiceServiceConnectConfigurationOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): EcsServiceServiceConnectConfiguration | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._enabled !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.enabled = this._enabled;
+    }
+    if (this._namespace !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.namespace = this._namespace;
+    }
+    if (this._logConfiguration?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.logConfiguration = this._logConfiguration?.internalValue;
+    }
+    if (this._service?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.service = this._service?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: EcsServiceServiceConnectConfiguration | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._enabled = undefined;
+      this._namespace = undefined;
+      this._logConfiguration.internalValue = undefined;
+      this._service.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._enabled = value.enabled;
+      this._namespace = value.namespace;
+      this._logConfiguration.internalValue = value.logConfiguration;
+      this._service.internalValue = value.service;
+    }
+  }
+
+  // enabled - computed: false, optional: false, required: true
+  private _enabled?: boolean | cdktf.IResolvable; 
+  public get enabled() {
+    return this.getBooleanAttribute('enabled');
+  }
+  public set enabled(value: boolean | cdktf.IResolvable) {
+    this._enabled = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get enabledInput() {
+    return this._enabled;
+  }
+
+  // namespace - computed: false, optional: true, required: false
+  private _namespace?: string; 
+  public get namespace() {
+    return this.getStringAttribute('namespace');
+  }
+  public set namespace(value: string) {
+    this._namespace = value;
+  }
+  public resetNamespace() {
+    this._namespace = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get namespaceInput() {
+    return this._namespace;
+  }
+
+  // log_configuration - computed: false, optional: true, required: false
+  private _logConfiguration = new EcsServiceServiceConnectConfigurationLogConfigurationOutputReference(this, "log_configuration");
+  public get logConfiguration() {
+    return this._logConfiguration;
+  }
+  public putLogConfiguration(value: EcsServiceServiceConnectConfigurationLogConfiguration) {
+    this._logConfiguration.internalValue = value;
+  }
+  public resetLogConfiguration() {
+    this._logConfiguration.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get logConfigurationInput() {
+    return this._logConfiguration.internalValue;
+  }
+
+  // service - computed: false, optional: true, required: false
+  private _service = new EcsServiceServiceConnectConfigurationServiceList(this, "service", false);
+  public get service() {
+    return this._service;
+  }
+  public putService(value: EcsServiceServiceConnectConfigurationService[] | cdktf.IResolvable) {
+    this._service.internalValue = value;
+  }
+  public resetService() {
+    this._service.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get serviceInput() {
+    return this._service.internalValue;
+  }
+}
 export interface EcsServiceServiceRegistries {
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#container_name EcsService#container_name}
@@ -1115,9 +1890,17 @@ export class EcsServiceServiceRegistriesOutputReference extends cdktf.ComplexObj
 }
 export interface EcsServiceTimeouts {
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#create EcsService#create}
+  */
+  readonly create?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#delete EcsService#delete}
   */
   readonly delete?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/ecs_service#update EcsService#update}
+  */
+  readonly update?: string;
 }
 
 export function ecsServiceTimeoutsToTerraform(struct?: EcsServiceTimeoutsOutputReference | EcsServiceTimeouts | cdktf.IResolvable): any {
@@ -1126,7 +1909,9 @@ export function ecsServiceTimeoutsToTerraform(struct?: EcsServiceTimeoutsOutputR
     throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
+    create: cdktf.stringToTerraform(struct!.create),
     delete: cdktf.stringToTerraform(struct!.delete),
+    update: cdktf.stringToTerraform(struct!.update),
   }
 }
 
@@ -1148,9 +1933,17 @@ export class EcsServiceTimeoutsOutputReference extends cdktf.ComplexObject {
     }
     let hasAnyValues = this.isEmptyObject;
     const internalValueResult: any = {};
+    if (this._create !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.create = this._create;
+    }
     if (this._delete !== undefined) {
       hasAnyValues = true;
       internalValueResult.delete = this._delete;
+    }
+    if (this._update !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.update = this._update;
     }
     return hasAnyValues ? internalValueResult : undefined;
   }
@@ -1159,7 +1952,9 @@ export class EcsServiceTimeoutsOutputReference extends cdktf.ComplexObject {
     if (value === undefined) {
       this.isEmptyObject = false;
       this.resolvableValue = undefined;
+      this._create = undefined;
       this._delete = undefined;
+      this._update = undefined;
     }
     else if (cdktf.Tokenization.isResolvable(value)) {
       this.isEmptyObject = false;
@@ -1168,8 +1963,26 @@ export class EcsServiceTimeoutsOutputReference extends cdktf.ComplexObject {
     else {
       this.isEmptyObject = Object.keys(value).length === 0;
       this.resolvableValue = undefined;
+      this._create = value.create;
       this._delete = value.delete;
+      this._update = value.update;
     }
+  }
+
+  // create - computed: false, optional: true, required: false
+  private _create?: string; 
+  public get create() {
+    return this.getStringAttribute('create');
+  }
+  public set create(value: string) {
+    this._create = value;
+  }
+  public resetCreate() {
+    this._create = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get createInput() {
+    return this._create;
   }
 
   // delete - computed: false, optional: true, required: false
@@ -1186,6 +1999,22 @@ export class EcsServiceTimeoutsOutputReference extends cdktf.ComplexObject {
   // Temporarily expose input value. Use with caution.
   public get deleteInput() {
     return this._delete;
+  }
+
+  // update - computed: false, optional: true, required: false
+  private _update?: string; 
+  public get update() {
+    return this.getStringAttribute('update');
+  }
+  public set update(value: string) {
+    this._update = value;
+  }
+  public resetUpdate() {
+    this._update = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get updateInput() {
+    return this._update;
   }
 }
 
@@ -1215,8 +2044,8 @@ export class EcsService extends cdktf.TerraformResource {
       terraformResourceType: 'aws_ecs_service',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -1244,7 +2073,9 @@ export class EcsService extends cdktf.TerraformResource {
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
     this._taskDefinition = config.taskDefinition;
+    this._triggers = config.triggers;
     this._waitForSteadyState = config.waitForSteadyState;
+    this._alarms.internalValue = config.alarms;
     this._capacityProviderStrategy.internalValue = config.capacityProviderStrategy;
     this._deploymentCircuitBreaker.internalValue = config.deploymentCircuitBreaker;
     this._deploymentController.internalValue = config.deploymentController;
@@ -1252,6 +2083,7 @@ export class EcsService extends cdktf.TerraformResource {
     this._networkConfiguration.internalValue = config.networkConfiguration;
     this._orderedPlacementStrategy.internalValue = config.orderedPlacementStrategy;
     this._placementConstraints.internalValue = config.placementConstraints;
+    this._serviceConnectConfiguration.internalValue = config.serviceConnectConfiguration;
     this._serviceRegistries.internalValue = config.serviceRegistries;
     this._timeouts.internalValue = config.timeouts;
   }
@@ -1545,6 +2377,22 @@ export class EcsService extends cdktf.TerraformResource {
     return this._taskDefinition;
   }
 
+  // triggers - computed: true, optional: true, required: false
+  private _triggers?: { [key: string]: string }; 
+  public get triggers() {
+    return this.getStringMapAttribute('triggers');
+  }
+  public set triggers(value: { [key: string]: string }) {
+    this._triggers = value;
+  }
+  public resetTriggers() {
+    this._triggers = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get triggersInput() {
+    return this._triggers;
+  }
+
   // wait_for_steady_state - computed: false, optional: true, required: false
   private _waitForSteadyState?: boolean | cdktf.IResolvable; 
   public get waitForSteadyState() {
@@ -1559,6 +2407,22 @@ export class EcsService extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get waitForSteadyStateInput() {
     return this._waitForSteadyState;
+  }
+
+  // alarms - computed: false, optional: true, required: false
+  private _alarms = new EcsServiceAlarmsOutputReference(this, "alarms");
+  public get alarms() {
+    return this._alarms;
+  }
+  public putAlarms(value: EcsServiceAlarms) {
+    this._alarms.internalValue = value;
+  }
+  public resetAlarms() {
+    this._alarms.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get alarmsInput() {
+    return this._alarms.internalValue;
   }
 
   // capacity_provider_strategy - computed: false, optional: true, required: false
@@ -1673,6 +2537,22 @@ export class EcsService extends cdktf.TerraformResource {
     return this._placementConstraints.internalValue;
   }
 
+  // service_connect_configuration - computed: false, optional: true, required: false
+  private _serviceConnectConfiguration = new EcsServiceServiceConnectConfigurationOutputReference(this, "service_connect_configuration");
+  public get serviceConnectConfiguration() {
+    return this._serviceConnectConfiguration;
+  }
+  public putServiceConnectConfiguration(value: EcsServiceServiceConnectConfiguration) {
+    this._serviceConnectConfiguration.internalValue = value;
+  }
+  public resetServiceConnectConfiguration() {
+    this._serviceConnectConfiguration.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get serviceConnectConfigurationInput() {
+    return this._serviceConnectConfiguration.internalValue;
+  }
+
   // service_registries - computed: false, optional: true, required: false
   private _serviceRegistries = new EcsServiceServiceRegistriesOutputReference(this, "service_registries");
   public get serviceRegistries() {
@@ -1729,7 +2609,9 @@ export class EcsService extends cdktf.TerraformResource {
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       task_definition: cdktf.stringToTerraform(this._taskDefinition),
+      triggers: cdktf.hashMapper(cdktf.stringToTerraform)(this._triggers),
       wait_for_steady_state: cdktf.booleanToTerraform(this._waitForSteadyState),
+      alarms: ecsServiceAlarmsToTerraform(this._alarms.internalValue),
       capacity_provider_strategy: cdktf.listMapper(ecsServiceCapacityProviderStrategyToTerraform, true)(this._capacityProviderStrategy.internalValue),
       deployment_circuit_breaker: ecsServiceDeploymentCircuitBreakerToTerraform(this._deploymentCircuitBreaker.internalValue),
       deployment_controller: ecsServiceDeploymentControllerToTerraform(this._deploymentController.internalValue),
@@ -1737,6 +2619,7 @@ export class EcsService extends cdktf.TerraformResource {
       network_configuration: ecsServiceNetworkConfigurationToTerraform(this._networkConfiguration.internalValue),
       ordered_placement_strategy: cdktf.listMapper(ecsServiceOrderedPlacementStrategyToTerraform, true)(this._orderedPlacementStrategy.internalValue),
       placement_constraints: cdktf.listMapper(ecsServicePlacementConstraintsToTerraform, true)(this._placementConstraints.internalValue),
+      service_connect_configuration: ecsServiceServiceConnectConfigurationToTerraform(this._serviceConnectConfiguration.internalValue),
       service_registries: ecsServiceServiceRegistriesToTerraform(this._serviceRegistries.internalValue),
       timeouts: ecsServiceTimeoutsToTerraform(this._timeouts.internalValue),
     };

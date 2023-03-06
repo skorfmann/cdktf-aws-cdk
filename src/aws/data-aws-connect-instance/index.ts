@@ -50,8 +50,8 @@ export class DataAwsConnectInstance extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_connect_instance',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -156,6 +156,11 @@ export class DataAwsConnectInstance extends cdktf.TerraformDataSource {
   // Temporarily expose input value. Use with caution.
   public get instanceIdInput() {
     return this._instanceId;
+  }
+
+  // multi_party_conference_enabled - computed: true, optional: false, required: false
+  public get multiPartyConferenceEnabled() {
+    return this.getBooleanAttribute('multi_party_conference_enabled');
   }
 
   // outbound_calls_enabled - computed: true, optional: false, required: false

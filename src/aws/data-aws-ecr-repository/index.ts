@@ -187,8 +187,8 @@ export class DataAwsEcrRepository extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_ecr_repository',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -244,6 +244,11 @@ export class DataAwsEcrRepository extends cdktf.TerraformDataSource {
   // image_tag_mutability - computed: true, optional: false, required: false
   public get imageTagMutability() {
     return this.getStringAttribute('image_tag_mutability');
+  }
+
+  // most_recent_image_tags - computed: true, optional: false, required: false
+  public get mostRecentImageTags() {
+    return this.getListAttribute('most_recent_image_tags');
   }
 
   // name - computed: false, optional: false, required: true

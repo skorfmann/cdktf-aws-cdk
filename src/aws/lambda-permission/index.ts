@@ -20,6 +20,10 @@ export interface LambdaPermissionConfig extends cdktf.TerraformMetaArguments {
   */
   readonly functionName: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_permission#function_url_auth_type LambdaPermission#function_url_auth_type}
+  */
+  readonly functionUrlAuthType?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_permission#id LambdaPermission#id}
   *
   * Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.
@@ -30,6 +34,10 @@ export interface LambdaPermissionConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_permission#principal LambdaPermission#principal}
   */
   readonly principal: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_permission#principal_org_id LambdaPermission#principal_org_id}
+  */
+  readonly principalOrgId?: string;
   /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/lambda_permission#qualifier LambdaPermission#qualifier}
   */
@@ -78,8 +86,8 @@ export class LambdaPermission extends cdktf.TerraformResource {
       terraformResourceType: 'aws_lambda_permission',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -92,8 +100,10 @@ export class LambdaPermission extends cdktf.TerraformResource {
     this._action = config.action;
     this._eventSourceToken = config.eventSourceToken;
     this._functionName = config.functionName;
+    this._functionUrlAuthType = config.functionUrlAuthType;
     this._id = config.id;
     this._principal = config.principal;
+    this._principalOrgId = config.principalOrgId;
     this._qualifier = config.qualifier;
     this._sourceAccount = config.sourceAccount;
     this._sourceArn = config.sourceArn;
@@ -147,6 +157,22 @@ export class LambdaPermission extends cdktf.TerraformResource {
     return this._functionName;
   }
 
+  // function_url_auth_type - computed: false, optional: true, required: false
+  private _functionUrlAuthType?: string; 
+  public get functionUrlAuthType() {
+    return this.getStringAttribute('function_url_auth_type');
+  }
+  public set functionUrlAuthType(value: string) {
+    this._functionUrlAuthType = value;
+  }
+  public resetFunctionUrlAuthType() {
+    this._functionUrlAuthType = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get functionUrlAuthTypeInput() {
+    return this._functionUrlAuthType;
+  }
+
   // id - computed: true, optional: true, required: false
   private _id?: string; 
   public get id() {
@@ -174,6 +200,22 @@ export class LambdaPermission extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get principalInput() {
     return this._principal;
+  }
+
+  // principal_org_id - computed: false, optional: true, required: false
+  private _principalOrgId?: string; 
+  public get principalOrgId() {
+    return this.getStringAttribute('principal_org_id');
+  }
+  public set principalOrgId(value: string) {
+    this._principalOrgId = value;
+  }
+  public resetPrincipalOrgId() {
+    this._principalOrgId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get principalOrgIdInput() {
+    return this._principalOrgId;
   }
 
   // qualifier - computed: false, optional: true, required: false
@@ -240,7 +282,7 @@ export class LambdaPermission extends cdktf.TerraformResource {
     return this._statementId;
   }
 
-  // statement_id_prefix - computed: false, optional: true, required: false
+  // statement_id_prefix - computed: true, optional: true, required: false
   private _statementIdPrefix?: string; 
   public get statementIdPrefix() {
     return this.getStringAttribute('statement_id_prefix');
@@ -265,8 +307,10 @@ export class LambdaPermission extends cdktf.TerraformResource {
       action: cdktf.stringToTerraform(this._action),
       event_source_token: cdktf.stringToTerraform(this._eventSourceToken),
       function_name: cdktf.stringToTerraform(this._functionName),
+      function_url_auth_type: cdktf.stringToTerraform(this._functionUrlAuthType),
       id: cdktf.stringToTerraform(this._id),
       principal: cdktf.stringToTerraform(this._principal),
+      principal_org_id: cdktf.stringToTerraform(this._principalOrgId),
       qualifier: cdktf.stringToTerraform(this._qualifier),
       source_account: cdktf.stringToTerraform(this._sourceAccount),
       source_arn: cdktf.stringToTerraform(this._sourceArn),

@@ -23,6 +23,10 @@ export interface GameliftGameSessionQueueConfig extends cdktf.TerraformMetaArgum
   */
   readonly name: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/gamelift_game_session_queue#notification_target GameliftGameSessionQueue#notification_target}
+  */
+  readonly notificationTarget?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/gamelift_game_session_queue#tags GameliftGameSessionQueue#tags}
   */
   readonly tags?: { [key: string]: string };
@@ -189,8 +193,8 @@ export class GameliftGameSessionQueue extends cdktf.TerraformResource {
       terraformResourceType: 'aws_gamelift_game_session_queue',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -203,6 +207,7 @@ export class GameliftGameSessionQueue extends cdktf.TerraformResource {
     this._destinations = config.destinations;
     this._id = config.id;
     this._name = config.name;
+    this._notificationTarget = config.notificationTarget;
     this._tags = config.tags;
     this._tagsAll = config.tagsAll;
     this._timeoutInSeconds = config.timeoutInSeconds;
@@ -261,6 +266,22 @@ export class GameliftGameSessionQueue extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get nameInput() {
     return this._name;
+  }
+
+  // notification_target - computed: false, optional: true, required: false
+  private _notificationTarget?: string; 
+  public get notificationTarget() {
+    return this.getStringAttribute('notification_target');
+  }
+  public set notificationTarget(value: string) {
+    this._notificationTarget = value;
+  }
+  public resetNotificationTarget() {
+    this._notificationTarget = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get notificationTargetInput() {
+    return this._notificationTarget;
   }
 
   // tags - computed: false, optional: true, required: false
@@ -336,6 +357,7 @@ export class GameliftGameSessionQueue extends cdktf.TerraformResource {
       destinations: cdktf.listMapper(cdktf.stringToTerraform, false)(this._destinations),
       id: cdktf.stringToTerraform(this._id),
       name: cdktf.stringToTerraform(this._name),
+      notification_target: cdktf.stringToTerraform(this._notificationTarget),
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       timeout_in_seconds: cdktf.numberToTerraform(this._timeoutInSeconds),

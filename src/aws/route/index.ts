@@ -12,6 +12,10 @@ export interface RouteConfig extends cdktf.TerraformMetaArguments {
   */
   readonly carrierGatewayId?: string;
   /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/route#core_network_arn Route#core_network_arn}
+  */
+  readonly coreNetworkArn?: string;
+  /**
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/route#destination_cidr_block Route#destination_cidr_block}
   */
   readonly destinationCidrBlock?: string;
@@ -233,8 +237,8 @@ export class Route extends cdktf.TerraformResource {
       terraformResourceType: 'aws_route',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -245,6 +249,7 @@ export class Route extends cdktf.TerraformResource {
       forEach: config.forEach
     });
     this._carrierGatewayId = config.carrierGatewayId;
+    this._coreNetworkArn = config.coreNetworkArn;
     this._destinationCidrBlock = config.destinationCidrBlock;
     this._destinationIpv6CidrBlock = config.destinationIpv6CidrBlock;
     this._destinationPrefixListId = config.destinationPrefixListId;
@@ -280,6 +285,22 @@ export class Route extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get carrierGatewayIdInput() {
     return this._carrierGatewayId;
+  }
+
+  // core_network_arn - computed: false, optional: true, required: false
+  private _coreNetworkArn?: string; 
+  public get coreNetworkArn() {
+    return this.getStringAttribute('core_network_arn');
+  }
+  public set coreNetworkArn(value: string) {
+    this._coreNetworkArn = value;
+  }
+  public resetCoreNetworkArn() {
+    this._coreNetworkArn = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get coreNetworkArnInput() {
+    return this._coreNetworkArn;
   }
 
   // destination_cidr_block - computed: false, optional: true, required: false
@@ -541,6 +562,7 @@ export class Route extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       carrier_gateway_id: cdktf.stringToTerraform(this._carrierGatewayId),
+      core_network_arn: cdktf.stringToTerraform(this._coreNetworkArn),
       destination_cidr_block: cdktf.stringToTerraform(this._destinationCidrBlock),
       destination_ipv6_cidr_block: cdktf.stringToTerraform(this._destinationIpv6CidrBlock),
       destination_prefix_list_id: cdktf.stringToTerraform(this._destinationPrefixListId),

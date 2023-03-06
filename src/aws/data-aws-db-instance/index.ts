@@ -50,8 +50,8 @@ export class DataAwsDbInstance extends cdktf.TerraformDataSource {
       terraformResourceType: 'aws_db_instance',
       terraformGeneratorMetadata: {
         providerName: 'aws',
-        providerVersion: '3.76.1',
-        providerVersionConstraint: '~> 3.0'
+        providerVersion: '4.57.0',
+        providerVersionConstraint: '~> 4.0'
       },
       provider: config.provider,
       dependsOn: config.dependsOn,
@@ -229,6 +229,11 @@ export class DataAwsDbInstance extends cdktf.TerraformDataSource {
     return this.getBooleanAttribute('multi_az');
   }
 
+  // network_type - computed: true, optional: false, required: false
+  public get networkType() {
+    return this.getStringAttribute('network_type');
+  }
+
   // option_group_memberships - computed: true, optional: false, required: false
   public get optionGroupMemberships() {
     return this.getListAttribute('option_group_memberships');
@@ -267,6 +272,11 @@ export class DataAwsDbInstance extends cdktf.TerraformDataSource {
   // storage_encrypted - computed: true, optional: false, required: false
   public get storageEncrypted() {
     return this.getBooleanAttribute('storage_encrypted');
+  }
+
+  // storage_throughput - computed: true, optional: false, required: false
+  public get storageThroughput() {
+    return this.getNumberAttribute('storage_throughput');
   }
 
   // storage_type - computed: true, optional: false, required: false
