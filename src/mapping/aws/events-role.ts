@@ -6,8 +6,11 @@ import { CloudwatchEventTarget, CloudwatchEventTargetConfig } from "../../aws/cl
 
 registerMapping("AWS::Events::Rule", {
   resource: (scope, id, props) => {
+    // sanitize name to be valid for Cloudwatch Event Rule
+    const name = (props.Name || id).replace(/[^a-zA-Z0-9-_]/g, "");
+
     const ruleProps: CloudwatchEventRuleConfig = {
-      name: props.Name,
+      name,
       isEnabled:
         props.State === "ENABLED"
           ? true

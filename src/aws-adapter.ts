@@ -278,7 +278,7 @@ class TerraformHost extends Construct {
           // regex which matches a quote that is not escaped
           // (i.e. not preceded by a backslash)
 
-          return str.replace(/[^\\]"/g, '\\"')
+          return str.replace(/(\\)"/g, '\\\\\\"').replace(/(?<!\\)"/g, '\\"')
           // return `\${jsonencode("${str.replace(/[^\\]"/g, '\\"')}")}`;
 
         } else {
