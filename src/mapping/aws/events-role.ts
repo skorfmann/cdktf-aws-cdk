@@ -9,6 +9,9 @@ registerMapping("AWS::Events::Rule", {
     // sanitize name to be valid for Cloudwatch Event Rule
     const name = (props.Name || id).replace(/[^a-zA-Z0-9-_]/g, "");
 
+    const eventBusName = props.EventBusName;
+
+    console.log({pattern: props.EventPattern})
     const ruleProps: CloudwatchEventRuleConfig = {
       name,
       isEnabled:
@@ -42,6 +45,8 @@ registerMapping("AWS::Events::Rule", {
         arn: target.Arn,
         rule: rule.name,
         eventBusName: eventBusName,
+        roleArn: target.RoleArn,
+        retryPolicy: target.RetryPolicy,
         batchTarget: target.BatchParameters
           ? {
               jobDefinition: target.BatchParameters.JobDefinition,

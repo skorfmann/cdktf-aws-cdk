@@ -1,0 +1,2 @@
+import './globaltable';
+import './table';

@@ -1,0 +1,17 @@
+import './account';
+import './apikey';
+import './authorizer';
+import './basepathmapping';
+import './clientcertificate';
+import './deployment';
+import './documentationpart';
+import './documentationversion';
+import './domainname';
+import './method';
+import './model';
+import './requestvalidator';
+import './resource';
+import './restapi';
+import './stage';
+import './usageplan';
+import './vpclink';

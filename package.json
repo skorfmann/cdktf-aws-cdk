@@ -48,6 +48,7 @@
     "aws-cdk-lib": "2.0.0",
     "cdktf": "0.15.0",
     "cdktf-cli": "0.15.0",
+    "cfn-types": "^0.2.0",
     "constructs": "^10.0.25",
     "glob": "^9.2.1",
     "jest": "^27",
@@ -147,6 +148,10 @@
     "tsc": {
       "outDir": "lib",
       "rootDir": "src"
+    },
+    "python": {
+      "distName": "cdktf-aws-cdk",
+      "module": "cdktf_aws_cdk"
     }
   },
   "resolutions": {

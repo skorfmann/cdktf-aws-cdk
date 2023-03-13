@@ -1,0 +1,11 @@
+import './dbcluster';
+import './dbclusterparametergroup';
+import './dbinstance';
+import './dbparametergroup';
+import './dbproxy';
+import './dbproxyendpoint';
+import './dbproxytargetgroup';
+import './dbsubnetgroup';
+import './eventsubscription';
+import './globalcluster';
+import './optiongroup';
