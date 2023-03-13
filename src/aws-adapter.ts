@@ -2,7 +2,7 @@
 
 import { Construct } from "constructs";
 import { toSnakeCase } from "codemaker";
-import { Stack, CfnElement, IResolvable } from "aws-cdk-lib";
+import { Stack, CfnElement, IResolvable, FileAssetPackaging, AssetStaging } from "aws-cdk-lib";
 import {
   TerraformResource,
   Lazy,
@@ -12,6 +12,8 @@ import {
   TerraformOutput,
   Token,
   Tokenization,
+  TerraformAsset,
+  AssetType,
 } from "cdktf";
 import { conditional, propertyAccess } from "cdktf/lib/tfExpression";
 import { Op } from "cdktf";
@@ -23,6 +25,8 @@ import { DataAwsPartition } from "./aws/data-aws-partition";
 import { DataAwsRegion } from "./aws/data-aws-region";
 import { DataAwsCallerIdentity } from "./aws/data-aws-caller-identity";
 import { DataAwsAvailabilityZones } from "./aws/data-aws-availability-zones";
+import { S3Object } from "./aws/s3-object";
+import { Asset } from "aws-cdk-lib/aws-s3-assets";
 
 function toTerraformIdentifier(identifier: string) {
   return toSnakeCase(identifier).replace(/-/g, "_");
@@ -33,8 +37,13 @@ function getConditionConstructId(conditionId: string) {
 }
 
 export class AwsTerraformAdapter extends Stack {
+  // readonly app: App;
+
   constructor(scope: Construct, id: string) {
-    super(undefined, id);
+    // const app = new App({});
+    super(undefined, id, {env: {region: 'us-east-1'}});
+
+    // this.app = app;
 
     const host = new TerraformHost(scope, id, this);
 
@@ -94,8 +103,35 @@ class TerraformHost extends Construct {
         for (const [logicalId, value] of Object.entries(cfn.Parameters || {})) {
           this.mapParameter(this, logicalId, value);
         }
+      } else if (r instanceof Asset) {
+        this.newAsset(this, r);
       }
     }
+  }
+
+  private newAsset(scope: Construct, asset: Asset) {
+    // https://github.com/aws/aws-cdk/blob/1b2014eef9e3f2190b2cce79c55f635cc1f167e3/packages/%40aws-cdk/aws-s3-assets/lib/asset.ts#L128
+    const resolved = this.processIntrinsics(this.host.resolve({
+      bucketName: asset.s3BucketName,
+    }));
+
+    console.log({resolved, asset})
+
+    const assetStaging = asset.node.tryFindChild('Stage') as AssetStaging;
+    if (!assetStaging) {
+      throw new Error('Asset not found')
+    }
+
+    const tfAsset = new TerraformAsset(scope, `${asset.node.addr}-tf-asset`, {
+      path: assetStaging.absoluteStagedPath,
+      type: assetStaging.packaging === FileAssetPackaging.ZIP_DIRECTORY ? AssetType.ARCHIVE : AssetType.FILE,
+    });
+
+    new S3Object(scope, `${asset.node.addr}-s3-object`, {
+      bucket: resolved.bucketName,
+      key: asset.s3ObjectKey,
+      source: tfAsset.path,
+    });
   }
 
   private getRegionalAwsProvider(region: string): AwsProvider {
@@ -283,7 +319,7 @@ class TerraformHost extends Construct {
 
         } else {
           // enforce valid utf-8 str
-          return Buffer.from(str, 'utf8').toString('utf8') ; // e.g. a single Token in a string will be returned as is
+          return str
         }
       };
 
@@ -477,38 +513,74 @@ class TerraformHost extends Construct {
       }
 
       case "Fn::Sub": {
-        const [rawString, replacementMap]: [string, object] = params;
-
-        let resultString: string | IResolvable = rawString;
-
-        // replacementMap is an object
-        Object.entries(replacementMap).map(([rawVarName, rawVarValue]) => {
-          if (typeof rawVarName !== "string")
-            throw new Error(
-              `Only strings are supported as VarName in Sub function. Encountered ${JSON.stringify(
-                rawVarName
-              )} instead.`
+        if (typeof params === "string") {
+          if (params.includes("${AWS::")) {
+            // find all pseudo parameters and replace them with resolved values
+            const resultString = params.replace(
+              /\${AWS::[^}]+}/g,
+              (match) => {
+                // get the inner value of the pseudo parameter
+                const inner = match.substring(2, match.length - 1);
+                const resolved = this.resolvePseudo(inner)
+                console.log("resolved pseudo", resolved)
+                if (typeof resolved === "string") {
+                  return resolved
+                } else {
+                  throw new Error(
+                    `Cannot resolve ${JSON.stringify(
+                      params
+                    )} as a string in Fn::Sub`
+                  );
+                }
+              }
             );
-          const varName = rawVarName; // we use this as object key
-          const varValue = this.processIntrinsics(rawVarValue);
+            return resultString;
+          } else {
+            throw new Error(
+              `Cannot resolve ${JSON.stringify(
+                params
+              )} as a string in Fn::Sub`
+            );
+          }
+        } else {
+          const [rawString, replacementMap]: [string, object] = params;
 
+          console.log({ rawString, replacementMap })
+
+          let resultString: string | IResolvable = rawString;
+
+          // if (rawString.includes("${AWS::")) {
+          //   resultString = this.resolvePseudo(rawString);
+
+          // replacementMap is an object
+          Object.entries(replacementMap).map(([rawVarName, rawVarValue]) => {
+            if (typeof rawVarName !== "string")
+              throw new Error(
+                `Only strings are supported as VarName in Sub function. Encountered ${JSON.stringify(
+                  rawVarName
+                )} instead.`
+              );
+            const varName = rawVarName; // we use this as object key
+            const varValue = this.processIntrinsics(rawVarValue);
+
+            resultString = Fn.replace(
+              Token.asString(resultString),
+              Fn.rawString("${" + varName + "}"),
+              varValue
+            );
+          });
+
+          // replace ${!Literal} with ${Literal}
+          // see: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html
           resultString = Fn.replace(
-            Token.asString(resultString),
-            Fn.rawString("${" + varName + "}"),
-            varValue
+            resultString,
+            Fn.rawString("/\\\\$\\\\{!(\\\\w+)\\\\}/"),
+            Fn.rawString("${$1}")
           );
-        });
+          // in HCL: replace(local.template, "/\\$\\{!(\\w+)\\}/", "$${$1}")
 
-        // replace ${!Literal} with ${Literal}
-        // see: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-sub.html
-        resultString = Fn.replace(
-          resultString,
-          Fn.rawString("/\\\\$\\\\{!(\\\\w+)\\\\}/"),
-          Fn.rawString("${$1}")
-        );
-        // in HCL: replace(local.template, "/\\$\\{!(\\w+)\\}/", "$${$1}")
-
-        return resultString;
+          return resultString;
+        }
       }
 
       case "Fn::Equals": {

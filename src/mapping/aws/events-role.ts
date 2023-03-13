@@ -40,7 +40,8 @@ registerMapping("AWS::Events::Rule", {
     (props.Targets || []).map((target: any, idx: number) => {
       const targetProps: CloudwatchEventTargetConfig = {
         arn: target.Arn,
-        rule: rule.id,
+        rule: rule.name,
+        eventBusName: eventBusName,
         batchTarget: target.BatchParameters
           ? {
               jobDefinition: target.BatchParameters.JobDefinition,
@@ -70,6 +71,6 @@ registerMapping("AWS::Events::Rule", {
   },
   attributes: {
     Arn: (rule: CloudwatchEventRule) => rule.arn,
-    Ref: (rule: CloudwatchEventRule) => rule.id,
+    Ref: (rule: CloudwatchEventRule) => rule.name,
   },
 });

@@ -344,6 +344,49 @@ describe("AwsTerraformAdapter", () => {
       `);
     });
 
+    it("should resolve Fn::Sub with pseudo", () => {
+      new StaticCfnConstruct(adapter, "cfn", {
+        Resources: {
+          subject: {
+            Type: "Test::Resource",
+            Properties: {
+              Value: {
+                "Fn::Sub":
+                  "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+              },
+            },
+          },
+          another: {
+            Type: "Test::Resource",
+            Properties: {},
+          },
+        },
+      });
+      expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+        "{
+          \\"data\\": {
+            \\"aws_caller_identity\\": {
+              \\"adapter_aws-caller-identity_94613631\\": {
+              }
+            },
+            \\"aws_region\\": {
+              \\"adapter_aws-region_F8878EF0\\": {
+              }
+            }
+          },
+          \\"resource\\": {
+            \\"test\\": {
+              \\"adapter_another_C86ABFE2\\": {
+              },
+              \\"adapter_subject_24E89D84\\": {
+                \\"value\\": \\"cdk-hnb659fds-assets-$\${$data.aws_caller_identity.adapter_aws-caller-identity_94613631.account_id}-$\${$data.aws_region.adapter_aws-region_F8878EF0.name}\\"
+              }
+            }
+          }
+        }"
+      `);
+    });
+
     it("should resolve Fn::Split", () => {
       new StaticCfnConstruct(adapter, "cfn", {
         Resources: {
@@ -462,3 +505,14 @@ class StaticCfnConstruct extends CfnElement {
     return this.cfn;
   }
 }
+
+// class StaticAssetConstruct extends Asset {
+//   constructor(
+//     scope: Construct,
+//     id: string,
+//   ) {
+//     super(scope, id, {
+//       path: path.join(__dirname, "test"),
+//     });
+//   }
+// }

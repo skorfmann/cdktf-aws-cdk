@@ -513,7 +513,6 @@ export default new Set([
   "AWS::Route53Resolver::ResolverRule",
   "AWS::S3::AccessPoint",
   "AWS::S3::Bucket",
-  "AWS::S3::MultiRegionAccessPoint",
   "AWS::S3::MultiRegionAccessPointPolicy",
   "AWS::S3::StorageLens",
   "AWS::S3ObjectLambda::AccessPoint",
