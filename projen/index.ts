@@ -14,8 +14,8 @@ export interface CdktfAwsCdkOptions extends Partial<cdk.JsiiProjectOptions> {
 
 const author = "HashiCorp";
 const authorAddress = "https://hashicorp.com";
-const namespace = "cdktf";
-const githubNamespace = "hashicorp";
+const namespace = "skorfmann";
+const githubNamespace = "skorfmann";
 
 export class CdktfAwsCdkProject extends cdk.JsiiProject {
   constructor(options: CdktfAwsCdkOptions) {
@@ -79,10 +79,10 @@ export class CdktfAwsCdkProject extends cdk.JsiiProject {
       repositoryUrl: `https://github.com/${githubNamespace}/cdktf-aws-cdk.git`,
       mergify: false,
       eslint: false,
-      // python: {
-      //   distName: `${namespace}-aws-cdk`,
-      //   module: `${namespace}_aws_cdk`,
-      // },
+      python: {
+        distName: `${namespace}-aws-cdk`,
+        module: `${namespace}_aws_cdk`,
+      },
       // publishToNuget: {
       //   dotNetNamespace: nugetName,
       //   packageId: nugetName,
@@ -91,9 +91,9 @@ export class CdktfAwsCdkProject extends cdk.JsiiProject {
         pinnedDevDependency: false,
       },
       workflowGitIdentity: {
-        name: "team-tf-cdk",
-        email: "github-team-tf-cdk@hashicorp.com",
-      },    
+        name: "skorfmann",
+        email: "sebastian@korfmann.net",
+      },
       depsUpgradeOptions: {
         workflowOptions: {
           labels: ["dependencies"],

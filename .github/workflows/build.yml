@@ -86,8 +86,8 @@ jobs:
         run: '[ -s ${{ runner.temp }}/.repo.patch ] && git apply ${{ runner.temp }}/.repo.patch || echo "Empty patch. Skipping."'
       - name: Set git identity
         run: |-
-          git config user.name "team-tf-cdk"
-          git config user.email "github-team-tf-cdk@hashicorp.com"
+          git config user.name "skorfmann"
+          git config user.email "sebastian@korfmann.net"
       - name: Push changes
         run: |2-
             git add .
@@ -117,4 +117,32 @@ jobs:
       - name: Create js artifact
         run: cd .repo && npx projen package:js
       - name: Collect js Artifact
+        run: mv .repo/dist dist
+  package-python:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions: {}
+    if: "! needs.build.outputs.self_mutation_happened"
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.17.0
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: dist
+      - name: Restore build artifact permissions
+        run: cd dist && setfacl --restore=permissions-backup.acl
+        continue-on-error: true
+      - name: Prepare Repository
+        run: mv dist .repo
+      - name: Install Dependencies
+        run: cd .repo && yarn install --check-files --frozen-lockfile
+      - name: Create python artifact
+        run: cd .repo && npx projen package:python
+      - name: Collect python Artifact
         run: mv .repo/dist dist

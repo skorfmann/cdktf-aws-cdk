@@ -74,7 +74,7 @@ export class CdktfConfig {
       obj: {
         language: "typescript",
         app: "echo noop",
-        terraformProviders: [terraformProvider, "time@~> 0.7.2"],
+        terraformProviders: [terraformProvider, "time@~> 0.9.1"],
       },
     });
   }
