@@ -68,4 +68,4 @@ export function registerMapping<T extends TerraformResource>(
 // load order is important here. Manual mappings should be loaded last to override the generic awscc api mapping
 require("./awscc/aws");
 // load manual mappings for resources not yet supported by the awscc api
-require("./aws");
+require("./manual");
