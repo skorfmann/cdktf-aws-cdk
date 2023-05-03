@@ -27,10 +27,14 @@ async function main() {
     `Found ${resources.length} resources that can be controlled via AWS CloudControl API`
   );
 
+  console.log(resources.map((r) => r.TypeName).join("\n"));
+
   const types = resources
     .map((summary) => summary.TypeName)
     .filter((t) => t.startsWith("AWS::"))
     .sort();
+
+  console.log(`Found ${types.length} types that can be controlled via AWS CloudControl API`)
 
   const content = `// generated - this file is generated and can be updated by running the fetch:types script
 export default new Set(${JSON.stringify(types, null, 2)});

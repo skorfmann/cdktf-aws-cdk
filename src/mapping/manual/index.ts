@@ -1,7 +1,14 @@
 import './ec2-vpc';
+import './ec2';
+import './sqs-policy';
+import './ssm';
+import './workflow';
 import './events-role';
 import './cfn-parameter'
 import './iam-policy';
+import './event-bus';
+import './cloudwatch-log-group-resource-policy';
+import './apigwv2';
 import './iam-role';
 import './lambda-permission';
 import './instance-profile';
